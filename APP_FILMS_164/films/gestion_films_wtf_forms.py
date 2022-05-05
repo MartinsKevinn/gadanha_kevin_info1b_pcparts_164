@@ -25,7 +25,7 @@ class FormWTFAddFilm(FlaskForm):
                                                                               "apostrophe, de double trait union")
                                                                ])
 
-    submit = SubmitField("Enregistrer film")
+    submit = SubmitField("Enregistrer utilisateur")
 
 
 class FormWTFUpdateFilm(FlaskForm):
@@ -34,7 +34,7 @@ class FormWTFUpdateFilm(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
 
-    nom_film_update_wtf = StringField("Clavioter le titre", widget=TextArea())
+    nom_film_update_wtf = StringField("Clavioter le nom", widget=TextArea())
     duree_film_update_wtf = IntegerField("Durée du film (minutes)", validators=[NumberRange(min=1, max=5000,
                                                                                             message=u"Min %(min)d et "
                                                                                                     u"max %(max)d "

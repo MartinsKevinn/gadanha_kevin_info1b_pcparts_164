@@ -32,11 +32,11 @@ def films_genres_afficher(id_film_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_genres_films_afficher_data = """SELECT id_film, nom_film, duree_film, description_film, cover_link_film, date_sortie_film,
-                                                            GROUP_CONCAT(intitule_genre) as GenresFilms FROM t_genre_film
-                                                            RIGHT JOIN t_film ON t_film.id_film = t_genre_film.fk_film
-                                                            LEFT JOIN t_genre ON t_genre.id_genre = t_genre_film.fk_genre
-                                                            GROUP BY id_film"""
+                strsql_genres_films_afficher_data = """SELECT id_user, user_firstname, user_lastname, user_birthdate,
+                                                            GROUP_CONCAT(userrole) as GenresFilms FROM t_user_has_userrole
+                                                            RIGHT JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
+                                                            LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
+                                                            GROUP BY id_user"""
                 if id_film_sel == 0:
                     # le paramètre 0 permet d'afficher tous les films
                     # Sinon le paramètre représente la valeur de l'id du film
@@ -46,7 +46,7 @@ def films_genres_afficher(id_film_sel):
                     valeur_id_film_selected_dictionnaire = {"value_id_film_selected": id_film_sel}
                     # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
                     # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
-                    strsql_genres_films_afficher_data += """ HAVING id_film= %(value_id_film_selected)s"""
+                    strsql_genres_films_afficher_data += """ HAVING id_user= %(value_id_film_selected)s"""
 
                     mc_afficher.execute(strsql_genres_films_afficher_data, valeur_id_film_selected_dictionnaire)
 
@@ -58,7 +58,7 @@ def films_genres_afficher(id_film_sel):
                 if not data_genres_films_afficher and id_film_sel == 0:
                     flash("""La table "t_film" est vide. !""", "warning")
                 elif not data_genres_films_afficher and id_film_sel > 0:
-                    # Si l'utilisateur change l'id_film dans l'URL et qu'il ne correspond à aucun film
+                    # Si l'utilisateur change l'id_user dans l'URL et qu'il ne correspond à aucun film
                     flash(f"Le film {id_film_sel} demandé n'existe pas !!", "warning")
                 else:
                     flash(f"Données films et genres affichés !!", "success")
@@ -93,7 +93,7 @@ def edit_genre_film_selected():
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_genres_afficher = """SELECT id_genre, intitule_genre FROM t_genre ORDER BY id_genre ASC"""
+                strsql_genres_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
                 mc_afficher.execute(strsql_genres_afficher)
             data_genres_all = mc_afficher.fetchall()
             print("dans edit_genre_film_selected ---> data_genres_all", data_genres_all)
@@ -209,23 +209,23 @@ def update_genre_film_selected():
 
             # Pour apprécier la facilité de la vie en Python... "les ensembles en Python"
             # https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles
-            # OM 2021.05.02 Une liste de "id_genre" qui doivent être effacés de la table intermédiaire "t_genre_film".
+            # OM 2021.05.02 Une liste de "id_userrole" qui doivent être effacés de la table intermédiaire "t_genre_film".
             lst_diff_genres_delete_b = list(set(old_lst_data_genres_films_attribues) -
                                             set(new_lst_int_genre_film_old))
             print("lst_diff_genres_delete_b ", lst_diff_genres_delete_b)
 
-            # Une liste de "id_genre" qui doivent être ajoutés à la "t_genre_film"
+            # Une liste de "id_userrole" qui doivent être ajoutés à la "t_genre_film"
             lst_diff_genres_insert_a = list(
                 set(new_lst_int_genre_film_old) - set(old_lst_data_genres_films_attribues))
             print("lst_diff_genres_insert_a ", lst_diff_genres_insert_a)
 
             # SQL pour insérer une nouvelle association entre
-            # "fk_film"/"id_film" et "fk_genre"/"id_genre" dans la "t_genre_film"
-            strsql_insert_genre_film = """INSERT INTO t_genre_film (id_genre_film, fk_genre, fk_film)
+            # "fk_user"/"id_film" et "fk_userrole"/"id_userrole" dans la "t_genre_film"
+            strsql_insert_genre_film = """INSERT INTO t_user_has_userrole (id_user_has_userrole, fk_userrole, fk_user)
                                                     VALUES (NULL, %(value_fk_genre)s, %(value_fk_film)s)"""
 
-            # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_genre" dans la "t_genre_film"
-            strsql_delete_genre_film = """DELETE FROM t_genre_film WHERE fk_genre = %(value_fk_genre)s AND fk_film = %(value_fk_film)s"""
+            # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_userrole" dans la "t_genre_film"
+            strsql_delete_genre_film = """DELETE FROM t_user_has_userrole WHERE fk_userrole = %(value_fk_genre)s AND fk_film = %(value_fk_film)s"""
 
             with DBconnection() as mconn_bd:
                 # Pour le film sélectionné, parcourir la liste des genres à INSÉRER dans la "t_genre_film".
@@ -276,20 +276,20 @@ def genres_films_afficher_data(valeur_id_film_selected_dict):
     print("valeur_id_film_selected_dict...", valeur_id_film_selected_dict)
     try:
 
-        strsql_film_selected = """SELECT id_film, nom_film, duree_film, description_film, cover_link_film, date_sortie_film, GROUP_CONCAT(id_genre) as GenresFilms FROM t_genre_film
-                                        INNER JOIN t_film ON t_film.id_film = t_genre_film.fk_film
-                                        INNER JOIN t_genre ON t_genre.id_genre = t_genre_film.fk_genre
-                                        WHERE id_film = %(value_id_film_selected)s"""
+        strsql_film_selected = """SELECT id_user, user_firstname, user_lastname, user_birthdate, GROUP_CONCAT(id_userrole) as GenresFilms FROM t_user_has_userrole
+                                        INNER JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
+                                        INNER JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
+                                        WHERE id_user = %(value_id_film_selected)s"""
 
-        strsql_genres_films_non_attribues = """SELECT id_genre, intitule_genre FROM t_genre WHERE id_genre not in(SELECT id_genre as idGenresFilms FROM t_genre_film
-                                                    INNER JOIN t_film ON t_film.id_film = t_genre_film.fk_film
-                                                    INNER JOIN t_genre ON t_genre.id_genre = t_genre_film.fk_genre
-                                                    WHERE id_film = %(value_id_film_selected)s)"""
+        strsql_genres_films_non_attribues = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole not in(SELECT id_userrole as idGenresFilms FROM t_user_has_userrole
+                                                    INNER JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
+                                                    INNER JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
+                                                    WHERE id_user = %(value_id_film_selected)s)"""
 
-        strsql_genres_films_attribues = """SELECT id_film, id_genre, intitule_genre FROM t_genre_film
-                                            INNER JOIN t_film ON t_film.id_film = t_genre_film.fk_film
-                                            INNER JOIN t_genre ON t_genre.id_genre = t_genre_film.fk_genre
-                                            WHERE id_film = %(value_id_film_selected)s"""
+        strsql_genres_films_attribues = """SELECT id_user, id_userrole, userrole FROM t_user_has_userrole
+                                            INNER JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
+                                            INNER JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
+                                            WHERE id_user = %(value_id_film_selected)s"""
 
         # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
         with DBconnection() as mc_afficher:
