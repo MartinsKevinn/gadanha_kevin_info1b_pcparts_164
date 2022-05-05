@@ -1020,6 +1020,7 @@ CREATE TABLE `t_userrole` (
 INSERT INTO `t_userrole` (`id_userrole`, `userrole`) VALUES
 (1, 'Admin'),
 (2, 'Helper'),
+(4, 'Test1'),
 (3, 'User');
 
 -- --------------------------------------------------------
