@@ -33,8 +33,8 @@ def films_genres_afficher(id_film_sel):
         try:
             with DBconnection() as mc_afficher:
                 strsql_genres_films_afficher_data = """SELECT id_user, user_firstname, user_lastname, user_birthdate,
-                                                            GROUP_CONCAT(userrole) as GenresFilms FROM t_user_has_userrole
-                                                            RIGHT JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
+                                                            GROUP_CONCAT(userrole) as GenresFilms FROM t_user
+                                                            RIGHT JOIN t_user_has_userrole ON t_user.id_user = t_user_has_userrole.fk_user
                                                             LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                                             GROUP BY id_user"""
                 if id_film_sel == 0:

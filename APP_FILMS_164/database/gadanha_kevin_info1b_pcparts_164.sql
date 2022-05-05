@@ -1097,6 +1097,8 @@ CREATE TABLE `t_user_has_userrole` (
 
 INSERT INTO `t_user_has_userrole` (`id_user_has_userrole`, `fk_user`, `fk_userrole`, `date_user_has_role`) VALUES
 (2, 1, 1, '2022-03-15 09:44:48');
+INSERT INTO `t_user_has_userrole` (`id_user_has_userrole`, `fk_user`, `fk_userrole`, `date_user_has_role`) VALUES
+(3, 2, 2, '2022-05-15 09:44:48');
 
 -- --------------------------------------------------------
 
