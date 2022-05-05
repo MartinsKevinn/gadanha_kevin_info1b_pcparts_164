@@ -34,7 +34,7 @@ def genres_afficher(order_by, id_genre_sel):
         try:
             with DBconnection() as mc_afficher:
                 if order_by == "ASC" and id_genre_sel == 0:
-                    strsql_genres_afficher = """SELECT id_genre, intitule_genre, date_ins_genre FROM t_genre ORDER BY id_genre ASC"""
+                    strsql_genres_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
                     mc_afficher.execute(strsql_genres_afficher)
                 elif order_by == "ASC":
                     # C'EST LA QUE VOUS ALLEZ DEVOIR PLACER VOTRE PROPRE LOGIQUE MySql
@@ -43,11 +43,11 @@ def genres_afficher(order_by, id_genre_sel):
                     # donc, je précise les champs à afficher
                     # Constitution d'un dictionnaire pour associer l'id du genre sélectionné avec un nom de variable
                     valeur_id_genre_selected_dictionnaire = {"value_id_genre_selected": id_genre_sel}
-                    strsql_genres_afficher = """SELECT id_genre, intitule_genre, date_ins_genre  FROM t_genre WHERE id_genre = %(value_id_genre_selected)s"""
+                    strsql_genres_afficher = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole = %(value_id_genre_selected)s"""
 
                     mc_afficher.execute(strsql_genres_afficher, valeur_id_genre_selected_dictionnaire)
                 else:
-                    strsql_genres_afficher = """SELECT id_genre, intitule_genre, date_ins_genre  FROM t_genre ORDER BY id_genre DESC"""
+                    strsql_genres_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole DESC"""
 
                     mc_afficher.execute(strsql_genres_afficher)
 
@@ -179,8 +179,8 @@ def genre_update_wtf():
             return redirect(url_for('genres_afficher', order_by="ASC", id_genre_sel=id_genre_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
-            str_sql_id_genre = "SELECT id_genre, intitule_genre, date_ins_genre FROM t_genre " \
-                               "WHERE id_genre = %(value_id_genre)s"
+            str_sql_id_genre = "SELECT id_userrole, userrole FROM t_userrole " \
+                               "WHERE id_userrole = %(value_id_genre)s"
             valeur_select_dictionnaire = {"value_id_genre": id_genre_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_genre, valeur_select_dictionnaire)
@@ -266,10 +266,10 @@ def genre_delete_wtf():
             print(id_genre_delete, type(id_genre_delete))
 
             # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
-            str_sql_genres_films_delete = """SELECT id_genre_film, nom_film, id_genre, intitule_genre FROM t_genre_film 
+            str_sql_genres_films_delete = """SELECT id_genre_film, nom_film, id_userrole, userrole FROM t_genre_film 
                                             INNER JOIN t_film ON t_genre_film.fk_film = t_film.id_film
-                                            INNER JOIN t_genre ON t_genre_film.fk_genre = t_genre.id_genre
-                                            WHERE fk_genre = %(value_id_genre)s"""
+                                            INNER JOIN t_userrole ON t_genre_film.fk_role = t_userrole.id_userrole
+                                            WHERE fk_role = %(value_id_genre)s"""
 
             with DBconnection() as mydb_conn:
                 mydb_conn.execute(str_sql_genres_films_delete, valeur_select_dictionnaire)
@@ -281,7 +281,7 @@ def genre_delete_wtf():
                 session['data_films_attribue_genre_delete'] = data_films_attribue_genre_delete
 
                 # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
-                str_sql_id_genre = "SELECT id_genre, intitule_genre FROM t_genre WHERE id_genre = %(value_id_genre)s"
+                str_sql_id_genre = "SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole = %(value_id_genre)s"
 
                 mydb_conn.execute(str_sql_id_genre, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
