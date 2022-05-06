@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %} Effacer un FILM (WTF) {% endblock %}
+{% block title %} Effacer un UTILISATEUR (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Effacer un FILM
+				Effacer un UTILISATEUR
 			</p>
 			<table class="table table-responsive-sm">
 				{% if data_film_del %}
@@ -15,19 +15,13 @@
 						Id
 					</th>
 					<th class="">
-						Nom
+						Firstname
 					</th>
 					<th class="">
-						Durée
+						Lastname
 					</th>
 					<th class="">
-						Date de sortie
-					</th>
-					<th class="">
-						Description
-					</th>
-					<th class="">
-						Affiche
+						Birthdate
 					</th>
 				</tr>
 				</thead>
@@ -36,26 +30,17 @@
 				<tbody>
 				<tr>
 					<th class="align-middle">
-						{{ row.id_film }}
+						{{ row.id_user }}
 					</th>
 					<th class="align-middle">
-						{{ row.nom_film }}
+						{{ row.user_firstname }}
 					</th>
 					<th class="align-middle">
-						{{ row.duree_film|default("", True) }}
+						{{ row.user_lastname|default("", True) }}
 					</th>
 					<th class="align-middle">
-						{{ row.date_sortie_film|default("", True) }}
+						{{ row.user_birthdate|default("", True) }}
 					</th>
-					<th class="align-middle">
-						{{ row.description_film|default("", True) }}
-					</th>
-					<th class="align-middle">
-						<img class="img" src={{ row.cover_link_film|default(None, True) }}
-							 style="border: 0;display:block; width:150px; max-height:auto;"
-							 alt="image masquée FFP8 (in COVID-19 Memory) (absente) mod 164">
-					</th>
-
 				<tr>
 
 				</tr>
