@@ -57,7 +57,7 @@ def genres_afficher(order_by, id_genre_sel):
 
                 # Différencier les messages si la table est vide.
                 if not data_genres and id_genre_sel == 0:
-                    flash("""La table "t_genre" est vide. !!""", "warning")
+                    flash("""La table "t_role" est vide. !!""", "warning")
                 elif not data_genres and id_genre_sel > 0:
                     # Si l'utilisateur change l'id_userrole dans l'URL et que le genre n'existe pas,
                     flash(f"Le genre demandé n'existe pas !!", "warning")
@@ -158,16 +158,14 @@ def genre_update_wtf():
             # Puis la convertir en lettres minuscules.
             name_genre_update = form_update.nom_genre_update_wtf.data
             name_genre_update = name_genre_update.lower()
-            date_genre_essai = form_update.date_genre_wtf_essai.data
 
             valeur_update_dictionnaire = {"value_id_genre": id_genre_update,
-                                          "value_name_genre": name_genre_update,
-                                          "value_date_genre_essai": date_genre_essai
+                                          "value_name_genre": name_genre_update
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_intitulegenre = """UPDATE t_userrole SET userrole = %(value_name_genre)s, 
-            userrole = %(value_date_genre_essai)s WHERE id_userrole = %(value_id_genre)s """
+            str_sql_update_intitulegenre = """UPDATE t_userrole SET userrole = %(value_name_genre)s
+                                                        WHERE id_userrole = %(value_id_genre)s """
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_intitulegenre, valeur_update_dictionnaire)
 
@@ -230,7 +228,7 @@ def genre_delete_wtf():
         if request.method == "POST" and form_delete.validate_on_submit():
 
             if form_delete.submit_btn_annuler.data:
-                return redirect(url_for("genres_afficher", order_by="ASC", id_genre_sel=0))
+                return redirect(url_for("genres_afficher", order_by="DESC", id_genre_sel=0))
 
             if form_delete.submit_btn_conf_del.data:
                 # Récupère les données afin d'afficher à nouveau
