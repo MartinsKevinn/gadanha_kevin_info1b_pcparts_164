@@ -23,7 +23,7 @@ class FormWTFAjouterGenres(FlaskForm):
                                                                                   "d'espace à double, de double "
                                                                                   "apostrophe, de double trait union")
                                                                    ])
-    submit = SubmitField("Enregistrer genre")
+    submit = SubmitField("Enregistrer role")
 
 
 class FormWTFUpdateGenre(FlaskForm):
@@ -41,7 +41,7 @@ class FormWTFUpdateGenre(FlaskForm):
                                                                                          "apostrophe, de double trait "
                                                                                          "union")
                                                                           ])
-    submit = SubmitField("Update genre")
+    submit = SubmitField("Update role")
 
 
 class FormWTFDeleteGenre(FlaskForm):

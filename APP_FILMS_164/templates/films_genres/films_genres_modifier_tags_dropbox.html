@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Afficher FILMS GENRES {% endblock %}
+{% block title %} Afficher UTILISATEURS ROLES {% endblock %}
 {% block head %}
     <!--
         OM 2020.05.04
@@ -37,29 +37,23 @@
 
 			</p>
             <p>
-                Films.
+                Utilisateurs.
             </p>
             <table class="table table-responsive-sm">
                 {% if data_film_selected %}
                     <thead>
                         <tr>
                             <th class="">
-                                id
+                                User ID
                             </th>
                             <th class="">
-                                Titre
+                                Firstname
                             </th>
                             <th class="">
-                                Durée
+                                Lastname
                             </th>
                             <th class="">
-                                Date sortie
-                            </th>
-                            <th class="">
-                                Description
-                            </th>
-                            <th class="">
-                                Affiche
+                                Birthdate
                             </th>
                         </tr>
                     </thead>
@@ -75,10 +69,10 @@
 							{{ row.user_firstname }}
 						</td>
 						<td class="align-middle">
-							{{ row.user_lastname|default("", True) }}
+							{{ row.user_lastname }}
 						</td>
 						<td class="align-middle">
-							{{ row.user_birthdate|default("", True) }}
+							{{ row.user_birthdate }}
 						</td>
 					</tr>
 				</tbody>
@@ -106,11 +100,11 @@
                 <div class="qtagselect isw360">
                     <select id="OM_JTSD" name="name_select_tags" class="qtagselect__select" multiple>
                         {% for row in data_genres_non_attribues %}
-                            <option value="{{ row.id_userrole }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.intitule_genre }}</option>
+                            <option value="{{ row.id_userrole }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.userrole }}</option>
                         {% endfor %}
 
                         {% for row in data_genres_attribues %}
-                            <option value="{{ row.id_userrole }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.intitule_genre }}</option>
+                            <option value="{{ row.id_userrole }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.userrole }}</option>
                         {% endfor %}
                     </select>
                 </div>

@@ -959,7 +959,7 @@ CREATE TABLE `t_user` (
 
 INSERT INTO `t_user` (`id_user`, `User_firstname`, `User_lastname`, `User_birthdate`) VALUES
 (1, 'Kevin', 'Martins', '2003-06-01'),
-(2, 'Pierre', '', '2022-03-16');
+(2, 'Pierre', 'Alain', '2022-03-16');
 
 -- --------------------------------------------------------
 
