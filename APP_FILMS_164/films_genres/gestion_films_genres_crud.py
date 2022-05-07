@@ -220,7 +220,7 @@ def update_genre_film_selected():
             print("lst_diff_genres_insert_a ", lst_diff_genres_insert_a)
 
             # SQL pour insérer une nouvelle association entre
-            # "fk_user"/"id_film" et "fk_userrole"/"id_userrole" dans la "t_genre_film"
+            # "fk_user"/"id_user" et "fk_userrole"/"id_userrole" dans la "t_user_has_userrole"
             strsql_insert_genre_film = """INSERT INTO t_user_has_userrole (id_user_has_userrole, fk_userrole, fk_user)
                                                     VALUES (NULL, %(value_fk_genre)s, %(value_fk_film)s)"""
 

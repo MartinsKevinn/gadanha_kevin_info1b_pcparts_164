@@ -36,8 +36,12 @@ def film_add_wtf():
         try:
             if form_add_film.validate_on_submit():
                 nom_film_add = form_add_film.nom_film_add_wtf.data
+                duree_film_add = form_add_film.duree_film_add_wtf.data
+                description_film_add = form_add_film.description_film_add_wtf.data
 
-                valeurs_insertion_dictionnaire = {"value_nom_film": nom_film_add}
+                valeurs_insertion_dictionnaire = {"value_nom_film": nom_film_add,
+                                                  "value_duree_film": duree_film_add,
+                                                  "value_description_film": description_film_add}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
                 strsql_insert_film = """INSERT INTO t_user (id_user, user_firstname, user_lastname, user_birthdate) 
@@ -90,7 +94,6 @@ def film_update_wtf():
             duree_film_update = form_update_film.duree_film_update_wtf.data
             description_film_update = form_update_film.description_film_update_wtf.data
 
-
             valeur_update_dictionnaire = {"value_id_film": id_film_update,
                                           "value_nom_film": nom_film_update,
                                           "value_duree_film": duree_film_update,
@@ -100,8 +103,7 @@ def film_update_wtf():
 
             str_sql_update_nom_film = """UPDATE t_user SET user_firstname = %(value_nom_film)s,
                                                             user_lastname = %(value_duree_film)s,
-                                                            user_birthdate = %(value_description_film)s,
-                                                            WHERE id_user = %(value_id_film)s"""
+                                                            user_birthdate = %(value_description_film)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_nom_film, valeur_update_dictionnaire)
 
