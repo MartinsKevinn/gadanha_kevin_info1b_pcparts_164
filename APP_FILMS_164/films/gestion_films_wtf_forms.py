@@ -17,10 +17,10 @@ class FormWTFAddFilm(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
     nom_film_regexp = ""
-    nom_film_add_wtf = StringField("Firstname", widget=TextArea())
-    duree_film_add_wtf = StringField("Lastname", widget=TextArea())
-    description_film_add_wtf = DateField("Birthdate", validators=[InputRequired("Date obligatoire"),
-                                                                     DataRequired("Date non valide")])
+    nom_film_add_wtf = StringField("user_firstname", widget=TextArea())
+    duree_film_add_wtf = StringField("user_lastname", widget=TextArea())
+    description_film_add_wtf = DateField("user_birthdate", validators=[InputRequired("Date obligatoire"),
+                                                                  DataRequired("Date non valide")])
 
     submit = SubmitField("Enregistrer utilisateur")
 
@@ -34,7 +34,7 @@ class FormWTFUpdateFilm(FlaskForm):
     nom_film_update_wtf = StringField("Firstname", widget=TextArea())
     duree_film_update_wtf = StringField("Lastname", widget=TextArea())
     description_film_update_wtf = DateField("Birthdate", validators=[InputRequired("Date obligatoire"),
-                                                                                 DataRequired("Date non valide")])
+                                                                     DataRequired("Date non valide")])
 
     submit = SubmitField("Update utilisateur")
 

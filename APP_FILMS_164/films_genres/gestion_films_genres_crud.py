@@ -56,12 +56,12 @@ def films_genres_afficher(id_film_sel):
 
                 # Différencier les messages.
                 if not data_genres_films_afficher and id_film_sel == 0:
-                    flash("""La table "t_film" est vide. !""", "warning")
+                    flash("""La table "t_user" est vide. !""", "warning")
                 elif not data_genres_films_afficher and id_film_sel > 0:
                     # Si l'utilisateur change l'id_user dans l'URL et qu'il ne correspond à aucun film
-                    flash(f"Le film {id_film_sel} demandé n'existe pas !!", "warning")
+                    flash(f"L'utilisateur {id_film_sel} demandé n'existe pas !!", "warning")
                 else:
-                    flash(f"Données films et genres affichés !!", "success")
+                    flash(f"Données utilisateurs et roles affichés !!", "success")
 
         except Exception as Exception_films_genres_afficher:
             raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {films_genres_afficher.__name__} ;"
@@ -276,7 +276,7 @@ def genres_films_afficher_data(valeur_id_film_selected_dict):
     print("valeur_id_film_selected_dict...", valeur_id_film_selected_dict)
     try:
 
-        strsql_film_selected = """SELECT id_user, user_firstname, user_lastname, user_birthdate, GROUP_CONCAT(id_userrole) as userrole FROM t_user_has_userrole
+        strsql_film_selected = """SELECT id_user, user_firstname, user_lastname, user_birthdate, GROUP_CONCAT(id_userrole) as GenresFilms FROM t_user_has_userrole
                                         LEFT JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
                                         LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                         WHERE id_user = %(value_id_film_selected)s"""
