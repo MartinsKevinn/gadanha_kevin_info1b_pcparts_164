@@ -27,7 +27,7 @@ class FormWTFAddUser(FlaskForm):
 
 class FormWTFUpdateUser(FlaskForm):
     """
-        Dans le formulaire "film_update_wtf.html" on impose que le champ soit rempli.
+        Dans le formulaire "user_update_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
 
@@ -39,9 +39,9 @@ class FormWTFUpdateUser(FlaskForm):
     submit = SubmitField("Update utilisateur")
 
 
-class FormWTFDeleteFilm(FlaskForm):
+class FormWTFDeleteUser(FlaskForm):
     """
-        Dans le formulaire "film_delete_wtf.html"
+        Dans le formulaire "user_delete_wtf.html"
 
         nom_film_delete_wtf : Champ qui reçoit la valeur du film, lecture seule. (readonly=true)
         submit_btn_del : Bouton d'effacement "DEFINITIF".
@@ -49,6 +49,6 @@ class FormWTFDeleteFilm(FlaskForm):
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_film".
     """
     nom_film_delete_wtf = StringField("Effacer cet utilisateur")
-    submit_btn_del_film = SubmitField("Effacer utilisateur")
+    submit_btn_del_user = SubmitField("Effacer utilisateur")
     submit_btn_conf_del_film = SubmitField("Etes-vous sur d'effacer ?")
     submit_btn_annuler = SubmitField("Annuler")

@@ -14,9 +14,9 @@ from APP_FILMS_164.database.database_tools import DBconnection
 from APP_FILMS_164.erreurs.exceptions import *
 
 """
-    Nom : films_genres_afficher
+    Nom : user_userrole_afficher
     Auteur : OM 2021.05.01
-    Définition d'une "route" /films_genres_afficher
+    Définition d'une "route" /user_userrole_afficher
     
     But : Afficher les films avec les genres associés pour chaque film.
     
@@ -26,9 +26,9 @@ from APP_FILMS_164.erreurs.exceptions import *
 """
 
 
-@app.route("/films_genres_afficher/<int:id_film_sel>", methods=['GET', 'POST'])
-def films_genres_afficher(id_film_sel):
-    print(" films_genres_afficher id_film_sel ", id_film_sel)
+@app.route("/user_userrole_afficher/<int:id_user_sel>", methods=['GET', 'POST'])
+def user_userrole_afficher(id_user_sel):
+    print(" user_userrole_afficher id_user_sel ", id_user_sel)
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
@@ -37,13 +37,13 @@ def films_genres_afficher(id_film_sel):
                                                             LEFT JOIN t_user_has_userrole ON t_user.id_user = t_user_has_userrole.fk_user
                                                             LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                                             GROUP BY id_user"""
-                if id_film_sel == 0:
+                if id_user_sel == 0:
                     # le paramètre 0 permet d'afficher tous les films
                     # Sinon le paramètre représente la valeur de l'id du film
                     mc_afficher.execute(strsql_userrole_user_afficher_data)
                 else:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    valeur_id_user_selected_dictionnaire = {"value_id_user_selected": id_film_sel}
+                    valeur_id_user_selected_dictionnaire = {"value_id_user_selected": id_user_sel}
                     # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
                     # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
                     strsql_userrole_user_afficher_data += """ HAVING id_user= %(value_id_user_selected)s"""
@@ -55,28 +55,28 @@ def films_genres_afficher(id_film_sel):
                 print("data_genres ", data_genres_films_afficher, " Type : ", type(data_genres_films_afficher))
 
                 # Différencier les messages.
-                if not data_genres_films_afficher and id_film_sel == 0:
+                if not data_genres_films_afficher and id_user_sel == 0:
                     flash("""La table "t_user" est vide. !""", "warning")
-                elif not data_genres_films_afficher and id_film_sel > 0:
+                elif not data_genres_films_afficher and id_user_sel > 0:
                     # Si l'utilisateur change l'id_user dans l'URL et qu'il ne correspond à aucun film
-                    flash(f"L'utilisateur {id_film_sel} demandé n'existe pas !!", "warning")
+                    flash(f"L'utilisateur {id_user_sel} demandé n'existe pas !!", "warning")
                 else:
                     flash(f"Données utilisateurs et roles affichés !!", "success")
 
         except Exception as Exception_films_genres_afficher:
-            raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {films_genres_afficher.__name__} ;"
+            raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {user_userrole_afficher.__name__} ;"
                                                f"{Exception_films_genres_afficher}")
 
-    print("films_genres_afficher  ", data_genres_films_afficher)
+    print("user_userrole_afficher  ", data_genres_films_afficher)
     # Envoie la page "HTML" au serveur.
-    return render_template("films_genres/films_genres_afficher.html", data=data_genres_films_afficher)
+    return render_template("films_genres/user_userrole_afficher.html", data=data_genres_films_afficher)
 
 
 """
-    nom: edit_genre_film_selected
+    nom: edit_userrole_user_selected
     On obtient un objet "objet_dumpbd"
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_genres_afficher.html"
+    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
     1) Tous les genres contenus dans la "t_genre".
@@ -88,20 +88,20 @@ def films_genres_afficher(id_film_sel):
 """
 
 
-@app.route("/edit_genre_film_selected", methods=['GET', 'POST'])
-def edit_genre_film_selected():
+@app.route("/edit_userrole_user_selected", methods=['GET', 'POST'])
+def edit_userrole_user_selected():
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
                 strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
                 mc_afficher.execute(strsql_userrole_afficher)
             data_genres_all = mc_afficher.fetchall()
-            print("dans edit_genre_film_selected ---> data_genres_all", data_genres_all)
+            print("dans edit_userrole_user_selected ---> data_genres_all", data_genres_all)
 
-            # Récupère la valeur de "id_film" du formulaire html "films_genres_afficher.html"
+            # Récupère la valeur de "id_film" du formulaire html "user_userrole_afficher.html"
             # l'utilisateur clique sur le bouton "Modifier" et on récupère la valeur de "id_film"
-            # grâce à la variable "id_user_userrole_edit_html" dans le fichier "films_genres_afficher.html"
-            # href="{{ url_for('edit_genre_film_selected', id_user_userrole_edit_html=row.id_user) }}"
+            # grâce à la variable "id_user_userrole_edit_html" dans le fichier "user_userrole_afficher.html"
+            # href="{{ url_for('edit_userrole_user_selected', id_user_userrole_edit_html=row.id_user) }}"
             id_user_userrole_edit = request.values['id_user_userrole_edit_html']
 
             # Mémorise l'id du film dans une variable de session
@@ -153,7 +153,7 @@ def edit_genre_film_selected():
 
         except Exception as Exception_edit_genre_film_selected:
             raise ExceptionEditGenreFilmSelected(f"fichier : {Path(__file__).name}  ;  "
-                                                 f"{edit_genre_film_selected.__name__} ; "
+                                                 f"{edit_userrole_user_selected.__name__} ; "
                                                  f"{Exception_edit_genre_film_selected}")
 
     return render_template("films_genres/films_genres_modifier_tags_dropbox.html",
@@ -166,7 +166,7 @@ def edit_genre_film_selected():
 """
     nom: update_genre_film_selected
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_genres_afficher.html"
+    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
     1) Tous les genres contenus dans la "t_genre".
@@ -259,13 +259,13 @@ def update_genre_film_selected():
 
     # Après cette mise à jour de la table intermédiaire "t_genre_film",
     # on affiche les films et le(urs) genre(s) associé(s).
-    return redirect(url_for('films_genres_afficher', id_film_sel=id_film_selected))
+    return redirect(url_for('user_userrole_afficher', id_user_sel=id_film_selected))
 
 
 """
     nom: userrole_user_afficher_data
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_genres_afficher.html"
+    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
     Nécessaire pour afficher tous les "TAGS" des genres, ainsi l'utilisateur voit les genres à disposition
 
     On signale les erreurs importantes

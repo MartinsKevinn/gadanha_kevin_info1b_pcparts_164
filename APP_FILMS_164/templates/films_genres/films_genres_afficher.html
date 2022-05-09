@@ -3,7 +3,7 @@
 {% block body %}
 <div class="container">
 	<th class="align-middle">
-		<a class="btn btn-primary" href="{{ url_for('film_add_wtf') }}" role="button">Ajouter</a>
+		<a class="btn btn-primary" href="{{ url_for('user_add_wtf') }}" role="button">Ajouter</a>
 	</th>
 	<div class="col-md-12">
 		<table class="table table-responsive-sm">
@@ -41,15 +41,15 @@
 						  {{ row.user_birthdate }}
 					  </th>
 					  <th class="align-middle">
-						<a class="btn btn-warning" href="{{ url_for('film_update_wtf', id_film_btn_edit_html=row.id_user ) }}" role="button">Edit</a>
+						<a class="btn btn-warning" href="{{ url_for('user_update_wtf', id_film_btn_edit_html=row.id_user ) }}" role="button">Edit</a>
 					  </th>
 					  <th class="align-middle">
-						<a class="btn btn-danger" href="{{ url_for('film_delete_wtf', id_film_btn_delete_html=row.id_user ) }}" role="button">Delete</a>
+						<a class="btn btn-danger" href="{{ url_for('user_delete_wtf', id_user_btn_delete_html=row.id_user ) }}" role="button">Delete</a>
 					  </th>
 					<tr>
 						<td class="align-middle">
 							<p>Roles :<p/>
-							<a class="btn btn-warning" href="{{ url_for('edit_genre_film_selected', id_user_userrole_edit_html=row.id_user ) }}" role="button">Modifier</a>
+							<a class="btn btn-warning" href="{{ url_for('edit_userrole_user_selected', id_user_userrole_edit_html=row.id_user ) }}" role="button">Modifier</a>
 						</td>
 						<td class="align-middle" colspan="5">
 							{{ row.userrole|default("PAS DE ROLE", True) }}

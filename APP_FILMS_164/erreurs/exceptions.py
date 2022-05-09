@@ -91,7 +91,7 @@ class ExceptionGenreUpdateWtf(Base):
     pass
 
 
-class ExceptionGenresAjouterWtf(Base):
+class ExceptionUserroleAjouterWtf(Base):
     pass
 
 
@@ -111,7 +111,7 @@ class ExceptionGenresFilmsAfficherData(Base):
     pass
 
 
-class ExceptionFilmUpdateWtf(Base):
+class ExceptionUserUpdateWtf(Base):
     pass
 
 

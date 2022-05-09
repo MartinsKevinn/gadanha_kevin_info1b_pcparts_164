@@ -116,10 +116,10 @@ def genres_ajouter_wtf():
                 # Pour afficher et constater l'insertion de la valeur, on affiche en ordre inverse. (DESC)
                 return redirect(url_for('genres_afficher', order_by='DESC', id_genre_sel=0))
 
-        except Exception as Exception_genres_ajouter_wtf:
-            raise ExceptionGenresAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
+        except Exception as Exception_userrole_ajouter_wtf:
+            raise ExceptionUserroleAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
                                             f"{genres_ajouter_wtf.__name__} ; "
-                                            f"{Exception_genres_ajouter_wtf}")
+                                            f"{Exception_userrole_ajouter_wtf}")
 
     return render_template("genres/genres_ajouter_wtf.html", form=form)
 
