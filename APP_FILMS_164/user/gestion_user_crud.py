@@ -1,4 +1,4 @@
-"""Gestion des "routes" FLASK et des données pour les films.
+"""Gestion des "routes" FLASK et des données pour les users.
 Fichier : gestion_user_crud.py
 Auteur : OM 2022.04.11
 """
@@ -11,7 +11,7 @@ from flask import url_for
 
 from APP_FILMS_164.database.database_tools import DBconnection
 from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.films.gestion_user_wtf_forms import FormWTFUpdateUser, FormWTFAddUser, FormWTFDeleteUser
+from APP_FILMS_164.user.gestion_user_wtf_forms import FormWTFUpdateUser, FormWTFAddUser, FormWTFDeleteUser
 
 """Ajouter un film grâce au formulaire "user_add_wtf.html"
 Auteur : OM 2022.04.11
@@ -22,7 +22,7 @@ Test : exemple: cliquer sur le menu "Films/Genres" puis cliquer sur le bouton "A
 Paramètres : sans
 
 
-Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "films/films_update_wtf.html",
+Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "user/films_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python dans le fichier ""
             On ne doit pas accepter un champ vide.
 """
@@ -52,7 +52,7 @@ def user_add_wtf():
                 flash(f"Données insérées !!", "success")
                 print(f"Données insérées !!")
 
-                # Pour afficher et constater l'insertion du nouveau film (id_user_sel=0 => afficher tous les films)
+                # Pour afficher et constater l'insertion du nouveau film (id_user_sel=0 => afficher tous les user)
                 return redirect(url_for('films_genre_afficher', id_user_sel=0))
 
         except Exception as Exception_userrole_ajouter_wtf:
@@ -60,7 +60,7 @@ def user_add_wtf():
                                             f"{user_add_wtf.__name__} ; "
                                             f"{Exception_userrole_ajouter_wtf}")
 
-    return render_template("films/user_add_wtf.html", form_add_user=form_add_user)
+    return render_template("user/user_add_wtf.html", form_add_user=form_add_user)
 
 
 """Editer(update) un film qui a été sélectionné dans le formulaire "user_userrole_afficher.html"
@@ -73,7 +73,7 @@ Paramètres : sans
 
 But : Editer(update) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
 
-Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "films/films_update_wtf.html",
+Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "user/films_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python.
             On ne doit pas accepter un champ vide.
 """
@@ -137,7 +137,7 @@ def user_update_wtf():
                                      f"{user_update_wtf.__name__} ; "
                                      f"{Exception_user_update_wtf}")
 
-    return render_template("films/user_update_wtf.html", form_update_user=form_update_user)
+    return render_template("user/user_update_wtf.html", form_update_user=form_update_user)
 
 
 """Effacer(delete) un film qui a été sélectionné dans le formulaire "user_userrole_afficher.html"
@@ -148,7 +148,7 @@ Test : ex. cliquer sur le menu "film" puis cliquer sur le bouton "DELETE" d'un "
     
 Paramètres : sans
 
-Remarque :  Dans le champ "nom_film_delete_wtf" du formulaire "films/user_delete_wtf.html"
+Remarque :  Dans le champ "nom_film_delete_wtf" du formulaire "user/user_delete_wtf.html"
             On doit simplement cliquer sur "DELETE"
 """
 
@@ -164,13 +164,13 @@ def user_delete_wtf():
     # Objet formulaire pour effacer le film sélectionné.
     form_delete_user = FormWTFDeleteUser()
     try:
-        # Si on clique sur "ANNULER", afficher tous les films.
+        # Si on clique sur "ANNULER", afficher tous les user.
         if form_delete_user.submit_btn_annuler.data:
             return redirect(url_for("user_userrole_afficher", id_user_sel=0))
 
         if form_delete_user.submit_btn_conf_del_film.data:
             # Récupère les données afin d'afficher à nouveau
-            # le formulaire "films/user_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+            # le formulaire "user/user_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
             data_user_delete = session['data_user_delete']
             print("data_user_delete ", data_user_delete)
 
@@ -210,7 +210,7 @@ def user_delete_wtf():
                 print("data_user_delete...", data_user_delete)
 
                 # Nécessaire pour mémoriser les données afin d'afficher à nouveau
-                # le formulaire "films/user_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                # le formulaire "user/user_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 session['data_user_delete'] = data_user_delete
 
             # Le bouton pour l'action "DELETE" dans le form. "user_delete_wtf.html" est caché.
@@ -221,7 +221,7 @@ def user_delete_wtf():
                                      f"{user_delete_wtf.__name__} ; "
                                      f"{Exception_film_delete_wtf}")
 
-    return render_template("films/user_delete_wtf.html",
+    return render_template("user/user_delete_wtf.html",
                            form_delete_user=form_delete_user,
                            btn_submit_del=btn_submit_del,
                            data_user_del=data_user_delete

@@ -1,4 +1,4 @@
-"""Gestion des "routes" FLASK et des données pour les genres.
+"""Gestion des "routes" FLASK et des données pour les userrole.
 Fichier : gestion_userrole_crud.py
 Auteur : OM 2021.03.16
 """
@@ -12,9 +12,9 @@ from flask import url_for
 from APP_FILMS_164 import app
 from APP_FILMS_164.database.database_tools import DBconnection
 from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.genres.gestion_userrole_wtf_forms import FormWTFAjouterGenres
-from APP_FILMS_164.genres.gestion_userrole_wtf_forms import FormWTFDeleteUserrole
-from APP_FILMS_164.genres.gestion_userrole_wtf_forms import FormWTFUpdateGenre
+from APP_FILMS_164.userrole.gestion_userrole_wtf_forms import FormWTFAjouterUserrole
+from APP_FILMS_164.userrole.gestion_userrole_wtf_forms import FormWTFDeleteUserrole
+from APP_FILMS_164.userrole.gestion_userrole_wtf_forms import FormWTFUpdateUserrole
 
 """
     Auteur : OM 2021.03.16
@@ -23,7 +23,7 @@ from APP_FILMS_164.genres.gestion_userrole_wtf_forms import FormWTFUpdateGenre
     Test : ex : http://127.0.0.1:5005/genres_afficher
     
     Paramètres : order_by : ASC : Ascendant, DESC : Descendant
-                id_genre_sel = 0 >> tous les genres.
+                id_genre_sel = 0 >> tous les userrole.
                 id_genre_sel = "n" affiche le genre dont l'id est "n"
 """
 
@@ -64,7 +64,7 @@ def genres_afficher(order_by, id_genre_sel):
                 else:
                     # Dans tous les autres cas, c'est que la table "t_genre" est vide.
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
-                    flash(f"Données genres affichés !!", "success")
+                    flash(f"Données userrole affichés !!", "success")
 
         except Exception as Exception_genres_afficher:
             raise ExceptionGenresAfficher(f"fichier : {Path(__file__).name}  ;  "
@@ -72,7 +72,7 @@ def genres_afficher(order_by, id_genre_sel):
                                           f"{Exception_genres_afficher}")
 
     # Envoie la page "HTML" au serveur.
-    return render_template("genres/userrole_afficher.html", data=data_genres)
+    return render_template("userrole/userrole_afficher.html", data=data_genres)
 
 
 """
@@ -85,7 +85,7 @@ def genres_afficher(order_by, id_genre_sel):
     
     But : Ajouter un genre pour un film
     
-    Remarque :  Dans le champ "name_genre_html" du formulaire "genres/genres_ajouter.html",
+    Remarque :  Dans le champ "name_genre_html" du formulaire "userrole/genres_ajouter.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -97,7 +97,7 @@ def genres_afficher(order_by, id_genre_sel):
 
 @app.route("/genres_ajouter", methods=['GET', 'POST'])
 def userrole_ajouter_wtf():
-    form = FormWTFAjouterGenres()
+    form = FormWTFAjouterUserrole()
     if request.method == "POST":
         try:
             if form.validate_on_submit():
@@ -121,20 +121,20 @@ def userrole_ajouter_wtf():
                                             f"{userrole_ajouter_wtf.__name__} ; "
                                             f"{Exception_userrole_ajouter_wtf}")
 
-    return render_template("genres/userrole_ajouter_wtf.html", form=form)
+    return render_template("userrole/userrole_ajouter_wtf.html", form=form)
 
 
 """
     Auteur : OM 2021.03.29
     Définition d'une "route" /genre_update
     
-    Test : ex cliquer sur le menu "genres" puis cliquer sur le bouton "EDIT" d'un "genre"
+    Test : ex cliquer sur le menu "userrole" puis cliquer sur le bouton "EDIT" d'un "genre"
     
     Paramètres : sans
     
     But : Editer(update) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
     
-    Remarque :  Dans le champ "nom_genre_update_wtf" du formulaire "genres/userrole_update_wtf.html",
+    Remarque :  Dans le champ "nom_genre_update_wtf" du formulaire "userrole/userrole_update_wtf.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -150,7 +150,7 @@ def userrole_update_wtf():
     id_genre_update = request.values['id_genre_btn_edit_html']
 
     # Objet formulaire pour l'UPDATE
-    form_update = FormWTFUpdateGenre()
+    form_update = FormWTFUpdateUserrole()
     try:
         print(" on submit ", form_update.validate_on_submit())
         if form_update.validate_on_submit():
@@ -196,20 +196,20 @@ def userrole_update_wtf():
                                       f"{userrole_update_wtf.__name__} ; "
                                       f"{Exception_genre_update_wtf}")
 
-    return render_template("genres/userrole_update_wtf.html", form_update=form_update)
+    return render_template("userrole/userrole_update_wtf.html", form_update=form_update)
 
 
 """
     Auteur : OM 2021.04.08
     Définition d'une "route" /genre_delete
     
-    Test : ex. cliquer sur le menu "genres" puis cliquer sur le bouton "DELETE" d'un "genre"
+    Test : ex. cliquer sur le menu "userrole" puis cliquer sur le bouton "DELETE" d'un "genre"
     
     Paramètres : sans
     
     But : Effacer(delete) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
     
-    Remarque :  Dans le champ "nom_userrole_delete_wtf" du formulaire "genres/userrole_delete_wtf.html",
+    Remarque :  Dans le champ "nom_userrole_delete_wtf" du formulaire "userrole/userrole_delete_wtf.html",
                 le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
 """
 
@@ -232,7 +232,7 @@ def userrole_delete_wtf():
 
             if form_delete_userrole.submit_btn_conf_del.data:
                 # Récupère les données afin d'afficher à nouveau
-                # le formulaire "genres/userrole_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                # le formulaire "userrole/userrole_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 data_user_attribue_userrole_delete = session['data_user_attribue_userrole_delete']
                 print("data_user_attribue_userrole_delete ", data_user_attribue_userrole_delete)
 
@@ -263,7 +263,7 @@ def userrole_delete_wtf():
             valeur_select_dictionnaire = {"value_id_userrole": id_userrole_delete}
             print(id_userrole_delete, type(id_userrole_delete))
 
-            # Requête qui affiche tous les films_genres qui ont le genre que l'utilisateur veut effacer
+            # Requête qui affiche tous les user_userrole qui ont le genre que l'utilisateur veut effacer
             str_sql_user_userrole_delete = """SELECT id_user, user_firstname, user_lastname, id_userrole, userrole FROM t_user_has_userrole
                                             LEFT JOIN t_user ON t_user_has_userrole.fk_user = t_user.id_user
                                             LEFT JOIN t_userrole ON t_user_has_userrole.fk_userrole = t_userrole.id_userrole
@@ -275,7 +275,7 @@ def userrole_delete_wtf():
                 print("data_user_attribue_userrole_delete...", data_user_attribue_userrole_delete)
 
                 # Nécessaire pour mémoriser les données afin d'afficher à nouveau
-                # le formulaire "genres/userrole_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                # le formulaire "userrole/userrole_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 session['data_user_attribue_userrole_delete'] = data_user_attribue_userrole_delete
 
                 # Opération sur la BD pour récupérer "id_genre" et "userrole" de la "t_genre"
@@ -299,7 +299,7 @@ def userrole_delete_wtf():
                                       f"{userrole_delete_wtf.__name__} ; "
                                       f"{Exception_userrole_delete_wtf}")
 
-    return render_template("genres/userrole_delete_wtf.html",
+    return render_template("userrole/userrole_delete_wtf.html",
                            form_delete_userrole=form_delete_userrole,
                            btn_submit_del=btn_submit_del,
                            data_films_associes=data_user_attribue_userrole_delete)

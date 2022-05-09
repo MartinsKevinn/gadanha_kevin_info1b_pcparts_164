@@ -1,7 +1,7 @@
 """
     Fichier : gestion_user_userrole_crud.py
     Auteur : OM 2021.05.01
-    Gestions des "routes" FLASK et des données pour l'association entre les films et les genres.
+    Gestions des "routes" FLASK et des données pour l'association entre les user et les userrole.
 """
 from pathlib import Path
 
@@ -18,9 +18,9 @@ from APP_FILMS_164.erreurs.exceptions import *
     Auteur : OM 2021.05.01
     Définition d'une "route" /user_userrole_afficher
     
-    But : Afficher les films avec les genres associés pour chaque film.
+    But : Afficher les user avec les userrole associés pour chaque film.
     
-    Paramètres : id_genre_sel = 0 >> tous les films.
+    Paramètres : id_genre_sel = 0 >> tous les user.
                  id_genre_sel = "n" affiche le film dont l'id est "n"
                  
 """
@@ -38,7 +38,7 @@ def user_userrole_afficher(id_user_sel):
                                                             LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                                             GROUP BY id_user"""
                 if id_user_sel == 0:
-                    # le paramètre 0 permet d'afficher tous les films
+                    # le paramètre 0 permet d'afficher tous les users
                     # Sinon le paramètre représente la valeur de l'id du film
                     mc_afficher.execute(strsql_userrole_user_afficher_data)
                 else:
@@ -69,19 +69,19 @@ def user_userrole_afficher(id_user_sel):
 
     print("user_userrole_afficher  ", data_genres_films_afficher)
     # Envoie la page "HTML" au serveur.
-    return render_template("films_genres/user_userrole_afficher.html", data=data_genres_films_afficher)
+    return render_template("user_userrole/user_userrole_afficher.html", data=data_genres_films_afficher)
 
 
 """
     nom: edit_userrole_user_selected
     On obtient un objet "objet_dumpbd"
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
+    Récupère la liste de tous les userrole du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
-    1) Tous les genres contenus dans la "t_genre".
-    2) Les genres attribués au film selectionné.
-    3) Les genres non-attribués au film sélectionné.
+    1) Tous les userrole contenus dans la "t_genre".
+    2) Les userrole attribués au film selectionné.
+    3) Les userrole non-attribués au film sélectionné.
 
     On signale les erreurs importantes
 
@@ -114,8 +114,8 @@ def edit_userrole_user_selected():
 
             # Récupère les données grâce à 3 requêtes MySql définie dans la fonction userrole_user_afficher_data
             # 1) Sélection du film choisi
-            # 2) Sélection des genres "déjà" attribués pour le film.
-            # 3) Sélection des genres "pas encore" attribués pour le film choisi.
+            # 2) Sélection des userrole "déjà" attribués pour le film.
+            # 3) Sélection des userrole "pas encore" attribués pour le film choisi.
             # ATTENTION à l'ordre d'assignation des variables retournées par la fonction "userrole_user_afficher_data"
             data_userrole_user_selected, data_userrole_user_non_attribues, data_userrole_user_attribues = \
                 userrole_user_afficher_data(valeur_id_user_selected_dictionnaire)
@@ -126,14 +126,14 @@ def edit_userrole_user_selected():
                   type(lst_data_user_selected))
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
-            # les genres qui ne sont pas encore sélectionnés.
+            # les userrole qui ne sont pas encore sélectionnés.
             lst_data_userrole_user_non_attribues = [item['id_userrole'] for item in data_userrole_user_non_attribues]
             session['session_lst_data_userrole_user_non_attribues'] = lst_data_userrole_user_non_attribues
             print("lst_data_userrole_user_non_attribues  ", lst_data_userrole_user_non_attribues,
                   type(lst_data_userrole_user_non_attribues))
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
-            # les genres qui sont déjà sélectionnés.
+            # les userrole qui sont déjà sélectionnés.
             lst_data_genres_films_old_attribues = [item['id_userrole'] for item in data_userrole_user_attribues]
             session['session_lst_data_genres_films_old_attribues'] = lst_data_genres_films_old_attribues
             print("lst_data_genres_films_old_attribues  ", lst_data_genres_films_old_attribues,
@@ -156,7 +156,7 @@ def edit_userrole_user_selected():
                                                  f"{edit_userrole_user_selected.__name__} ; "
                                                  f"{Exception_edit_genre_film_selected}")
 
-    return render_template("films_genres/user_userrole_modifier_tags_dropbox.html",
+    return render_template("user_userrole/user_userrole_modifier_tags_dropbox.html",
                            data_genres=data_genres_all,
                            data_user_selected=data_userrole_user_selected,
                            data_genres_attribues=data_userrole_user_attribues,
@@ -166,12 +166,12 @@ def edit_userrole_user_selected():
 """
     nom: update_genre_film_selected
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
+    Récupère la liste de tous les userrole du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
-    1) Tous les genres contenus dans la "t_genre".
-    2) Les genres attribués au film selectionné.
-    3) Les genres non-attribués au film sélectionné.
+    1) Tous les userrole contenus dans la "t_genre".
+    2) Les userrole attribués au film selectionné.
+    3) Les userrole non-attribués au film sélectionné.
 
     On signale les erreurs importantes
 """
@@ -185,18 +185,18 @@ def update_genre_film_selected():
             id_film_selected = session['session_id_user_userrole_edit']
             print("session['session_id_user_userrole_edit'] ", session['session_id_user_userrole_edit'])
 
-            # Récupère la liste des genres qui ne sont pas associés au film sélectionné.
+            # Récupère la liste des userrole qui ne sont pas associés au film sélectionné.
             old_lst_data_userrole_user_non_attribues = session['session_lst_data_userrole_user_non_attribues']
             print("old_lst_data_userrole_user_non_attribues ", old_lst_data_userrole_user_non_attribues)
 
-            # Récupère la liste des genres qui sont associés au film sélectionné.
+            # Récupère la liste des userrole qui sont associés au film sélectionné.
             old_lst_data_userrole_user_attribues = session['session_lst_data_genres_films_old_attribues']
             print("old_lst_data_genres_films_old_attribues ", old_lst_data_userrole_user_attribues)
 
             # Effacer toutes les variables de session.
             session.clear()
 
-            # Récupère ce que l'utilisateur veut modifier comme genres dans le composant "tags-selector-tagselect"
+            # Récupère ce que l'utilisateur veut modifier comme userrole dans le composant "tags-selector-tagselect"
             # dans le fichier "genres_films_modifier_tags_dropbox.html"
             new_lst_str_genres_films = request.form.getlist('name_select_tags')
             print("new_lst_str_genres_films ", new_lst_str_genres_films)
@@ -228,7 +228,7 @@ def update_genre_film_selected():
             strsql_delete_genre_film = """DELETE FROM t_user_has_userrole WHERE fk_userrole = %(value_fk_genre)s AND fk_user = %(value_fk_film)s"""
 
             with DBconnection() as mconn_bd:
-                # Pour le film sélectionné, parcourir la liste des genres à INSÉRER dans la "t_genre_film".
+                # Pour le film sélectionné, parcourir la liste des userrole à INSÉRER dans la "t_genre_film".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_genre_ins in lst_diff_genres_insert_a:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
@@ -238,7 +238,7 @@ def update_genre_film_selected():
 
                     mconn_bd.execute(strsql_insert_genre_film, valeurs_film_sel_genre_sel_dictionnaire)
 
-                # Pour le film sélectionné, parcourir la liste des genres à EFFACER dans la "t_genre_film".
+                # Pour le film sélectionné, parcourir la liste des userrole à EFFACER dans la "t_genre_film".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_genre_del in lst_diff_genres_delete_b:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
@@ -258,15 +258,15 @@ def update_genre_film_selected():
                                                    f"{Exception_update_genre_film_selected}")
 
     # Après cette mise à jour de la table intermédiaire "t_genre_film",
-    # on affiche les films et le(urs) genre(s) associé(s).
+    # on affiche les users et le(urs) role(s) associé(s).
     return redirect(url_for('user_userrole_afficher', id_user_sel=id_film_selected))
 
 
 """
     nom: userrole_user_afficher_data
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
-    Nécessaire pour afficher tous les "TAGS" des genres, ainsi l'utilisateur voit les genres à disposition
+    Récupère la liste de tous les userrole du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
+    Nécessaire pour afficher tous les "TAGS" des userrole, ainsi l'utilisateur voit les userrole à disposition
 
     On signale les erreurs importantes
 """

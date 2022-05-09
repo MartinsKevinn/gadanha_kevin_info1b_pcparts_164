@@ -10,7 +10,7 @@ from wtforms.validators import Length, InputRequired, DataRequired
 from wtforms.validators import Regexp
 
 
-class FormWTFAjouterGenres(FlaskForm):
+class FormWTFAjouterUserrole(FlaskForm):
     """
         Dans le formulaire "userrole_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
@@ -26,7 +26,7 @@ class FormWTFAjouterGenres(FlaskForm):
     submit = SubmitField("Enregistrer role")
 
 
-class FormWTFUpdateGenre(FlaskForm):
+class FormWTFUpdateUserrole(FlaskForm):
     """
         Dans le formulaire "userrole_update_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.

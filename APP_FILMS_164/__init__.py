@@ -41,14 +41,14 @@ try:
     from APP_FILMS_164.database import database_tools
     from APP_FILMS_164.essais_wtf_forms import gestion_essai_wtf
     from APP_FILMS_164.essais_wtf_forms import gestion_wtf_forms_demo_select
-    from APP_FILMS_164.genres import gestion_userrole_crud
+    from APP_FILMS_164.userrole import gestion_userrole_crud
     from APP_FILMS_164.demos_om_164 import routes_demos
 
-    from APP_FILMS_164.films_genres import gestion_user_userrole_crud
+    from APP_FILMS_164.user_userrole import gestion_user_userrole_crud
     from APP_FILMS_164.erreurs import msg_avertissements
 
-    from APP_FILMS_164.films import gestion_user_crud
-    from APP_FILMS_164.films import gestion_user_wtf_forms
+    from APP_FILMS_164.user import gestion_user_crud
+    from APP_FILMS_164.user import gestion_user_wtf_forms
 
 except Exception as Exception_init_app_films_164:
     print(f"4567756434 Une erreur est survenue {type(Exception_init_app_films_164)} dans"
