@@ -9,12 +9,12 @@
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form_add_film.hidden_tag() }}
+				{{ form_add_user.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form_add_film.nom_film_add_wtf.label }}<br>
-						{{ form_add_film.nom_film_add_wtf(size=32) }}<br>
-						{% for error in form_add_film.nom_film_add_wtf.errors %}
+						{{ form_add_user.user_firstname_add_wtf.label }}<br>
+						{{ form_add_user.user_firstname_add_wtf(size=32) }}<br>
+						{% for error in form_add_user.user_firstname_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
@@ -22,12 +22,12 @@
 			</form>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form_add_film.hidden_tag() }}
+				{{ form_add_user.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form_add_film.duree_film_add_wtf.label }}<br>
-						{{ form_add_film.duree_film_add_wtf(size=32) }}<br>
-						{% for error in form_add_film.duree_film_add_wtf.errors %}
+						{{ form_add_user.user_lastname_add_wtf.label }}<br>
+						{{ form_add_user.user_lastname_add_wtf(size=32) }}<br>
+						{% for error in form_add_user.user_lastname_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
@@ -35,16 +35,16 @@
 			</form>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form_add_film.hidden_tag() }}
+				{{ form_add_user.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form_add_film.description_film_add_wtf.label }}<br>
-						{{ form_add_film.description_film_add_wtf(size=32) }}<br>
-						{% for error in form_add_film.description_film_add_wtf.errors %}
+						{{ form_add_user.user_birthdate_add_wtf.label }}<br>
+						{{ form_add_user.user_birthdate_add_wtf(size=32) }}<br>
+						{% for error in form_add_user.user_birthdate_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
-					{{ form_add_film.submit(class="btn btn-primary") }}
+					{{ form_add_user.submit(class="btn btn-primary") }}
 				</div>
 			</form>
 		</div>

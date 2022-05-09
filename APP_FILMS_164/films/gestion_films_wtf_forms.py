@@ -11,29 +11,29 @@ from wtforms.validators import Regexp
 from wtforms.widgets import TextArea
 
 
-class FormWTFAddFilm(FlaskForm):
+class FormWTFAddUser(FlaskForm):
     """
         Dans le formulaire "genres_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
     nom_film_regexp = ""
-    nom_film_add_wtf = StringField("user_firstname", widget=TextArea())
-    duree_film_add_wtf = StringField("user_lastname", widget=TextArea())
-    description_film_add_wtf = DateField("user_birthdate", validators=[InputRequired("Date obligatoire"),
+    user_firstname_add_wtf = StringField("user_firstname", widget=TextArea())
+    user_lastname_add_wtf = StringField("user_lastname", widget=TextArea())
+    user_birthdate_add_wtf = DateField("user_birthdate", validators=[InputRequired("Date obligatoire"),
                                                                   DataRequired("Date non valide")])
 
     submit = SubmitField("Enregistrer utilisateur")
 
 
-class FormWTFUpdateFilm(FlaskForm):
+class FormWTFUpdateUser(FlaskForm):
     """
         Dans le formulaire "film_update_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
 
-    nom_film_update_wtf = StringField("Firstname", widget=TextArea())
-    duree_film_update_wtf = StringField("Lastname", widget=TextArea())
-    description_film_update_wtf = DateField("Birthdate", validators=[InputRequired("Date obligatoire"),
+    user_firstname_update_wtf = StringField("Firstname", widget=TextArea())
+    user_lastname_update_wtf = StringField("Lastname", widget=TextArea())
+    user_birthdate_update_wtf = DateField("Birthdate", validators=[InputRequired("Date obligatoire"),
                                                                      DataRequired("Date non valide")])
 
     submit = SubmitField("Update utilisateur")

@@ -1360,7 +1360,7 @@ ALTER TABLE `t_supply_is_format`
 -- Indexes for table `t_user`
 --
 ALTER TABLE `t_user`
-  ADD PRIMARY KEY (`id_user`);
+  ADD PRIMARY KEY (`id_user`) USING BTREE;
 
 --
 -- Indexes for table `t_usermail`
@@ -1384,9 +1384,9 @@ ALTER TABLE `t_userrole`
 -- Indexes for table `t_user_created_config`
 --
 ALTER TABLE `t_user_created_config`
-  ADD PRIMARY KEY (`id_user_created_config`),
-  ADD KEY `fk_user` (`fk_user`),
-  ADD KEY `fk_config` (`fk_config`);
+  ADD PRIMARY KEY (`id_user_created_config`) USING BTREE,
+  ADD KEY `fk_user` (`fk_user`) USING BTREE,
+  ADD KEY `fk_config` (`fk_config`) USING BTREE;
 
 --
 -- Indexes for table `t_user_has_usermail`
@@ -1409,7 +1409,7 @@ ALTER TABLE `t_user_has_userpseudo`
 --
 ALTER TABLE `t_user_has_userrole`
   ADD PRIMARY KEY (`id_user_has_userrole`) USING BTREE,
-  ADD KEY `fk_user` (`fk_user`),
+  ADD KEY `fk_user` (`fk_user`) USING BTREE,
   ADD KEY `fk_role` (`fk_userrole`) USING BTREE;
 
 --

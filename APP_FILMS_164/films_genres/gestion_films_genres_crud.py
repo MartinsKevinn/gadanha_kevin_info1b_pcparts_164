@@ -34,7 +34,7 @@ def films_genres_afficher(id_film_sel):
             with DBconnection() as mc_afficher:
                 strsql_genres_films_afficher_data = """SELECT id_user, user_firstname, user_lastname, user_birthdate,
                                                             GROUP_CONCAT(userrole) as userrole FROM t_user
-                                                            RIGHT JOIN t_user_has_userrole ON t_user.id_user = t_user_has_userrole.fk_user
+                                                            LEFT JOIN t_user_has_userrole ON t_user.id_user = t_user_has_userrole.fk_user
                                                             LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                                             GROUP BY id_user"""
                 if id_film_sel == 0:
@@ -43,10 +43,10 @@ def films_genres_afficher(id_film_sel):
                     mc_afficher.execute(strsql_genres_films_afficher_data)
                 else:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    valeur_id_film_selected_dictionnaire = {"value_id_film_selected": id_film_sel}
+                    valeur_id_film_selected_dictionnaire = {"value_id_user_selected": id_film_sel}
                     # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
                     # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
-                    strsql_genres_films_afficher_data += """ HAVING id_user= %(value_id_film_selected)s"""
+                    strsql_genres_films_afficher_data += """ HAVING id_user= %(value_id_user_selected)s"""
 
                     mc_afficher.execute(strsql_genres_films_afficher_data, valeur_id_film_selected_dictionnaire)
 
@@ -110,7 +110,7 @@ def edit_genre_film_selected():
             session['session_id_film_genres_edit'] = id_film_genres_edit
 
             # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-            valeur_id_film_selected_dictionnaire = {"value_id_film_selected": id_film_genres_edit}
+            valeur_id_film_selected_dictionnaire = {"value_id_user_selected": id_film_genres_edit}
 
             # Récupère les données grâce à 3 requêtes MySql définie dans la fonction genres_films_afficher_data
             # 1) Sélection du film choisi
@@ -276,20 +276,20 @@ def genres_films_afficher_data(valeur_id_film_selected_dict):
     print("valeur_id_film_selected_dict...", valeur_id_film_selected_dict)
     try:
 
-        strsql_film_selected = """SELECT id_user, user_firstname, user_lastname, user_birthdate, GROUP_CONCAT(id_userrole) as GenresFilms FROM t_user_has_userrole
+        strsql_film_selected = """SELECT id_user, user_firstname, user_lastname, user_birthdate, GROUP_CONCAT(userrole) as Userrole FROM t_user_has_userrole
                                         LEFT JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
                                         LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
-                                        WHERE id_user = %(value_id_film_selected)s"""
+                                        WHERE id_user = %(value_id_user_selected)s"""
 
         strsql_genres_films_non_attribues = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole not in(SELECT id_userrole as idGenresFilms FROM t_user_has_userrole
-                                                    LEFT JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
-                                                    LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
-                                                    WHERE id_user = %(value_id_film_selected)s)"""
+                                                    INNER JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
+                                                    INNER JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
+                                                    WHERE id_user = %(value_id_user_selected)s)"""
 
         strsql_genres_films_attribues = """SELECT id_user, id_userrole, userrole FROM t_user_has_userrole
                                             LEFT JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
                                             LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
-                                            WHERE id_user = %(value_id_film_selected)s"""
+                                            WHERE id_user= %(value_id_user_selected)s"""
 
         # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
         with DBconnection() as mc_afficher:
