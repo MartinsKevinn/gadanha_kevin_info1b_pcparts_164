@@ -34,8 +34,8 @@ def genres_afficher(order_by, id_genre_sel):
         try:
             with DBconnection() as mc_afficher:
                 if order_by == "ASC" and id_genre_sel == 0:
-                    strsql_genres_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
-                    mc_afficher.execute(strsql_genres_afficher)
+                    strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
+                    mc_afficher.execute(strsql_userrole_afficher)
                 elif order_by == "ASC":
                     # C'EST LA QUE VOUS ALLEZ DEVOIR PLACER VOTRE PROPRE LOGIQUE MySql
                     # la commande MySql classique est "SELECT * FROM t_genre"
@@ -43,13 +43,13 @@ def genres_afficher(order_by, id_genre_sel):
                     # donc, je précise les champs à afficher
                     # Constitution d'un dictionnaire pour associer l'id du genre sélectionné avec un nom de variable
                     valeur_id_genre_selected_dictionnaire = {"value_id_userrole_selected": id_genre_sel}
-                    strsql_genres_afficher = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole = %(value_id_userrole_selected)s"""
+                    strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole = %(value_id_userrole_selected)s"""
 
-                    mc_afficher.execute(strsql_genres_afficher, valeur_id_genre_selected_dictionnaire)
+                    mc_afficher.execute(strsql_userrole_afficher, valeur_id_genre_selected_dictionnaire)
                 else:
-                    strsql_genres_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole DESC"""
+                    strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole DESC"""
 
-                    mc_afficher.execute(strsql_genres_afficher)
+                    mc_afficher.execute(strsql_userrole_afficher)
 
                 data_genres = mc_afficher.fetchall()
 
@@ -247,8 +247,8 @@ def genre_delete_wtf():
 
                 str_sql_delete_user_userrole = """DELETE FROM t_user_has_userrole WHERE fk_userrole = %(value_id_userrole)s"""
                 str_sql_delete_iduserrole = """DELETE FROM t_userrole WHERE id_userrole = %(value_id_userrole)s"""
-                # Manière brutale d'effacer d'abord la "fk_genre", même si elle n'existe pas dans la "t_genre_film"
-                # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
+                # Manière brutale d'effacer d'abord la "fk_userrole", même si elle n'existe pas dans la "t_user_has_userrole"
+                # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_user_has_userrole"
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(str_sql_delete_user_userrole, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_iduserrole, valeur_delete_dictionnaire)

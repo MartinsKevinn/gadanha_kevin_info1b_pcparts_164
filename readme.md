@@ -119,7 +119,7 @@ A) Modifier MES requêtes AFFICHER (READ) du CRUD(Create Read Update Delete) sur
 
 B) Une fois que l'affichage est fonctionnel et uniquement dans ce cas :
   * Vous devez alors changer les noms de variables en Python pour les adapter à votre sujet
-    * Exemple : "strsql_genres_afficher" doit s'écrire avec un nom qui correspond mieux à votre sujet de BD
+    * Exemple : "strsql_userrole_afficher" doit s'écrire avec un nom qui correspond mieux à votre sujet de BD
 
 C) Faites souvent des "COMMITS" et des "PUSH" sur votre "GITHUB" (VOTRENOM_VOTREPRENOM_VOTRECLASSE_VOTRESUJET_164_V3TABLES)
 

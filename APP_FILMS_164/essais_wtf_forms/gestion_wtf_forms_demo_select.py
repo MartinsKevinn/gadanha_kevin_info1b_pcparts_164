@@ -33,22 +33,22 @@ from APP_FILMS_164.essais_wtf_forms.wtf_forms_demo_select import DemoFormSelectW
 
 @app.route("/demo_select_wtf", methods=['GET', 'POST'])
 def demo_select_wtf():
-    genre_selectionne = None
+    userrole_selectionne = None
     # Objet formulaire pour montrer une liste déroulante basé sur la table "t_genre"
     form_demo = DemoFormSelectWTF()
     try:
         if request.method == "POST" and form_demo.submit_btn_ok_dplist_genre.data:
 
             if form_demo.submit_btn_ok_dplist_genre.data:
-                print("Genre sélectionné : ",
-                      form_demo.genres_dropdown_wtf.data)
-                genre_selectionne = form_demo.genres_dropdown_wtf.data
-                form_demo.genres_dropdown_wtf.choices = session['genre_val_list_dropdown']
+                print("Role sélectionné : ",
+                      form_demo.userrole_dropdown_wtf.data)
+                userrole_selectionne = form_demo.userrole_dropdown_wtf.data
+                form_demo.userrole_dropdown_wtf.choices = session['userrole_val_list_dropdown']
 
         if request.method == "GET":
             with DBconnection() as mc_afficher:
-                strsql_genres_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
-                mc_afficher.execute(strsql_genres_afficher)
+                strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
+                mc_afficher.execute(strsql_userrole_afficher)
 
             data_genres = mc_afficher.fetchall()
             print("demo_select_wtf data_genres ", data_genres, " Type : ", type(data_genres))
@@ -58,22 +58,22 @@ def demo_select_wtf():
                 la liste déroulante est définie dans le "wtf_forms_demo_select.py" 
                 le formulaire qui utilise la liste déroulante "zzz_essais_om_104/demo_form_select_wtf.html"
             """
-            genre_val_list_dropdown = []
+            userrole_val_list_dropdown = []
             for i in data_genres:
-                genre_val_list_dropdown.append(i['userrole'])
+                userrole_val_list_dropdown.append(i['userrole'])
 
             # Aussi possible d'avoir un id numérique et un texte en correspondance
-            # genre_val_list_dropdown = [(i["id_genre"], i["intitule_genre"]) for i in data_genres]
+            # userrole_val_list_dropdown = [(i["id_userrole"], i["userrole"]) for i in data_genres]
 
-            print("genre_val_list_dropdown ", genre_val_list_dropdown)
+            print("userrole_val_list_dropdown ", userrole_val_list_dropdown)
 
-            form_demo.genres_dropdown_wtf.choices = genre_val_list_dropdown
-            session['genre_val_list_dropdown'] = genre_val_list_dropdown
+            form_demo.userrole_dropdown_wtf.choices = userrole_val_list_dropdown
+            session['userrole_val_list_dropdown'] = userrole_val_list_dropdown
             # Ceci est simplement une petite démo. on fixe la valeur PRESELECTIONNEE de la liste
-            form_demo.genres_dropdown_wtf.data = "philosophique"
-            genre_selectionne = form_demo.genres_dropdown_wtf.data
-            print("genre choisi dans la liste :", genre_selectionne)
-            session['genre_selectionne_get'] = genre_selectionne
+            form_demo.userrole_dropdown_wtf.data = "philosophique"
+            userrole_selectionne = form_demo.userrole_dropdown_wtf.data
+            print("role choisi dans la liste :", userrole_selectionne)
+            session['userrole_selectionne_get'] = userrole_selectionne
 
     # OM 2020.04.16 ATTENTION à l'ordre des excepts, il est très important de respecter l'ordre.
     except KeyError:
@@ -98,7 +98,7 @@ def demo_select_wtf():
 
     return render_template("zzz_essais_om_104/demo_form_select_wtf.html",
                            form=form_demo,
-                           genre_selectionne=genre_selectionne,
+                           userrole_selectionne=userrole_selectionne,
                            data_genres_drop_down=data_genres)
 
 

@@ -59,13 +59,13 @@
     <form action="" method="POST" novalidate>
         {{ form.hidden_tag() }}
         <p>
-            {{ form.genres_dropdown_wtf.label(class="form-control-label") }}<br>
-            {{ form.genres_dropdown_wtf(class="form-select-sm") }}
-            {% for error in form.genres_dropdown_wtf.errors %}
+            {{ form.userrole_dropdown_wtf.label(class="form-control-label") }}<br>
+            {{ form.userrole_dropdown_wtf(class="form-select-sm") }}
+            {% for error in form.userrole_dropdown_wtf.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>Genre choisi : {{ form.genres_dropdown_wtf.data }}</p>
+        <p>Genre choisi : {{ form.userrole_dropdown_wtf.data }}</p>
         <p>{{ form.submit_btn_ok_dplist_genre(class="btn btn-primary") }}</p>
     </form>
 

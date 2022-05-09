@@ -9,7 +9,7 @@ try:
     """
         Une seule requête pour montrer la récupération des données de la BD en MySql.
     """
-    strsql_genres_afficher = """SELECT id_config, userpseudo, config_rating, config_use_case, cpu_manufacturer, cpu_name, CONCAT(motherboard_brand, ' ', motherboard_model),
+    strsql_userrole_afficher = """SELECT id_config, userpseudo, config_rating, config_use_case, cpu_manufacturer, cpu_name, CONCAT(motherboard_brand, ' ', motherboard_model),
 CONCAT(aircooling_brand, ' ', aircooling_model), CONCAT(watercooling_brand, ' ', watercooling_model), CONCAT(ram_brand, ' ', ram_name), 
 ram_capacity, CONCAT(gpu_brand, ' ', gpu_name), CONCAT(case_brand, ' ', case_model), CONCAT(supply_brand, ' ', supply_model), 
 CONCAT(ssd_brand, ' ', ssd_model), ssd_capacity, CONCAT(hdd_brand, ' ', hdd_name), hdd_capacity
@@ -43,7 +43,7 @@ INNER JOIN t_userpseudo ON t_userpseudo.id_pseudo = t_user_has_userpseudo.fk_pse
 WHERE userpseudo = 'Cricko';"""
 
     with DBconnection() as db:
-        db.execute(strsql_genres_afficher)
+        db.execute(strsql_userrole_afficher)
         result = db.fetchall()
         print("data_genres ", result, " Type : ", type(result))
 

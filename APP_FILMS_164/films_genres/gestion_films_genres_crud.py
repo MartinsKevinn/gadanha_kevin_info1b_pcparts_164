@@ -93,8 +93,8 @@ def edit_genre_film_selected():
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_genres_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
-                mc_afficher.execute(strsql_genres_afficher)
+                strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
+                mc_afficher.execute(strsql_userrole_afficher)
             data_genres_all = mc_afficher.fetchall()
             print("dans edit_genre_film_selected ---> data_genres_all", data_genres_all)
 
