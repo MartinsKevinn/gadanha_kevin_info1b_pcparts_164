@@ -1,5 +1,5 @@
 """Gestion des formulaires avec WTF pour les films
-Fichier : gestion_films_wtf_forms.py
+Fichier : gestion_user_wtf_forms.py
 Auteur : OM 2022.04.11
 
 """
@@ -13,7 +13,7 @@ from wtforms.widgets import TextArea
 
 class FormWTFAddUser(FlaskForm):
     """
-        Dans le formulaire "genres_ajouter_wtf.html" on impose que le champ soit rempli.
+        Dans le formulaire "userrole_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
     nom_film_regexp = ""

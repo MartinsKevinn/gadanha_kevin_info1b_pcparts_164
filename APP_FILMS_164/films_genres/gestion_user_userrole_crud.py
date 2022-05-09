@@ -1,5 +1,5 @@
 """
-    Fichier : gestion_films_genres_crud.py
+    Fichier : gestion_user_userrole_crud.py
     Auteur : OM 2021.05.01
     Gestions des "routes" FLASK et des données pour l'association entre les films et les genres.
 """
@@ -156,7 +156,7 @@ def edit_userrole_user_selected():
                                                  f"{edit_userrole_user_selected.__name__} ; "
                                                  f"{Exception_edit_genre_film_selected}")
 
-    return render_template("films_genres/films_genres_modifier_tags_dropbox.html",
+    return render_template("films_genres/user_userrole_modifier_tags_dropbox.html",
                            data_genres=data_genres_all,
                            data_user_selected=data_userrole_user_selected,
                            data_genres_attribues=data_userrole_user_attribues,

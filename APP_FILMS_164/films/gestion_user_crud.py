@@ -1,5 +1,5 @@
 """Gestion des "routes" FLASK et des données pour les films.
-Fichier : gestion_films_crud.py
+Fichier : gestion_user_crud.py
 Auteur : OM 2022.04.11
 """
 from pathlib import Path
@@ -11,7 +11,7 @@ from flask import url_for
 
 from APP_FILMS_164.database.database_tools import DBconnection
 from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.films.gestion_films_wtf_forms import FormWTFUpdateUser, FormWTFAddUser, FormWTFDeleteUser
+from APP_FILMS_164.films.gestion_user_wtf_forms import FormWTFUpdateUser, FormWTFAddUser, FormWTFDeleteUser
 
 """Ajouter un film grâce au formulaire "user_add_wtf.html"
 Auteur : OM 2022.04.11
@@ -71,7 +71,7 @@ Test : exemple: cliquer sur le menu "Films/Genres" puis cliquer sur le bouton "E
 
 Paramètres : sans
 
-But : Editer(update) un genre qui a été sélectionné dans le formulaire "genres_afficher.html"
+But : Editer(update) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
 
 Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "films/films_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python.
@@ -89,7 +89,7 @@ def user_update_wtf():
     try:
         print(" on submit ", form_update_user.validate_on_submit())
         if form_update_user.validate_on_submit():
-            # Récupèrer la valeur du champ depuis "genre_update_wtf.html" après avoir cliqué sur "SUBMIT".
+            # Récupèrer la valeur du champ depuis "userrole_update_wtf.html" après avoir cliqué sur "SUBMIT".
             user_firstname_update = form_update_user.user_firstname_update_wtf.data
             user_lastname_update = form_update_user.user_lastname_update_wtf.data
             user_birthdate_update = form_update_user.user_birthdate_update_wtf.data

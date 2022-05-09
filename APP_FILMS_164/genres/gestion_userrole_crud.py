@@ -1,5 +1,5 @@
 """Gestion des "routes" FLASK et des données pour les genres.
-Fichier : gestion_genres_crud.py
+Fichier : gestion_userrole_crud.py
 Auteur : OM 2021.03.16
 """
 from pathlib import Path
@@ -12,9 +12,9 @@ from flask import url_for
 from APP_FILMS_164 import app
 from APP_FILMS_164.database.database_tools import DBconnection
 from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.genres.gestion_genres_wtf_forms import FormWTFAjouterGenres
-from APP_FILMS_164.genres.gestion_genres_wtf_forms import FormWTFDeleteUserrole
-from APP_FILMS_164.genres.gestion_genres_wtf_forms import FormWTFUpdateGenre
+from APP_FILMS_164.genres.gestion_userrole_wtf_forms import FormWTFAjouterGenres
+from APP_FILMS_164.genres.gestion_userrole_wtf_forms import FormWTFDeleteUserrole
+from APP_FILMS_164.genres.gestion_userrole_wtf_forms import FormWTFUpdateGenre
 
 """
     Auteur : OM 2021.03.16
@@ -68,11 +68,11 @@ def genres_afficher(order_by, id_genre_sel):
 
         except Exception as Exception_genres_afficher:
             raise ExceptionGenresAfficher(f"fichier : {Path(__file__).name}  ;  "
-                                          f"{genres_afficher.__name__} ; "
+                                          f"{userrole_afficher__name__} ; "
                                           f"{Exception_genres_afficher}")
 
     # Envoie la page "HTML" au serveur.
-    return render_template("genres/genres_afficher.html", data=data_genres)
+    return render_template("genres/userrole_afficher.html", data=data_genres)
 
 
 """
@@ -96,7 +96,7 @@ def genres_afficher(order_by, id_genre_sel):
 
 
 @app.route("/genres_ajouter", methods=['GET', 'POST'])
-def genres_ajouter_wtf():
+def userrole_ajouter_wtf():
     form = FormWTFAjouterGenres()
     if request.method == "POST":
         try:
@@ -118,10 +118,10 @@ def genres_ajouter_wtf():
 
         except Exception as Exception_userrole_ajouter_wtf:
             raise ExceptionUserroleAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
-                                            f"{genres_ajouter_wtf.__name__} ; "
+                                            f"{userrole_ajouter_wtf.__name__} ; "
                                             f"{Exception_userrole_ajouter_wtf}")
 
-    return render_template("genres/genres_ajouter_wtf.html", form=form)
+    return render_template("genres/userrole_ajouter_wtf.html", form=form)
 
 
 """
@@ -132,9 +132,9 @@ def genres_ajouter_wtf():
     
     Paramètres : sans
     
-    But : Editer(update) un genre qui a été sélectionné dans le formulaire "genres_afficher.html"
+    But : Editer(update) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
     
-    Remarque :  Dans le champ "nom_genre_update_wtf" du formulaire "genres/genre_update_wtf.html",
+    Remarque :  Dans le champ "nom_genre_update_wtf" du formulaire "genres/userrole_update_wtf.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -145,7 +145,7 @@ def genres_ajouter_wtf():
 
 
 @app.route("/genre_update", methods=['GET', 'POST'])
-def genre_update_wtf():
+def userrole_update_wtf():
     # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_genre"
     id_genre_update = request.values['id_genre_btn_edit_html']
 
@@ -154,7 +154,7 @@ def genre_update_wtf():
     try:
         print(" on submit ", form_update.validate_on_submit())
         if form_update.validate_on_submit():
-            # Récupèrer la valeur du champ depuis "genre_update_wtf.html" après avoir cliqué sur "SUBMIT".
+            # Récupèrer la valeur du champ depuis "userrole_update_wtf.html" après avoir cliqué sur "SUBMIT".
             # Puis la convertir en lettres minuscules.
             name_genre_update = form_update.nom_genre_update_wtf.data
             name_genre_update = name_genre_update.lower()
@@ -187,16 +187,16 @@ def genre_update_wtf():
             print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " genre ",
                   data_nom_genre["userrole"])
 
-            # Afficher la valeur sélectionnée dans les champs du formulaire "genre_update_wtf.html"
+            # Afficher la valeur sélectionnée dans les champs du formulaire "userrole_update_wtf.html"
             form_update.nom_genre_update_wtf.data = data_nom_genre["userrole"]
 
 
     except Exception as Exception_genre_update_wtf:
         raise ExceptionGenreUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
-                                      f"{genre_update_wtf.__name__} ; "
+                                      f"{userrole_update_wtf.__name__} ; "
                                       f"{Exception_genre_update_wtf}")
 
-    return render_template("genres/genre_update_wtf.html", form_update=form_update)
+    return render_template("genres/userrole_update_wtf.html", form_update=form_update)
 
 
 """
@@ -207,15 +207,15 @@ def genre_update_wtf():
     
     Paramètres : sans
     
-    But : Effacer(delete) un genre qui a été sélectionné dans le formulaire "genres_afficher.html"
+    But : Effacer(delete) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
     
-    Remarque :  Dans le champ "nom_userrole_delete_wtf" du formulaire "genres/genre_delete_wtf.html",
+    Remarque :  Dans le champ "nom_userrole_delete_wtf" du formulaire "genres/userrole_delete_wtf.html",
                 le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
 """
 
 
 @app.route("/genre_delete", methods=['GET', 'POST'])
-def genre_delete_wtf():
+def userrole_delete_wtf():
     data_user_attribue_userrole_delete = None
     btn_submit_del = None
     # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_genre"
@@ -232,7 +232,7 @@ def genre_delete_wtf():
 
             if form_delete_userrole.submit_btn_conf_del.data:
                 # Récupère les données afin d'afficher à nouveau
-                # le formulaire "genres/genre_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                # le formulaire "genres/userrole_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 data_user_attribue_userrole_delete = session['data_user_attribue_userrole_delete']
                 print("data_user_attribue_userrole_delete ", data_user_attribue_userrole_delete)
 
@@ -275,7 +275,7 @@ def genre_delete_wtf():
                 print("data_user_attribue_userrole_delete...", data_user_attribue_userrole_delete)
 
                 # Nécessaire pour mémoriser les données afin d'afficher à nouveau
-                # le formulaire "genres/genre_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                # le formulaire "genres/userrole_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 session['data_user_attribue_userrole_delete'] = data_user_attribue_userrole_delete
 
                 # Opération sur la BD pour récupérer "id_genre" et "userrole" de la "t_genre"
@@ -288,18 +288,18 @@ def genre_delete_wtf():
                 print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " genre ",
                       data_nom_genre["userrole"])
 
-            # Afficher la valeur sélectionnée dans le champ du formulaire "genre_delete_wtf.html"
+            # Afficher la valeur sélectionnée dans le champ du formulaire "userrole_delete_wtf.html"
             form_delete_userrole.nom_userrole_delete_wtf.data = data_nom_genre["userrole"]
 
-            # Le bouton pour l'action "DELETE" dans le form. "genre_delete_wtf.html" est caché.
+            # Le bouton pour l'action "DELETE" dans le form. "userrole_delete_wtf.html" est caché.
             btn_submit_del = False
 
     except Exception as Exception_userrole_delete_wtf:
         raise ExceptionGenreDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
-                                      f"{genre_delete_wtf.__name__} ; "
+                                      f"{userrole_delete_wtf.__name__} ; "
                                       f"{Exception_userrole_delete_wtf}")
 
-    return render_template("genres/genre_delete_wtf.html",
+    return render_template("genres/userrole_delete_wtf.html",
                            form_delete_userrole=form_delete_userrole,
                            btn_submit_del=btn_submit_del,
                            data_films_associes=data_user_attribue_userrole_delete)
