@@ -49,6 +49,6 @@ class FormWTFDeleteFilm(FlaskForm):
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_film".
     """
     nom_film_delete_wtf = StringField("Effacer cet utilisateur")
-    submit_btn_del_film = SubmitField("Effacer film")
+    submit_btn_del_film = SubmitField("Effacer utilisateur")
     submit_btn_conf_del_film = SubmitField("Etes-vous sur d'effacer ?")
     submit_btn_annuler = SubmitField("Annuler")

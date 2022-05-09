@@ -115,10 +115,10 @@ def film_update_wtf():
             return redirect(url_for('films_genres_afficher', id_film_sel=id_user_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer les données de la "t_user"
-            str_sql_id_film = "SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s"
+            str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s"
             valeur_select_dictionnaire = {"value_id_user": id_user_update}
             with DBconnection() as mybd_conn:
-                mybd_conn.execute(str_sql_id_film, valeur_select_dictionnaire)
+                mybd_conn.execute(str_sql_id_user, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
             data_film = mybd_conn.fetchone()
             print("data_film ", data_film, " type ", type(data_film), " genre ",
@@ -129,7 +129,7 @@ def film_update_wtf():
             form_update_user.user_lastname_update_wtf.data = data_film["user_lastname"]
             form_update_user.user_birthdate_update_wtf.data = data_film["user_birthdate"]
             # Debug simple pour contrôler la valeur dans la console "run" de PyCharm
-            print(f" duree film  ", data_film["user_lastname"], "  type ", type(data_film["user_lastname"]))
+            print(f" user lastname  ", data_film["user_lastname"], "  type ", type(data_film["user_lastname"]))
             form_update_user.user_birthdate_update_wtf.data = data_film["user_birthdate"]
 
     except Exception as Exception_film_update_wtf:
@@ -156,23 +156,23 @@ Remarque :  Dans le champ "nom_film_delete_wtf" du formulaire "films/film_delete
 @app.route("/film_delete", methods=['GET', 'POST'])
 def film_delete_wtf():
     # Pour afficher ou cacher les boutons "EFFACER"
-    data_film_delete = None
+    data_user_delete = None
     btn_submit_del = None
     # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_film"
-    id_film_delete = request.values['id_film_btn_delete_html']
+    id_user_delete = request.values['id_film_btn_delete_html']
 
     # Objet formulaire pour effacer le film sélectionné.
-    form_delete_film = FormWTFDeleteFilm()
+    form_delete_user = FormWTFDeleteFilm()
     try:
         # Si on clique sur "ANNULER", afficher tous les films.
-        if form_delete_film.submit_btn_annuler.data:
+        if form_delete_user.submit_btn_annuler.data:
             return redirect(url_for("films_genres_afficher", id_film_sel=0))
 
-        if form_delete_film.submit_btn_conf_del_film.data:
+        if form_delete_user.submit_btn_conf_del_film.data:
             # Récupère les données afin d'afficher à nouveau
             # le formulaire "films/film_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
-            data_film_delete = session['data_film_delete']
-            print("data_film_delete ", data_film_delete)
+            data_user_delete = session['data_user_delete']
+            print("data_user_delete ", data_user_delete)
 
             flash(f"Effacer l'utilisateur de façon définitive de la base de données !!", "danger")
             # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
@@ -180,17 +180,17 @@ def film_delete_wtf():
             btn_submit_del = True
 
         # L'utilisateur a vraiment décidé d'effacer.
-        if form_delete_film.submit_btn_del_film.data:
-            valeur_delete_dictionnaire = {"value_id_user": id_film_delete}
+        if form_delete_user.submit_btn_del_film.data:
+            valeur_delete_dictionnaire = {"value_id_user": id_user_delete}
             print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-            str_sql_delete_fk_film_genre = """DELETE FROM t_user_has_userrole WHERE fk_user = %(value_id_user)s"""
-            str_sql_delete_film = """DELETE FROM t_user WHERE id_user = %(value_id_user)s"""
+            str_sql_delete_fk_user_userrole = """DELETE FROM t_user_has_userrole WHERE fk_user = %(value_id_user)s"""
+            str_sql_delete_user = """DELETE FROM t_user WHERE id_user = %(value_id_user)s"""
             # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_genre_film"
             # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_delete_fk_film_genre, valeur_delete_dictionnaire)
-                mconn_bd.execute(str_sql_delete_film, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_fk_user_userrole, valeur_delete_dictionnaire)
+                mconn_bd.execute(str_sql_delete_user, valeur_delete_dictionnaire)
 
             flash(f"Film définitivement effacé !!", "success")
             print(f"Film définitivement effacé !!")
@@ -198,20 +198,20 @@ def film_delete_wtf():
             # afficher les données
             return redirect(url_for('films_genres_afficher', id_film_sel=0))
         if request.method == "GET":
-            valeur_select_dictionnaire = {"value_id_user": id_film_delete}
-            print(id_film_delete, type(id_film_delete))
+            valeur_select_dictionnaire = {"value_id_user": id_user_delete}
+            print(id_user_delete, type(id_user_delete))
 
             # Requête qui affiche le film qui doit être efffacé.
-            str_sql_genres_films_delete = """SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s"""
+            str_sql_user_userrole_delete = """SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s"""
 
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_genres_films_delete, valeur_select_dictionnaire)
-                data_film_delete = mydb_conn.fetchall()
-                print("data_film_delete...", data_film_delete)
+                mydb_conn.execute(str_sql_user_userrole_delete, valeur_select_dictionnaire)
+                data_user_delete = mydb_conn.fetchall()
+                print("data_user_delete...", data_user_delete)
 
                 # Nécessaire pour mémoriser les données afin d'afficher à nouveau
                 # le formulaire "films/film_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
-                session['data_film_delete'] = data_film_delete
+                session['data_user_delete'] = data_user_delete
 
             # Le bouton pour l'action "DELETE" dans le form. "film_delete_wtf.html" est caché.
             btn_submit_del = False
@@ -222,7 +222,7 @@ def film_delete_wtf():
                                      f"{Exception_film_delete_wtf}")
 
     return render_template("films/film_delete_wtf.html",
-                           form_delete_film=form_delete_film,
+                           form_delete_user=form_delete_user,
                            btn_submit_del=btn_submit_del,
-                           data_film_del=data_film_delete
+                           data_user_del=data_user_delete
                            )
