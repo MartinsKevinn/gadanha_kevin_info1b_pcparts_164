@@ -13,24 +13,24 @@ from APP_FILMS_164.database.database_tools import DBconnection
 from APP_FILMS_164.erreurs.exceptions import *
 from APP_FILMS_164.user.gestion_user_wtf_forms import FormWTFUpdateUser, FormWTFAddUser, FormWTFDeleteUser
 
-"""Ajouter un film grâce au formulaire "user_add_wtf.html"
+"""Ajouter un utilisateur grâce au formulaire "user_add_wtf.html"
 Auteur : OM 2022.04.11
-Définition d'une "route" /film_add
+Définition d'une "route" /user_add
 
-Test : exemple: cliquer sur le menu "Films/Genres" puis cliquer sur le bouton "ADD" d'un "film"
+Test : exemple: cliquer sur le menu "Utilisateurs/Roles" puis cliquer sur le bouton "ADD" d'un "utilisateur"
 
 Paramètres : sans
 
 
-Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "user/films_update_wtf.html",
+Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "user/user_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python dans le fichier ""
             On ne doit pas accepter un champ vide.
 """
 
 
-@app.route("/film_add", methods=['GET', 'POST'])
+@app.route("/user_add", methods=['GET', 'POST'])
 def user_add_wtf():
-    # Objet formulaire pour AJOUTER un film
+    # Objet formulaire pour AJOUTER un user
     form_add_user = FormWTFAddUser()
     if request.method == "POST":
         try:
@@ -63,11 +63,11 @@ def user_add_wtf():
     return render_template("user/user_add_wtf.html", form_add_user=form_add_user)
 
 
-"""Editer(update) un film qui a été sélectionné dans le formulaire "user_userrole_afficher.html"
+"""Editer(update) un utilisateur qui a été sélectionné dans le formulaire "user_userrole_afficher.html"
 Auteur : OM 2022.04.11
 Définition d'une "route" /film_update
 
-Test : exemple: cliquer sur le menu "Films/Genres" puis cliquer sur le bouton "EDIT" d'un "film"
+Test : exemple: cliquer sur le menu "Utilisateurs/Roles" puis cliquer sur le bouton "EDIT" d'un "utilisateur"
 
 Paramètres : sans
 
@@ -115,14 +115,19 @@ def user_update_wtf():
             return redirect(url_for('user_userrole_afficher', id_user_sel=id_user_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer les données de la "t_user"
+
+            # str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s, user_firstname = %(value_user_firstname)s, user_lastname = %(value_user_lastname)s, user_birthdate = %(value_user_birthdate)s"
+
+            # str_sql_id_user = "SELECT id_user FROM t_user WHERE id_user = %(value_id_user)s"
             str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s"
+
             valeur_select_dictionnaire = {"value_id_user": id_user_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_user, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
             data_user = mybd_conn.fetchone()
-            print("data_user ", data_user, " type ", type(data_user), " genre ",
-                  data_user["user_firstname"])
+            print("data_user ", data_user, " type ", type(data_user), " userrole ",
+                  data_user["id_user"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "user_update_wtf.html"
             form_update_user.user_firstname_update_wtf.data = data_user["user_firstname"]
@@ -142,9 +147,9 @@ def user_update_wtf():
 
 """Effacer(delete) un film qui a été sélectionné dans le formulaire "user_userrole_afficher.html"
 Auteur : OM 2022.04.11
-Définition d'une "route" /film_delete
+Définition d'une "route" /user_delete
     
-Test : ex. cliquer sur le menu "film" puis cliquer sur le bouton "DELETE" d'un "film"
+Test : ex. cliquer sur le menu "utilisateur" puis cliquer sur le bouton "DELETE" d'un "utilisateur"
     
 Paramètres : sans
 
@@ -158,10 +163,10 @@ def user_delete_wtf():
     # Pour afficher ou cacher les boutons "EFFACER"
     data_user_delete = None
     btn_submit_del = None
-    # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_film"
+    # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_user"
     id_user_delete = request.values['id_user_btn_delete_html']
 
-    # Objet formulaire pour effacer le film sélectionné.
+    # Objet formulaire pour effacer le user sélectionné.
     form_delete_user = FormWTFDeleteUser()
     try:
         # Si on clique sur "ANNULER", afficher tous les user.
@@ -176,7 +181,7 @@ def user_delete_wtf():
 
             flash(f"Effacer l'utilisateur de façon définitive de la base de données !!", "danger")
             # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
-            # On affiche le bouton "Effacer genre" qui va irrémédiablement EFFACER le genre
+            # On affiche le bouton "Effacer role" qui va irrémédiablement EFFACER le role
             btn_submit_del = True
 
         # L'utilisateur a vraiment décidé d'effacer.
@@ -186,8 +191,8 @@ def user_delete_wtf():
 
             str_sql_delete_fk_user_userrole = """DELETE FROM t_user_has_userrole WHERE fk_user = %(value_id_user)s"""
             str_sql_delete_user = """DELETE FROM t_user WHERE id_user = %(value_id_user)s"""
-            # Manière brutale d'effacer d'abord la "fk_film", même si elle n'existe pas dans la "t_genre_film"
-            # Ensuite on peut effacer le film vu qu'il n'est plus "lié" (INNODB) dans la "t_genre_film"
+            # Manière brutale d'effacer d'abord la "fk_user", même si elle n'existe pas dans la "t_userrole_user"
+            # Ensuite on peut effacer le user vu qu'il n'est plus "lié" (INNODB) dans la "t_userrole_user"
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_delete_fk_user_userrole, valeur_delete_dictionnaire)
                 mconn_bd.execute(str_sql_delete_user, valeur_delete_dictionnaire)
@@ -216,10 +221,10 @@ def user_delete_wtf():
             # Le bouton pour l'action "DELETE" dans le form. "user_delete_wtf.html" est caché.
             btn_submit_del = False
 
-    except Exception as Exception_film_delete_wtf:
+    except Exception as Exception_user_delete_wtf:
         raise ExceptionFilmDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
                                      f"{user_delete_wtf.__name__} ; "
-                                     f"{Exception_film_delete_wtf}")
+                                     f"{Exception_user_delete_wtf}")
 
     return render_template("user/user_delete_wtf.html",
                            form_delete_user=form_delete_user,

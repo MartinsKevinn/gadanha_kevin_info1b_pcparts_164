@@ -152,7 +152,7 @@ def edit_userrole_user_selected():
                   type(lst_data_userrole_user_non_attribues))
 
         except Exception as Exception_edit_userrole_user_selected:
-            raise ExceptionEditGenreFilmSelected(f"fichier : {Path(__file__).name}  ;  "
+            raise ExceptionEditUserroleUserSelected(f"fichier : {Path(__file__).name}  ;  "
                                                  f"{edit_userrole_user_selected.__name__} ; "
                                                  f"{Exception_edit_userrole_user_selected}")
 

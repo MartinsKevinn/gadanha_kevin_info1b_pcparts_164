@@ -83,7 +83,7 @@ class ExceptionUserroleAfficher(Base):
     pass
 
 
-class ExceptionGenreDeleteWtf(Base):
+class ExceptionUserroleDeleteWtf(Base):
     pass
 
 
@@ -99,7 +99,7 @@ class ExceptionUserUserroleAfficher(Base):
     pass
 
 
-class ExceptionEditGenreFilmSelected(Base):
+class ExceptionEditUserroleUserSelected(Base):
     pass
 
 

@@ -24,7 +24,7 @@ from APP_FILMS_164.userrole.gestion_userrole_wtf_forms import FormWTFUpdateUserr
     
     Paramètres : order_by : ASC : Ascendant, DESC : Descendant
                 id_userrole_sel = 0 >> tous les userrole.
-                id_userrole_sel = "n" affiche le genre dont l'id est "n"
+                id_userrole_sel = "n" affiche le role dont l'id est "n"
 """
 
 
@@ -101,14 +101,14 @@ def userrole_ajouter_wtf():
     if request.method == "POST":
         try:
             if form.validate_on_submit():
-                name_genre_wtf = form.nom_genre_wtf.data
-                name_genre = name_genre_wtf.lower()
-                valeurs_insertion_dictionnaire = {"value_intitule_genre": name_genre}
+                name_userrole_wtf = form.nom_userrole_wtf.data
+                name_genre = name_userrole_wtf.lower()
+                valeurs_insertion_dictionnaire = {"value_userrole": name_genre}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_genre = """INSERT INTO t_userrole (id_userrole,userrole) VALUES (NULL,%(value_intitule_genre)s) """
+                strsql_insert_userrole = """INSERT INTO t_userrole (id_userrole,userrole) VALUES (NULL,%(value_userrole)s) """
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(strsql_insert_genre, valeurs_insertion_dictionnaire)
+                    mconn_bd.execute(strsql_insert_userrole, valeurs_insertion_dictionnaire)
 
                 flash(f"Données insérées !!", "success")
                 print(f"Données insérées !!")
@@ -126,13 +126,13 @@ def userrole_ajouter_wtf():
 
 """
     Auteur : OM 2021.03.29
-    Définition d'une "route" /genre_update
+    Définition d'une "route" /userrole_update
     
-    Test : ex cliquer sur le menu "userrole" puis cliquer sur le bouton "EDIT" d'un "genre"
+    Test : ex cliquer sur le menu "userrole" puis cliquer sur le bouton "EDIT" d'un "userrole"
     
     Paramètres : sans
     
-    But : Editer(update) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
+    But : Editer(update) un role qui a été sélectionné dans le formulaire "userrole_afficher.html"
     
     Remarque :  Dans le champ "nom_userrole_update_wtf" du formulaire "userrole/userrole_update_wtf.html",
                 le contrôle de la saisie s'effectue ici en Python.
@@ -144,10 +144,10 @@ def userrole_ajouter_wtf():
 """
 
 
-@app.route("/genre_update", methods=['GET', 'POST'])
+@app.route("/userrole_update", methods=['GET', 'POST'])
 def userrole_update_wtf():
-    # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_genre"
-    id_userrole_update = request.values['id_genre_btn_edit_html']
+    # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_userrole"
+    id_userrole_update = request.values['id_userrole_btn_edit_html']
 
     # Objet formulaire pour l'UPDATE
     form_update = FormWTFUpdateUserrole()
@@ -164,10 +164,10 @@ def userrole_update_wtf():
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_intitulegenre = """UPDATE t_userrole SET userrole = %(value_name_userrole)s
+            str_sql_update_userrole = """UPDATE t_userrole SET userrole = %(value_name_userrole)s
                                                         WHERE id_userrole = %(value_id_userrole)s """
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_intitulegenre, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_userrole, valeur_update_dictionnaire)
 
             flash(f"Donnée mise à jour !!", "success")
             print(f"Donnée mise à jour !!")
@@ -176,15 +176,15 @@ def userrole_update_wtf():
             # Affiche seulement la valeur modifiée, "ASC" et l'"id_userrole_update"
             return redirect(url_for('userrole_afficher', order_by="ASC", id_userrole_sel=id_userrole_update))
         elif request.method == "GET":
-            # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
+            # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_userrole"
             str_sql_id_userrole = "SELECT id_userrole, userrole FROM t_userrole " \
                                "WHERE id_userrole = %(value_id_userrole)s"
             valeur_select_dictionnaire = {"value_id_userrole": id_userrole_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_userrole, valeur_select_dictionnaire)
-            # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
+            # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom role" pour l'UPDATE
             data_nom_userrole = mybd_conn.fetchone()
-            print("data_nom_userrole ", data_nom_userrole, " type ", type(data_nom_userrole), " genre ",
+            print("data_nom_userrole ", data_nom_userrole, " type ", type(data_nom_userrole), " userrole ",
                   data_nom_userrole["userrole"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "userrole_update_wtf.html"
@@ -238,7 +238,7 @@ def userrole_delete_wtf():
 
                 flash(f"Effacer le role de façon définitive de la BD !!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
-                # On affiche le bouton "Effacer genre" qui va irrémédiablement EFFACER le genre
+                # On affiche le bouton "Effacer role" qui va irrémédiablement EFFACER le role
                 btn_submit_del = True
 
             if form_delete_userrole.submit_btn_del.data:
@@ -248,7 +248,7 @@ def userrole_delete_wtf():
                 str_sql_delete_user_userrole = """DELETE FROM t_user_has_userrole WHERE fk_userrole = %(value_id_userrole)s"""
                 str_sql_delete_iduserrole = """DELETE FROM t_userrole WHERE id_userrole = %(value_id_userrole)s"""
                 # Manière brutale d'effacer d'abord la "fk_userrole", même si elle n'existe pas dans la "t_user_has_userrole"
-                # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_user_has_userrole"
+                # Ensuite on peut effacer le role vu qu'il n'est plus "lié" (INNODB) dans la "t_user_has_userrole"
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(str_sql_delete_user_userrole, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_iduserrole, valeur_delete_dictionnaire)
@@ -263,7 +263,7 @@ def userrole_delete_wtf():
             valeur_select_dictionnaire = {"value_id_userrole": id_userrole_delete}
             print(id_userrole_delete, type(id_userrole_delete))
 
-            # Requête qui affiche tous les user_userrole qui ont le genre que l'utilisateur veut effacer
+            # Requête qui affiche tous les user_userrole qui ont le role que l'utilisateur veut effacer
             str_sql_user_userrole_delete = """SELECT id_user, user_firstname, user_lastname, id_userrole, userrole FROM t_user_has_userrole
                                             LEFT JOIN t_user ON t_user_has_userrole.fk_user = t_user.id_user
                                             LEFT JOIN t_userrole ON t_user_has_userrole.fk_userrole = t_userrole.id_userrole
@@ -278,12 +278,12 @@ def userrole_delete_wtf():
                 # le formulaire "userrole/userrole_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 session['data_user_attribue_userrole_delete'] = data_user_attribue_userrole_delete
 
-                # Opération sur la BD pour récupérer "id_genre" et "userrole" de la "t_genre"
+                # Opération sur la BD pour récupérer "id_userrole" et "userrole" de la "t_userrole"
                 str_sql_id_userrole = "SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole = %(value_id_userrole)s"
 
                 mydb_conn.execute(str_sql_id_userrole, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
-                # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
+                # vu qu'il n'y a qu'un seul champ "nom userrole" pour l'action DELETE
                 data_nom_userrole = mydb_conn.fetchone()
                 print("data_nom_userrole ", data_nom_userrole, " type ", type(data_nom_userrole), " role ",
                       data_nom_userrole["userrole"])
@@ -295,7 +295,7 @@ def userrole_delete_wtf():
             btn_submit_del = False
 
     except Exception as Exception_userrole_delete_wtf:
-        raise ExceptionGenreDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
+        raise ExceptionUserroleDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
                                       f"{userrole_delete_wtf.__name__} ; "
                                       f"{Exception_userrole_delete_wtf}")
 
