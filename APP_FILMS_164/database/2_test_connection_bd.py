@@ -45,7 +45,7 @@ WHERE userpseudo = 'Cricko';"""
     with DBconnection() as db:
         db.execute(strsql_userrole_afficher)
         result = db.fetchall()
-        print("data_genres ", result, " Type : ", type(result))
+        print("data_userrole ", result, " Type : ", type(result))
 
 
 except Exception as erreur:

@@ -96,14 +96,14 @@
     <div class="row mx-md-n5">
       <div class="col px-md-5">
           <div class="p-3">
-            <form id="form_tags_select_confirm" action="{{ url_for('update_genre_film_selected') }}" method="POST">
+            <form id="form_tags_select_confirm" action="{{ url_for('update_userrole_user_selected') }}" method="POST">
                 <div class="qtagselect isw360">
                     <select id="OM_JTSD" name="name_select_tags" class="qtagselect__select" multiple>
-                        {% for row in data_genres_non_attribues %}
+                        {% for row in data_userrole_non_attribues %}
                             <option value="{{ row.id_userrole }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.userrole }}</option>
                         {% endfor %}
 
-                        {% for row in data_genres_attribues %}
+                        {% for row in data_userrole_attribues %}
                             <option value="{{ row.id_userrole }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.userrole }}</option>
                         {% endfor %}
                     </select>

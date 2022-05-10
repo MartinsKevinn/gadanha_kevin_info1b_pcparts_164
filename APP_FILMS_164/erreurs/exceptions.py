@@ -79,7 +79,7 @@ class DatabaseException(Base):
     pass
 
 
-class ExceptionGenresAfficher(Base):
+class ExceptionUserroleAfficher(Base):
     pass
 
 
@@ -87,7 +87,7 @@ class ExceptionGenreDeleteWtf(Base):
     pass
 
 
-class ExceptionGenreUpdateWtf(Base):
+class ExceptionUserroleUpdateWtf(Base):
     pass
 
 
@@ -95,7 +95,7 @@ class ExceptionUserroleAjouterWtf(Base):
     pass
 
 
-class ExceptionFilmsGenresAfficher(Base):
+class ExceptionUserUserroleAfficher(Base):
     pass
 
 
@@ -103,11 +103,11 @@ class ExceptionEditGenreFilmSelected(Base):
     pass
 
 
-class ExceptionUpdateGenreFilmSelected(Base):
+class ExceptionUpdateUserroleUserSelected(Base):
     pass
 
 
-class ExceptionGenresFilmsAfficherData(Base):
+class ExceptionUserroleUserAfficherData(Base):
     pass
 
 

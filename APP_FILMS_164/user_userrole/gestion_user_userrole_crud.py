@@ -18,10 +18,10 @@ from APP_FILMS_164.erreurs.exceptions import *
     Auteur : OM 2021.05.01
     Définition d'une "route" /user_userrole_afficher
     
-    But : Afficher les user avec les userrole associés pour chaque film.
+    But : Afficher les users avec les roles associés pour chaque user.
     
-    Paramètres : id_genre_sel = 0 >> tous les user.
-                 id_genre_sel = "n" affiche le film dont l'id est "n"
+    Paramètres : id_userrole_sel = 0 >> tous les users.
+                 id_userrole_sel = "n" affiche le user dont l'id est "n"
                  
 """
 
@@ -51,25 +51,25 @@ def user_userrole_afficher(id_user_sel):
                     mc_afficher.execute(strsql_userrole_user_afficher_data, valeur_id_user_selected_dictionnaire)
 
                 # Récupère les données de la requête.
-                data_genres_films_afficher = mc_afficher.fetchall()
-                print("data_genres ", data_genres_films_afficher, " Type : ", type(data_genres_films_afficher))
+                data_userrole_user_afficher = mc_afficher.fetchall()
+                print("data_userrole ", data_userrole_user_afficher, " Type : ", type(data_userrole_user_afficher))
 
                 # Différencier les messages.
-                if not data_genres_films_afficher and id_user_sel == 0:
+                if not data_userrole_user_afficher and id_user_sel == 0:
                     flash("""La table "t_user" est vide. !""", "warning")
-                elif not data_genres_films_afficher and id_user_sel > 0:
+                elif not data_userrole_user_afficher and id_user_sel > 0:
                     # Si l'utilisateur change l'id_user dans l'URL et qu'il ne correspond à aucun film
                     flash(f"L'utilisateur {id_user_sel} demandé n'existe pas !!", "warning")
                 else:
                     flash(f"Données utilisateurs et roles affichés !!", "success")
 
-        except Exception as Exception_films_genres_afficher:
-            raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {user_userrole_afficher.__name__} ;"
-                                               f"{Exception_films_genres_afficher}")
+        except Exception as Exception_user_userrole_afficher:
+            raise ExceptionUserUserroleAfficher(f"fichier : {Path(__file__).name}  ;  {user_userrole_afficher.__name__} ;"
+                                               f"{Exception_user_userrole_afficher}")
 
-    print("user_userrole_afficher  ", data_genres_films_afficher)
+    print("user_userrole_afficher  ", data_userrole_user_afficher)
     # Envoie la page "HTML" au serveur.
-    return render_template("user_userrole/user_userrole_afficher.html", data=data_genres_films_afficher)
+    return render_template("user_userrole/user_userrole_afficher.html", data=data_userrole_user_afficher)
 
 
 """
@@ -95,8 +95,8 @@ def edit_userrole_user_selected():
             with DBconnection() as mc_afficher:
                 strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
                 mc_afficher.execute(strsql_userrole_afficher)
-            data_genres_all = mc_afficher.fetchall()
-            print("dans edit_userrole_user_selected ---> data_genres_all", data_genres_all)
+            data_userrole_all = mc_afficher.fetchall()
+            print("dans edit_userrole_user_selected ---> data_userrole_all", data_userrole_all)
 
             # Récupère la valeur de "id_film" du formulaire html "user_userrole_afficher.html"
             # l'utilisateur clique sur le bouton "Modifier" et on récupère la valeur de "id_film"
@@ -134,10 +134,10 @@ def edit_userrole_user_selected():
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
             # les userrole qui sont déjà sélectionnés.
-            lst_data_genres_films_old_attribues = [item['id_userrole'] for item in data_userrole_user_attribues]
-            session['session_lst_data_genres_films_old_attribues'] = lst_data_genres_films_old_attribues
-            print("lst_data_genres_films_old_attribues  ", lst_data_genres_films_old_attribues,
-                  type(lst_data_genres_films_old_attribues))
+            lst_data_userrole_user_old_attribues = [item['id_userrole'] for item in data_userrole_user_attribues]
+            session['session_lst_data_userrole_user_old_attribues'] = lst_data_userrole_user_old_attribues
+            print("lst_data_userrole_user_old_attribues  ", lst_data_userrole_user_old_attribues,
+                  type(lst_data_userrole_user_old_attribues))
 
             print(" data data_userrole_user_selected", data_userrole_user_selected, "type ", type(data_userrole_user_selected))
             print(" data data_userrole_user_non_attribues ", data_userrole_user_non_attribues, "type ",
@@ -148,23 +148,23 @@ def edit_userrole_user_selected():
             # Extrait les valeurs contenues dans la table "t_genres", colonne "intitule_genre"
             # Le composant javascript "tagify" pour afficher les tags n'a pas besoin de l'id_genre
             lst_data_userrole_user_non_attribues = [item['userrole'] for item in data_userrole_user_non_attribues]
-            print("lst_all_genres gf_edit_genre_film_selected ", lst_data_userrole_user_non_attribues,
+            print("lst_all_userrole gf_edit_userrole_user_selected ", lst_data_userrole_user_non_attribues,
                   type(lst_data_userrole_user_non_attribues))
 
-        except Exception as Exception_edit_genre_film_selected:
+        except Exception as Exception_edit_userrole_user_selected:
             raise ExceptionEditGenreFilmSelected(f"fichier : {Path(__file__).name}  ;  "
                                                  f"{edit_userrole_user_selected.__name__} ; "
-                                                 f"{Exception_edit_genre_film_selected}")
+                                                 f"{Exception_edit_userrole_user_selected}")
 
     return render_template("user_userrole/user_userrole_modifier_tags_dropbox.html",
-                           data_genres=data_genres_all,
+                           data_userrole=data_userrole_all,
                            data_user_selected=data_userrole_user_selected,
-                           data_genres_attribues=data_userrole_user_attribues,
-                           data_genres_non_attribues=data_userrole_user_non_attribues)
+                           data_userrole_attribues=data_userrole_user_attribues,
+                           data_userrole_non_attribues=data_userrole_user_non_attribues)
 
 
 """
-    nom: update_genre_film_selected
+    nom: update_userrole_user_selected
 
     Récupère la liste de tous les userrole du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
     
@@ -177,12 +177,12 @@ def edit_userrole_user_selected():
 """
 
 
-@app.route("/update_genre_film_selected", methods=['GET', 'POST'])
-def update_genre_film_selected():
+@app.route("/update_userrole_user_selected", methods=['GET', 'POST'])
+def update_userrole_user_selected():
     if request.method == "POST":
         try:
-            # Récupère l'id du film sélectionné
-            id_film_selected = session['session_id_user_userrole_edit']
+            # Récupère l'id du user sélectionné
+            id_user_selected = session['session_id_user_userrole_edit']
             print("session['session_id_user_userrole_edit'] ", session['session_id_user_userrole_edit'])
 
             # Récupère la liste des userrole qui ne sont pas associés au film sélectionné.
@@ -190,76 +190,76 @@ def update_genre_film_selected():
             print("old_lst_data_userrole_user_non_attribues ", old_lst_data_userrole_user_non_attribues)
 
             # Récupère la liste des userrole qui sont associés au film sélectionné.
-            old_lst_data_userrole_user_attribues = session['session_lst_data_genres_films_old_attribues']
-            print("old_lst_data_genres_films_old_attribues ", old_lst_data_userrole_user_attribues)
+            old_lst_data_userrole_user_attribues = session['session_lst_data_userrole_user_old_attribues']
+            print("old_lst_data_userrole_user_old_attribues ", old_lst_data_userrole_user_attribues)
 
             # Effacer toutes les variables de session.
             session.clear()
 
             # Récupère ce que l'utilisateur veut modifier comme userrole dans le composant "tags-selector-tagselect"
             # dans le fichier "genres_films_modifier_tags_dropbox.html"
-            new_lst_str_genres_films = request.form.getlist('name_select_tags')
-            print("new_lst_str_genres_films ", new_lst_str_genres_films)
+            new_lst_str_userrole_user = request.form.getlist('name_select_tags')
+            print("new_lst_str_userrole_user ", new_lst_str_userrole_user)
 
             # OM 2021.05.02 Exemple : Dans "name_select_tags" il y a ['4','65','2']
             # On transforme en une liste de valeurs numériques. [4,65,2]
-            new_lst_int_genre_film_old = list(map(int, new_lst_str_genres_films))
-            print("new_lst_genre_film ", new_lst_int_genre_film_old, "type new_lst_genre_film ",
-                  type(new_lst_int_genre_film_old))
+            new_lst_int_userrole_user_old = list(map(int, new_lst_str_userrole_user))
+            print("new_lst_userrole_user ", new_lst_int_userrole_user_old, "type new_lst_userrole_user ",
+                  type(new_lst_int_userrole_user_old))
 
             # Pour apprécier la facilité de la vie en Python... "les ensembles en Python"
             # https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles
             # OM 2021.05.02 Une liste de "id_userrole" qui doivent être effacés de la table intermédiaire "t_genre_film".
-            lst_diff_genres_delete_b = list(set(old_lst_data_userrole_user_attribues) -
-                                            set(new_lst_int_genre_film_old))
-            print("lst_diff_genres_delete_b ", lst_diff_genres_delete_b)
+            lst_diff_userrole_delete_b = list(set(old_lst_data_userrole_user_attribues) -
+                                            set(new_lst_int_userrole_user_old))
+            print("lst_diff_userrole_delete_b ", lst_diff_userrole_delete_b)
 
             # Une liste de "id_userrole" qui doivent être ajoutés à la "t_genre_film"
-            lst_diff_genres_insert_a = list(
-                set(new_lst_int_genre_film_old) - set(old_lst_data_userrole_user_attribues))
-            print("lst_diff_genres_insert_a ", lst_diff_genres_insert_a)
+            lst_diff_userrole_insert_a = list(
+                set(new_lst_int_userrole_user_old) - set(old_lst_data_userrole_user_attribues))
+            print("lst_diff_userrole_insert_a ", lst_diff_userrole_insert_a)
 
             # SQL pour insérer une nouvelle association entre
             # "fk_user"/"id_user" et "fk_userrole"/"id_userrole" dans la "t_user_has_userrole"
-            strsql_insert_genre_film = """INSERT INTO t_user_has_userrole (id_user_has_userrole, fk_userrole, fk_user)
-                                                    VALUES (NULL, %(value_fk_genre)s, %(value_fk_film)s)"""
+            strsql_insert_userrole_user = """INSERT INTO t_user_has_userrole (id_user_has_userrole, fk_userrole, fk_user)
+                                                    VALUES (NULL, %(value_fk_userrole)s, %(value_fk_user)s)"""
 
             # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_userrole" dans la "t_genre_film"
-            strsql_delete_genre_film = """DELETE FROM t_user_has_userrole WHERE fk_userrole = %(value_fk_genre)s AND fk_user = %(value_fk_film)s"""
+            strsql_delete_userrole_user = """DELETE FROM t_user_has_userrole WHERE fk_userrole = %(value_fk_userrole)s AND fk_user = %(value_fk_user)s"""
 
             with DBconnection() as mconn_bd:
-                # Pour le film sélectionné, parcourir la liste des userrole à INSÉRER dans la "t_genre_film".
+                # Pour le user sélectionné, parcourir la liste des userrole à INSÉRER dans la "t_genre_film".
                 # Si la liste est vide, la boucle n'est pas parcourue.
-                for id_genre_ins in lst_diff_genres_insert_a:
+                for id_userrole_ins in lst_diff_userrole_insert_a:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    # et "id_genre_ins" (l'id du genre dans la liste) associé à une variable.
-                    valeurs_film_sel_genre_sel_dictionnaire = {"value_fk_film": id_film_selected,
-                                                               "value_fk_genre": id_genre_ins}
+                    # et "id_userrole_ins" (l'id du role dans la liste) associé à une variable.
+                    valeurs_user_sel_userrole_sel_dictionnaire = {"value_fk_user": id_user_selected,
+                                                               "value_fk_userrole": id_userrole_ins}
 
-                    mconn_bd.execute(strsql_insert_genre_film, valeurs_film_sel_genre_sel_dictionnaire)
+                    mconn_bd.execute(strsql_insert_userrole_user, valeurs_user_sel_userrole_sel_dictionnaire)
 
                 # Pour le film sélectionné, parcourir la liste des userrole à EFFACER dans la "t_genre_film".
                 # Si la liste est vide, la boucle n'est pas parcourue.
-                for id_genre_del in lst_diff_genres_delete_b:
+                for id_userrole_del in lst_diff_userrole_delete_b:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    # et "id_genre_del" (l'id du genre dans la liste) associé à une variable.
-                    valeurs_film_sel_genre_sel_dictionnaire = {"value_fk_film": id_film_selected,
-                                                               "value_fk_genre": id_genre_del}
+                    # et "id_userrole_del" (l'id du genre dans la liste) associé à une variable.
+                    valeurs_user_sel_userrole_sel_dictionnaire = {"value_fk_user": id_user_selected,
+                                                               "value_fk_userrole": id_userrole_del}
 
                     # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
                     # la subtilité consiste à avoir une méthode "execute" dans la classe "DBconnection"
                     # ainsi quand elle aura terminé l'insertion des données le destructeur de la classe "DBconnection"
                     # sera interprété, ainsi on fera automatiquement un commit
-                    mconn_bd.execute(strsql_delete_genre_film, valeurs_film_sel_genre_sel_dictionnaire)
+                    mconn_bd.execute(strsql_delete_userrole_user, valeurs_user_sel_userrole_sel_dictionnaire)
 
-        except Exception as Exception_update_genre_film_selected:
-            raise ExceptionUpdateGenreFilmSelected(f"fichier : {Path(__file__).name}  ;  "
-                                                   f"{update_genre_film_selected.__name__} ; "
-                                                   f"{Exception_update_genre_film_selected}")
+        except Exception as Exception_update_userrole_user_selected:
+            raise ExceptionUpdateUserroleUserSelected(f"fichier : {Path(__file__).name}  ;  "
+                                                   f"{update_userrole_user_selected.__name__} ; "
+                                                   f"{Exception_update_userrole_user_selected}")
 
     # Après cette mise à jour de la table intermédiaire "t_genre_film",
     # on affiche les users et le(urs) role(s) associé(s).
-    return redirect(url_for('user_userrole_afficher', id_user_sel=id_film_selected))
+    return redirect(url_for('user_userrole_afficher', id_user_sel=id_user_selected))
 
 
 """
@@ -281,7 +281,7 @@ def userrole_user_afficher_data(valeur_id_user_selected_dict):
                                         LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                         WHERE id_user = %(value_id_user_selected)s"""
 
-        strsql_genres_films_non_attribues = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole not in(SELECT id_userrole as idGenresFilms FROM t_user_has_userrole
+        strsql_userrole_user_non_attribues = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole not in(SELECT id_userrole as idGenresFilms FROM t_user_has_userrole
                                                     INNER JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
                                                     INNER JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                                     WHERE id_user = %(value_id_user_selected)s)"""
@@ -294,7 +294,7 @@ def userrole_user_afficher_data(valeur_id_user_selected_dict):
         # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
         with DBconnection() as mc_afficher:
             # Envoi de la commande MySql
-            mc_afficher.execute(strsql_genres_films_non_attribues, valeur_id_user_selected_dict)
+            mc_afficher.execute(strsql_userrole_user_non_attribues, valeur_id_user_selected_dict)
             # Récupère les données de la requête.
             data_userrole_user_non_attribues = mc_afficher.fetchall()
             # Affichage dans la console
@@ -321,6 +321,6 @@ def userrole_user_afficher_data(valeur_id_user_selected_dict):
             return data_user_selected, data_userrole_user_non_attribues, data_userrole_user_attribues
 
     except Exception as Exception_userrole_user_afficher_data:
-        raise ExceptionGenresFilmsAfficherData(f"fichier : {Path(__file__).name}  ;  "
+        raise ExceptionUserroleUserAfficherData(f"fichier : {Path(__file__).name}  ;  "
                                                f"{userrole_user_afficher_data.__name__} ; "
                                                f"{Exception_userrole_user_afficher_data}")

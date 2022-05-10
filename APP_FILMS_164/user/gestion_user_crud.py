@@ -53,7 +53,7 @@ def user_add_wtf():
                 print(f"Données insérées !!")
 
                 # Pour afficher et constater l'insertion du nouveau film (id_user_sel=0 => afficher tous les user)
-                return redirect(url_for('films_genre_afficher', id_user_sel=0))
+                return redirect(url_for('user_userrole_afficher', id_user_sel=0))
 
         except Exception as Exception_userrole_ajouter_wtf:
             raise ExceptionUserroleAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
@@ -79,10 +79,10 @@ Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "user/films_
 """
 
 
-@app.route("/film_update", methods=['GET', 'POST'])
+@app.route("/user_update", methods=['GET', 'POST'])
 def user_update_wtf():
-    # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_film"
-    id_user_update = request.values['id_film_btn_edit_html']
+    # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_user"
+    id_user_update = request.values['id_user_btn_edit_html']
 
     # Objet formulaire pour l'UPDATE
     form_update_user = FormWTFUpdateUser()
@@ -168,7 +168,7 @@ def user_delete_wtf():
         if form_delete_user.submit_btn_annuler.data:
             return redirect(url_for("user_userrole_afficher", id_user_sel=0))
 
-        if form_delete_user.submit_btn_conf_del_film.data:
+        if form_delete_user.submit_btn_conf_del_user.data:
             # Récupère les données afin d'afficher à nouveau
             # le formulaire "user/user_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
             data_user_delete = session['data_user_delete']

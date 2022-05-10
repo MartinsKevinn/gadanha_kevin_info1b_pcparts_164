@@ -18,61 +18,61 @@ from APP_FILMS_164.userrole.gestion_userrole_wtf_forms import FormWTFUpdateUserr
 
 """
     Auteur : OM 2021.03.16
-    Définition d'une "route" /genres_afficher
+    Définition d'une "route" /userrole_afficher
     
-    Test : ex : http://127.0.0.1:5005/genres_afficher
+    Test : ex : http://127.0.0.1:5005/userrole_afficher
     
     Paramètres : order_by : ASC : Ascendant, DESC : Descendant
-                id_genre_sel = 0 >> tous les userrole.
-                id_genre_sel = "n" affiche le genre dont l'id est "n"
+                id_userrole_sel = 0 >> tous les userrole.
+                id_userrole_sel = "n" affiche le genre dont l'id est "n"
 """
 
 
-@app.route("/genres_afficher/<string:order_by>/<int:id_genre_sel>", methods=['GET', 'POST'])
-def genres_afficher(order_by, id_genre_sel):
+@app.route("/userrole_afficher/<string:order_by>/<int:id_userrole_sel>", methods=['GET', 'POST'])
+def userrole_afficher(order_by, id_userrole_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                if order_by == "ASC" and id_genre_sel == 0:
+                if order_by == "ASC" and id_userrole_sel == 0:
                     strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
                     mc_afficher.execute(strsql_userrole_afficher)
                 elif order_by == "ASC":
                     # C'EST LA QUE VOUS ALLEZ DEVOIR PLACER VOTRE PROPRE LOGIQUE MySql
-                    # la commande MySql classique est "SELECT * FROM t_genre"
+                    # la commande MySql classique est "SELECT * FROM t_userrole"
                     # Pour "lever"(raise) une erreur s'il y a des erreurs sur les noms d'attributs dans la table
                     # donc, je précise les champs à afficher
                     # Constitution d'un dictionnaire pour associer l'id du genre sélectionné avec un nom de variable
-                    valeur_id_genre_selected_dictionnaire = {"value_id_userrole_selected": id_genre_sel}
+                    valeur_id_userrole_selected_dictionnaire = {"value_id_userrole_selected": id_userrole_sel}
                     strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole = %(value_id_userrole_selected)s"""
 
-                    mc_afficher.execute(strsql_userrole_afficher, valeur_id_genre_selected_dictionnaire)
+                    mc_afficher.execute(strsql_userrole_afficher, valeur_id_userrole_selected_dictionnaire)
                 else:
                     strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole DESC"""
 
                     mc_afficher.execute(strsql_userrole_afficher)
 
-                data_genres = mc_afficher.fetchall()
+                data_userrole = mc_afficher.fetchall()
 
-                print("data_genres ", data_genres, " Type : ", type(data_genres))
+                print("data_userrole ", data_userrole, " Type : ", type(data_userrole))
 
                 # Différencier les messages si la table est vide.
-                if not data_genres and id_genre_sel == 0:
+                if not data_userrole and id_userrole_sel == 0:
                     flash("""La table "t_role" est vide. !!""", "warning")
-                elif not data_genres and id_genre_sel > 0:
+                elif not data_userrole and id_userrole_sel > 0:
                     # Si l'utilisateur change l'id_userrole dans l'URL et que le genre n'existe pas,
-                    flash(f"Le genre demandé n'existe pas !!", "warning")
+                    flash(f"Le role demandé n'existe pas !!", "warning")
                 else:
                     # Dans tous les autres cas, c'est que la table "t_genre" est vide.
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
-                    flash(f"Données userrole affichés !!", "success")
+                    flash(f"Données roles affichés !!", "success")
 
-        except Exception as Exception_genres_afficher:
-            raise ExceptionGenresAfficher(f"fichier : {Path(__file__).name}  ;  "
+        except Exception as Exception_userrole_afficher:
+            raise ExceptionUserroleAfficher(f"fichier : {Path(__file__).name}  ;  "
                                           f"{userrole_afficher__name__} ; "
-                                          f"{Exception_genres_afficher}")
+                                          f"{Exception_userrole_afficher}")
 
     # Envoie la page "HTML" au serveur.
-    return render_template("userrole/userrole_afficher.html", data=data_genres)
+    return render_template("userrole/userrole_afficher.html", data=data_userrole)
 
 
 """
@@ -83,9 +83,9 @@ def genres_afficher(order_by, id_genre_sel):
     
     Paramètres : sans
     
-    But : Ajouter un genre pour un film
+    But : Ajouter un role pour un utilisateur
     
-    Remarque :  Dans le champ "name_genre_html" du formulaire "userrole/genres_ajouter.html",
+    Remarque :  Dans le champ "name_genre_html" du formulaire "userrole/userrole_ajouter.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -95,7 +95,7 @@ def genres_afficher(order_by, id_genre_sel):
 """
 
 
-@app.route("/genres_ajouter", methods=['GET', 'POST'])
+@app.route("/userrole_ajouter", methods=['GET', 'POST'])
 def userrole_ajouter_wtf():
     form = FormWTFAjouterUserrole()
     if request.method == "POST":
@@ -114,7 +114,7 @@ def userrole_ajouter_wtf():
                 print(f"Données insérées !!")
 
                 # Pour afficher et constater l'insertion de la valeur, on affiche en ordre inverse. (DESC)
-                return redirect(url_for('genres_afficher', order_by='DESC', id_genre_sel=0))
+                return redirect(url_for('userrole_afficher', order_by='DESC', id_userrole_sel=0))
 
         except Exception as Exception_userrole_ajouter_wtf:
             raise ExceptionUserroleAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
@@ -134,7 +134,7 @@ def userrole_ajouter_wtf():
     
     But : Editer(update) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
     
-    Remarque :  Dans le champ "nom_genre_update_wtf" du formulaire "userrole/userrole_update_wtf.html",
+    Remarque :  Dans le champ "nom_userrole_update_wtf" du formulaire "userrole/userrole_update_wtf.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -147,7 +147,7 @@ def userrole_ajouter_wtf():
 @app.route("/genre_update", methods=['GET', 'POST'])
 def userrole_update_wtf():
     # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_genre"
-    id_genre_update = request.values['id_genre_btn_edit_html']
+    id_userrole_update = request.values['id_genre_btn_edit_html']
 
     # Objet formulaire pour l'UPDATE
     form_update = FormWTFUpdateUserrole()
@@ -156,15 +156,15 @@ def userrole_update_wtf():
         if form_update.validate_on_submit():
             # Récupèrer la valeur du champ depuis "userrole_update_wtf.html" après avoir cliqué sur "SUBMIT".
             # Puis la convertir en lettres minuscules.
-            name_genre_update = form_update.nom_genre_update_wtf.data
-            name_genre_update = name_genre_update.lower()
+            name_userrole_update = form_update.nom_userrole_update_wtf.data
+            name_userrole_update = name_userrole_update.lower()
 
-            valeur_update_dictionnaire = {"value_id_userrole": id_genre_update,
-                                          "value_name_genre": name_genre_update
+            valeur_update_dictionnaire = {"value_id_userrole": id_userrole_update,
+                                          "value_name_userrole": name_userrole_update
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_intitulegenre = """UPDATE t_userrole SET userrole = %(value_name_genre)s
+            str_sql_update_intitulegenre = """UPDATE t_userrole SET userrole = %(value_name_userrole)s
                                                         WHERE id_userrole = %(value_id_userrole)s """
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_intitulegenre, valeur_update_dictionnaire)
@@ -173,62 +173,62 @@ def userrole_update_wtf():
             print(f"Donnée mise à jour !!")
 
             # afficher et constater que la donnée est mise à jour.
-            # Affiche seulement la valeur modifiée, "ASC" et l'"id_genre_update"
-            return redirect(url_for('genres_afficher', order_by="ASC", id_genre_sel=id_genre_update))
+            # Affiche seulement la valeur modifiée, "ASC" et l'"id_userrole_update"
+            return redirect(url_for('userrole_afficher', order_by="ASC", id_userrole_sel=id_userrole_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_genre"
             str_sql_id_userrole = "SELECT id_userrole, userrole FROM t_userrole " \
                                "WHERE id_userrole = %(value_id_userrole)s"
-            valeur_select_dictionnaire = {"value_id_userrole": id_genre_update}
+            valeur_select_dictionnaire = {"value_id_userrole": id_userrole_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_userrole, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
-            data_nom_genre = mybd_conn.fetchone()
-            print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " genre ",
-                  data_nom_genre["userrole"])
+            data_nom_userrole = mybd_conn.fetchone()
+            print("data_nom_userrole ", data_nom_userrole, " type ", type(data_nom_userrole), " genre ",
+                  data_nom_userrole["userrole"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "userrole_update_wtf.html"
-            form_update.nom_genre_update_wtf.data = data_nom_genre["userrole"]
+            form_update.nom_userrole_update_wtf.data = data_nom_userrole["userrole"]
 
 
-    except Exception as Exception_genre_update_wtf:
-        raise ExceptionGenreUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
+    except Exception as Exception_userrole_update_wtf:
+        raise ExceptionUserroleUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                       f"{userrole_update_wtf.__name__} ; "
-                                      f"{Exception_genre_update_wtf}")
+                                      f"{Exception_userrole_update_wtf}")
 
     return render_template("userrole/userrole_update_wtf.html", form_update=form_update)
 
 
 """
     Auteur : OM 2021.04.08
-    Définition d'une "route" /genre_delete
+    Définition d'une "route" /userrole_delete
     
-    Test : ex. cliquer sur le menu "userrole" puis cliquer sur le bouton "DELETE" d'un "genre"
+    Test : ex. cliquer sur le menu "userrole" puis cliquer sur le bouton "DELETE" d'un "role"
     
     Paramètres : sans
     
-    But : Effacer(delete) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
+    But : Effacer(delete) un role qui a été sélectionné dans le formulaire "userrole_afficher.html"
     
     Remarque :  Dans le champ "nom_userrole_delete_wtf" du formulaire "userrole/userrole_delete_wtf.html",
                 le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
 """
 
 
-@app.route("/genre_delete", methods=['GET', 'POST'])
+@app.route("/userrole_delete", methods=['GET', 'POST'])
 def userrole_delete_wtf():
     data_user_attribue_userrole_delete = None
     btn_submit_del = None
-    # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_genre"
-    id_userrole_delete = request.values['id_genre_btn_delete_html']
+    # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_userrole"
+    id_userrole_delete = request.values['id_userrole_btn_delete_html']
 
-    # Objet formulaire pour effacer le genre sélectionné.
+    # Objet formulaire pour effacer le role sélectionné.
     form_delete_userrole = FormWTFDeleteUserrole()
     try:
         print(" on submit ", form_delete_userrole.validate_on_submit())
         if request.method == "POST" and form_delete_userrole.validate_on_submit():
 
             if form_delete_userrole.submit_btn_annuler.data:
-                return redirect(url_for("genres_afficher", order_by="DESC", id_genre_sel=0))
+                return redirect(url_for("userrole_afficher", order_by="DESC", id_userrole_sel=0))
 
             if form_delete_userrole.submit_btn_conf_del.data:
                 # Récupère les données afin d'afficher à nouveau
@@ -257,7 +257,7 @@ def userrole_delete_wtf():
                 print(f"Role définitivement effacé !!")
 
                 # afficher les données
-                return redirect(url_for('genres_afficher', order_by="ASC", id_genre_sel=0))
+                return redirect(url_for('userrole_afficher', order_by="ASC", id_userrole_sel=0))
 
         if request.method == "GET":
             valeur_select_dictionnaire = {"value_id_userrole": id_userrole_delete}
@@ -284,12 +284,12 @@ def userrole_delete_wtf():
                 mydb_conn.execute(str_sql_id_userrole, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
                 # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
-                data_nom_genre = mydb_conn.fetchone()
-                print("data_nom_genre ", data_nom_genre, " type ", type(data_nom_genre), " genre ",
-                      data_nom_genre["userrole"])
+                data_nom_userrole = mydb_conn.fetchone()
+                print("data_nom_userrole ", data_nom_userrole, " type ", type(data_nom_userrole), " role ",
+                      data_nom_userrole["userrole"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "userrole_delete_wtf.html"
-            form_delete_userrole.nom_userrole_delete_wtf.data = data_nom_genre["userrole"]
+            form_delete_userrole.nom_userrole_delete_wtf.data = data_nom_userrole["userrole"]
 
             # Le bouton pour l'action "DELETE" dans le form. "userrole_delete_wtf.html" est caché.
             btn_submit_del = False
@@ -302,4 +302,4 @@ def userrole_delete_wtf():
     return render_template("userrole/userrole_delete_wtf.html",
                            form_delete_userrole=form_delete_userrole,
                            btn_submit_del=btn_submit_del,
-                           data_films_associes=data_user_attribue_userrole_delete)
+                           data_user_associes=data_user_attribue_userrole_delete)

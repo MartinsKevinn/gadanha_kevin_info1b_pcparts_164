@@ -56,7 +56,7 @@
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
 				{{ form_delete_user.hidden_tag() }}
-				{{ form_delete_user.submit_btn_conf_del_film(class="btn btn-info") }}
+				{{ form_delete_user.submit_btn_conf_del_user(class="btn btn-info") }}
 
 				{% if btn_submit_del %}
 					{{ form_delete_user.submit_btn_del_user(class="btn btn-danger") }}

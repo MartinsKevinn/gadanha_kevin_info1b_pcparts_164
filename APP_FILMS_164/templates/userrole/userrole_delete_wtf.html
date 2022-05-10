@@ -11,12 +11,12 @@
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
 				{{ form_delete_userrole.hidden_tag() }}
 				<table class="table table-bordered table-sm">
-					{% if data_films_associes %}
+					{% if data_user_associes %}
 						<h3>Ce role est associé avec le(s) utilisateur(s) suivant(s) :</h3>
 					{% else %}
 						<h3>Ce role à effacer n'est associé à aucun utilisateur.</h3>
 					{% endif %}
-					{% if data_films_associes %}
+					{% if data_user_associes %}
 						<thead>
 							<tr>
 								<th>
@@ -25,9 +25,15 @@
 								<th>
 									Role
 								</th>
+								<th>
+									User ID
+								</th>
+								<th>
+									User
+								</th>
 							</tr>
 						</thead>
-						{% for row in data_films_associes %}
+						{% for row in data_user_associes %}
 							<tbody>
 								<tr>
 									<td>
@@ -35,6 +41,12 @@
 									</td>
 									<td>
 										{{ row.userrole }}
+									</td>
+									<td>
+										{{ row.id_user }}
+									</td>
+									<td>
+										{{ row.user_firstname }}
 									</td>
 								</tr>
 							</tbody>

@@ -110,10 +110,10 @@ Le "début de la fin"
 	* Modifier "MA" requête par votre requête
     * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)	  
 	  
-A) Modifier MES requêtes AFFICHER (READ) du CRUD(Create Read Update Delete) sur la table "t_genre"
-  *	Ouvrir le fichier "genres/gestion_userrole_crud.py"
+A) Modifier MES requêtes AFFICHER (READ) du CRUD(Create Read Update Delete) sur la table "t_userrole"
+  *	Ouvrir le fichier "userrole/gestion_userrole_crud.py"
   * Modifier les requêtes "SELECT" sur la table "t_genre" par des "SELECT" sur une de vos "t_????"
-  * Modifier dans le répertoire "TEMPLATES" la page html consacrée à l'affichage pour ma "t_genre", il faut ouvrir "templates/userrole_afficher.html"
+  * Modifier dans le répertoire "TEMPLATES" la page html consacrée à l'affichage pour ma "t_userrole", il faut ouvrir "templates/userrole_afficher.html"
   * Vous devez vous aider de "CTRL-R"(scope : fichier) ou "CTRL-SHIFT-R"(scope : tout le projet)
   * utiliser la commande "magique" de "PyCharm" comparer deux fichiers "CTRL-D" (menu "View"-->"Compare With...") entre le fichier de mon projet qui fonctionne et le votre qui est presque fonctionnel.
 
@@ -123,11 +123,11 @@ B) Une fois que l'affichage est fonctionnel et uniquement dans ce cas :
 
 C) Faites souvent des "COMMITS" et des "PUSH" sur votre "GITHUB" (VOTRENOM_VOTREPRENOM_VOTRECLASSE_VOTRESUJET_164_V3TABLES)
 
-D) Recommencer les étapes A) à C) pour l'action "CREATE" pour la table "t_genre"
+D) Recommencer les étapes A) à C) pour l'action "CREATE" pour la table "t_userrole"
 
-E) Recommencer les étapes A) à C) pour l'action "UPDATE" pour la table "t_genre"
+E) Recommencer les étapes A) à C) pour l'action "UPDATE" pour la table "t_userrole"
 
-F) Recommencer les étapes A) à C) pour l'action "DELETE" pour la table "t_genre"
+F) Recommencer les étapes A) à C) pour l'action "DELETE" pour la table "t_userrole"
 
 G) Passez à une autre table (MAIS PAS UNE TABLE INTERMÉDIAIRE) de votre BD
 

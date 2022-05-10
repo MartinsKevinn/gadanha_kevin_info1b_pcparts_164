@@ -17,9 +17,9 @@ class FormWTFAddUser(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
     nom_film_regexp = ""
-    user_firstname_add_wtf = StringField("user_firstname", widget=TextArea())
-    user_lastname_add_wtf = StringField("user_lastname", widget=TextArea())
-    user_birthdate_add_wtf = DateField("user_birthdate", validators=[InputRequired("Date obligatoire"),
+    user_firstname_add_wtf = StringField("Firstname", widget=TextArea())
+    user_lastname_add_wtf = StringField("Lastname", widget=TextArea())
+    user_birthdate_add_wtf = DateField("Birthdate", validators=[InputRequired("Date obligatoire"),
                                                                   DataRequired("Date non valide")])
 
     submit = SubmitField("Enregistrer utilisateur")
@@ -50,5 +50,5 @@ class FormWTFDeleteUser(FlaskForm):
     """
     nom_film_delete_wtf = StringField("Effacer cet utilisateur")
     submit_btn_del_user = SubmitField("Effacer utilisateur")
-    submit_btn_conf_del_film = SubmitField("Etes-vous sur d'effacer ?")
+    submit_btn_conf_del_user = SubmitField("Etes-vous sur d'effacer ?")
     submit_btn_annuler = SubmitField("Annuler")

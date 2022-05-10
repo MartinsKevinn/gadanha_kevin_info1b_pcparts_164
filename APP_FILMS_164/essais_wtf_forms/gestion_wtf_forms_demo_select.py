@@ -18,7 +18,7 @@ from APP_FILMS_164.essais_wtf_forms.wtf_forms_demo_select import DemoFormSelectW
 
 """
     Auteur : OM 2021.04.08
-    Définition d'une "route" /genre_delete
+    Définition d'une "route" /userrole_delete
     
     Test : ex. cliquer sur le menu "userrole" puis cliquer sur le bouton "DELETE" d'un "genre"
     
@@ -50,8 +50,8 @@ def demo_select_wtf():
                 strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole ORDER BY id_userrole ASC"""
                 mc_afficher.execute(strsql_userrole_afficher)
 
-            data_genres = mc_afficher.fetchall()
-            print("demo_select_wtf data_genres ", data_genres, " Type : ", type(data_genres))
+            data_userrole = mc_afficher.fetchall()
+            print("demo_select_wtf data_userrole ", data_userrole, " Type : ", type(data_userrole))
 
             """
                 Préparer les valeurs pour la liste déroulante de l'objet "form_demo"
@@ -59,11 +59,11 @@ def demo_select_wtf():
                 le formulaire qui utilise la liste déroulante "zzz_essais_om_104/demo_form_select_wtf.html"
             """
             userrole_val_list_dropdown = []
-            for i in data_genres:
+            for i in data_userrole:
                 userrole_val_list_dropdown.append(i['userrole'])
 
             # Aussi possible d'avoir un id numérique et un texte en correspondance
-            # userrole_val_list_dropdown = [(i["id_userrole"], i["userrole"]) for i in data_genres]
+            # userrole_val_list_dropdown = [(i["id_userrole"], i["userrole"]) for i in data_userrole]
 
             print("userrole_val_list_dropdown ", userrole_val_list_dropdown)
 
@@ -99,7 +99,7 @@ def demo_select_wtf():
     return render_template("zzz_essais_om_104/demo_form_select_wtf.html",
                            form=form_demo,
                            userrole_selectionne=userrole_selectionne,
-                           data_genres_drop_down=data_genres)
+                           data_userrole_drop_down=data_userrole)
 
 
 @app.route("/demo_select_dropdown_bootstrap", methods=['GET', 'POST'])
