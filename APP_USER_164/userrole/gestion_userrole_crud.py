@@ -9,12 +9,12 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_FILMS_164 import app
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.userrole.gestion_userrole_wtf_forms import FormWTFAjouterUserrole
-from APP_FILMS_164.userrole.gestion_userrole_wtf_forms import FormWTFDeleteUserrole
-from APP_FILMS_164.userrole.gestion_userrole_wtf_forms import FormWTFUpdateUserrole
+from APP_USER_164 import app
+from APP_USER_164.database.database_tools import DBconnection
+from APP_USER_164.erreurs.exceptions import *
+from APP_USER_164.userrole.gestion_userrole_wtf_forms import FormWTFAjouterUserrole
+from APP_USER_164.userrole.gestion_userrole_wtf_forms import FormWTFDeleteUserrole
+from APP_USER_164.userrole.gestion_userrole_wtf_forms import FormWTFUpdateUserrole
 
 """
     Auteur : OM 2021.03.16
@@ -41,7 +41,7 @@ def userrole_afficher(order_by, id_userrole_sel):
                     # la commande MySql classique est "SELECT * FROM t_userrole"
                     # Pour "lever"(raise) une erreur s'il y a des erreurs sur les noms d'attributs dans la table
                     # donc, je précise les champs à afficher
-                    # Constitution d'un dictionnaire pour associer l'id du genre sélectionné avec un nom de variable
+                    # Constitution d'un dictionnaire pour associer l'id du userrole sélectionné avec un nom de variable
                     valeur_id_userrole_selected_dictionnaire = {"value_id_userrole_selected": id_userrole_sel}
                     strsql_userrole_afficher = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole = %(value_id_userrole_selected)s"""
 
@@ -59,10 +59,10 @@ def userrole_afficher(order_by, id_userrole_sel):
                 if not data_userrole and id_userrole_sel == 0:
                     flash("""La table "t_role" est vide. !!""", "warning")
                 elif not data_userrole and id_userrole_sel > 0:
-                    # Si l'utilisateur change l'id_userrole dans l'URL et que le genre n'existe pas,
+                    # Si l'utilisateur change l'id_userrole dans l'URL et que le userrole n'existe pas,
                     flash(f"Le role demandé n'existe pas !!", "warning")
                 else:
-                    # Dans tous les autres cas, c'est que la table "t_genre" est vide.
+                    # Dans tous les autres cas, c'est que la table "t_userrole" est vide.
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
                     flash(f"Données roles affichés !!", "success")
 
@@ -77,15 +77,15 @@ def userrole_afficher(order_by, id_userrole_sel):
 
 """
     Auteur : OM 2021.03.22
-    Définition d'une "route" /genres_ajouter
+    Définition d'une "route" /userroles_ajouter
     
-    Test : ex : http://127.0.0.1:5005/genres_ajouter
+    Test : ex : http://127.0.0.1:5005/userroles_ajouter
     
     Paramètres : sans
     
     But : Ajouter un role pour un utilisateur
     
-    Remarque :  Dans le champ "name_genre_html" du formulaire "userrole/userrole_ajouter.html",
+    Remarque :  Dans le champ "name_userrole_html" du formulaire "userrole/userrole_ajouter.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -102,8 +102,8 @@ def userrole_ajouter_wtf():
         try:
             if form.validate_on_submit():
                 name_userrole_wtf = form.nom_userrole_wtf.data
-                name_genre = name_userrole_wtf.lower()
-                valeurs_insertion_dictionnaire = {"value_userrole": name_genre}
+                name_userrole = name_userrole_wtf.lower()
+                valeurs_insertion_dictionnaire = {"value_userrole": name_userrole}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
                 strsql_insert_userrole = """INSERT INTO t_userrole (id_userrole,userrole) VALUES (NULL,%(value_userrole)s) """
@@ -176,7 +176,7 @@ def userrole_update_wtf():
             # Affiche seulement la valeur modifiée, "ASC" et l'"id_userrole_update"
             return redirect(url_for('userrole_afficher', order_by="ASC", id_userrole_sel=id_userrole_update))
         elif request.method == "GET":
-            # Opération sur la BD pour récupérer "id_genre" et "intitule_genre" de la "t_userrole"
+            # Opération sur la BD pour récupérer "id_userrole" et "intitule_userrole" de la "t_userrole"
             str_sql_id_userrole = "SELECT id_userrole, userrole FROM t_userrole " \
                                "WHERE id_userrole = %(value_id_userrole)s"
             valeur_select_dictionnaire = {"value_id_userrole": id_userrole_update}

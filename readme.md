@@ -5,7 +5,7 @@ Le "début de la fin"
 
 ---
 #### Avant de commencer cette version presque finale.
-##### Cette démo. CRUD (Create Read Update Delete) presque complète sur les 3 tables de la base film : Soit "t_film"; "t_genre" et la table intermédiaire "t_genre_film"
+##### Cette démo. CRUD (Create Read Update Delete) presque complète sur les 3 tables de la base film : Soit "t_film"; "t_userrole" et la table intermédiaire "t_userrole_film"
 * Un serveur MySql doit être installé
   * UWAMP : sur le site de "UWAMP", lire "Prerequisites IMPORTANT!!" (vous devez installer une des distributions Visual C++, j'ai choisi la plus récente) 
   * UWAMP : installer la version "EXE" (Choisir : Télécharger Exe/Install) est préférable à la version "PORTABLE"
@@ -112,7 +112,7 @@ Le "début de la fin"
 	  
 A) Modifier MES requêtes AFFICHER (READ) du CRUD(Create Read Update Delete) sur la table "t_userrole"
   *	Ouvrir le fichier "userrole/gestion_userrole_crud.py"
-  * Modifier les requêtes "SELECT" sur la table "t_genre" par des "SELECT" sur une de vos "t_????"
+  * Modifier les requêtes "SELECT" sur la table "t_userrole" par des "SELECT" sur une de vos "t_????"
   * Modifier dans le répertoire "TEMPLATES" la page html consacrée à l'affichage pour ma "t_userrole", il faut ouvrir "templates/userrole_afficher.html"
   * Vous devez vous aider de "CTRL-R"(scope : fichier) ou "CTRL-SHIFT-R"(scope : tout le projet)
   * utiliser la commande "magique" de "PyCharm" comparer deux fichiers "CTRL-D" (menu "View"-->"Compare With...") entre le fichier de mon projet qui fonctionne et le votre qui est presque fonctionnel.

@@ -10,8 +10,8 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
+from APP_USER_164.database.database_tools import DBconnection
+from APP_USER_164.erreurs.exceptions import *
 
 """
     Nom : user_userrole_afficher
@@ -79,7 +79,7 @@ def user_userrole_afficher(id_user_sel):
     Récupère la liste de tous les userrole du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
-    1) Tous les userrole contenus dans la "t_genre".
+    1) Tous les userrole contenus dans la "t_userrole".
     2) Les userrole attribués au film selectionné.
     3) Les userrole non-attribués au film sélectionné.
 
@@ -145,8 +145,8 @@ def edit_userrole_user_selected():
             print(" data_userrole_user_attribues ", data_userrole_user_attribues, "type ",
                   type(data_userrole_user_attribues))
 
-            # Extrait les valeurs contenues dans la table "t_genres", colonne "intitule_genre"
-            # Le composant javascript "tagify" pour afficher les tags n'a pas besoin de l'id_genre
+            # Extrait les valeurs contenues dans la table "t_userroles", colonne "intitule_userrole"
+            # Le composant javascript "tagify" pour afficher les tags n'a pas besoin de l'id_userrole
             lst_data_userrole_user_non_attribues = [item['userrole'] for item in data_userrole_user_non_attribues]
             print("lst_all_userrole gf_edit_userrole_user_selected ", lst_data_userrole_user_non_attribues,
                   type(lst_data_userrole_user_non_attribues))
@@ -169,7 +169,7 @@ def edit_userrole_user_selected():
     Récupère la liste de tous les userrole du film sélectionné par le bouton "MODIFIER" de "user_userrole_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
-    1) Tous les userrole contenus dans la "t_genre".
+    1) Tous les userrole contenus dans la "t_userrole".
     2) Les userrole attribués au film selectionné.
     3) Les userrole non-attribués au film sélectionné.
 
@@ -197,7 +197,7 @@ def update_userrole_user_selected():
             session.clear()
 
             # Récupère ce que l'utilisateur veut modifier comme userrole dans le composant "tags-selector-tagselect"
-            # dans le fichier "genres_films_modifier_tags_dropbox.html"
+            # dans le fichier "userroles_films_modifier_tags_dropbox.html"
             new_lst_str_userrole_user = request.form.getlist('name_select_tags')
             print("new_lst_str_userrole_user ", new_lst_str_userrole_user)
 
@@ -209,12 +209,12 @@ def update_userrole_user_selected():
 
             # Pour apprécier la facilité de la vie en Python... "les ensembles en Python"
             # https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles
-            # OM 2021.05.02 Une liste de "id_userrole" qui doivent être effacés de la table intermédiaire "t_genre_film".
+            # OM 2021.05.02 Une liste de "id_userrole" qui doivent être effacés de la table intermédiaire "t_userrole_film".
             lst_diff_userrole_delete_b = list(set(old_lst_data_userrole_user_attribues) -
                                             set(new_lst_int_userrole_user_old))
             print("lst_diff_userrole_delete_b ", lst_diff_userrole_delete_b)
 
-            # Une liste de "id_userrole" qui doivent être ajoutés à la "t_genre_film"
+            # Une liste de "id_userrole" qui doivent être ajoutés à la "t_userrole_film"
             lst_diff_userrole_insert_a = list(
                 set(new_lst_int_userrole_user_old) - set(old_lst_data_userrole_user_attribues))
             print("lst_diff_userrole_insert_a ", lst_diff_userrole_insert_a)
@@ -224,11 +224,11 @@ def update_userrole_user_selected():
             strsql_insert_userrole_user = """INSERT INTO t_user_has_userrole (id_user_has_userrole, fk_userrole, fk_user)
                                                     VALUES (NULL, %(value_fk_userrole)s, %(value_fk_user)s)"""
 
-            # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_userrole" dans la "t_genre_film"
+            # SQL pour effacer une (des) association(s) existantes entre "id_film" et "id_userrole" dans la "t_userrole_film"
             strsql_delete_userrole_user = """DELETE FROM t_user_has_userrole WHERE fk_userrole = %(value_fk_userrole)s AND fk_user = %(value_fk_user)s"""
 
             with DBconnection() as mconn_bd:
-                # Pour le user sélectionné, parcourir la liste des userrole à INSÉRER dans la "t_genre_film".
+                # Pour le user sélectionné, parcourir la liste des userrole à INSÉRER dans la "t_userrole_film".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_userrole_ins in lst_diff_userrole_insert_a:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
@@ -238,11 +238,11 @@ def update_userrole_user_selected():
 
                     mconn_bd.execute(strsql_insert_userrole_user, valeurs_user_sel_userrole_sel_dictionnaire)
 
-                # Pour le film sélectionné, parcourir la liste des userrole à EFFACER dans la "t_genre_film".
+                # Pour le film sélectionné, parcourir la liste des userrole à EFFACER dans la "t_userrole_film".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_userrole_del in lst_diff_userrole_delete_b:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    # et "id_userrole_del" (l'id du genre dans la liste) associé à une variable.
+                    # et "id_userrole_del" (l'id du userrole dans la liste) associé à une variable.
                     valeurs_user_sel_userrole_sel_dictionnaire = {"value_fk_user": id_user_selected,
                                                                "value_fk_userrole": id_userrole_del}
 
@@ -257,7 +257,7 @@ def update_userrole_user_selected():
                                                    f"{update_userrole_user_selected.__name__} ; "
                                                    f"{Exception_update_userrole_user_selected}")
 
-    # Après cette mise à jour de la table intermédiaire "t_genre_film",
+    # Après cette mise à jour de la table intermédiaire "t_userrole_film",
     # on affiche les users et le(urs) role(s) associé(s).
     return redirect(url_for('user_userrole_afficher', id_user_sel=id_user_selected))
 
@@ -281,7 +281,7 @@ def userrole_user_afficher_data(valeur_id_user_selected_dict):
                                         LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                         WHERE id_user = %(value_id_user_selected)s"""
 
-        strsql_userrole_user_non_attribues = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole not in(SELECT id_userrole as idGenresFilms FROM t_user_has_userrole
+        strsql_userrole_user_non_attribues = """SELECT id_userrole, userrole FROM t_userrole WHERE id_userrole not in(SELECT id_userrole as iduserrolesFilms FROM t_user_has_userrole
                                                     INNER JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
                                                     INNER JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                                     WHERE id_user = %(value_id_user_selected)s)"""

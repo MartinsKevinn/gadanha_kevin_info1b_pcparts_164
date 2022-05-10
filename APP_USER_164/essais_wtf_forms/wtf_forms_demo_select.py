@@ -20,9 +20,9 @@ class MonPremierWTForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(message="Il manque le mot de passe !!!")])
 
-    nom_genre_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    nom_userrole_wtf = StringField("Clavioter le genre ", validators=[Length(min=2, max=20, message="min 2 max 20"),
-                                                                   Regexp(nom_genre_regexp,
+    nom_userrole_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
+    nom_userrole_wtf = StringField("Clavioter le role ", validators=[Length(min=2, max=20, message="min 2 max 20"),
+                                                                   Regexp(nom_userrole_regexp,
                                                                           message="Pas de chiffres, de caractères "
                                                                                   "spéciaux, d'espace à double, "
                                                                                   "de double apostrophe, "
@@ -38,19 +38,19 @@ class MonPremierWTForm(FlaskForm):
     Dans le formulaire "templates/zzz_essais_om_104/demo_form_select_wtf.html"
     Auteur : OM 2021.04.11
     
-    But : Montrer l'utilisation d'une liste déroulante (WTF) dont le contenu est basé sur la table "t_genre"
+    But : Montrer l'utilisation d'une liste déroulante (WTF) dont le contenu est basé sur la table "t_userrole"
     
 """
 
 
 class DemoFormSelectWTF(FlaskForm):
-    userrole_dropdown_wtf = SelectField('Genres (liste déroulante)',
-                                      validators=[DataRequired(message="Sélectionner un genre.")],
+    userrole_dropdown_wtf = SelectField('userroles (liste déroulante)',
+                                      validators=[DataRequired(message="Sélectionner un userrole.")],
                                       validate_choice=False
                                       )
     # Alternative qui correspond aux lignes en commentaires lignes 88 et 89 du "gestion_wtf_forms_demo_select.py"
     # userrole_dropdown_wtf = SelectField('userroles (liste déroulante)',
-    #                                   validators=[DataRequired(message="Sélectionner un genre.")],
+    #                                   validators=[DataRequired(message="Sélectionner un userrole.")],
     #                                   validate_choice=False,
     #                                   coerce=int
     #                                   )

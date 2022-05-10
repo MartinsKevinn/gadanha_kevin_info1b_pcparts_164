@@ -2,7 +2,7 @@
 {% block title %} Demo liste déroulante (WTF) {% endblock %}
 {% block body %}
 <div class="container">
-    <h1>Démo d'une liste déroulante (WTForms) sur la table "t_genre".</h1>
+    <h1>Démo d'une liste déroulante (WTForms) sur la table "t_userrole".</h1>
     <p></p>
     <div class="alert alert-dismissible alert-info">
         <h4 class="alert-heading">Il ne faut pas utiliser ce système pour les tables intermédiaires avec plusieurs clés étrangères "fk_".
@@ -47,10 +47,10 @@
             Dans la liste déroulante, il y a un choix imposé par défaut dans le code ligne 96 du fichier "essais_wtf_forms/gestion_wtf_forms_demo_select.py"
         </li>
         <li class="list-item">
-            Choisir un autre genre dans la liste.
+            Choisir un autre userrole dans la liste.
         </li>
         <li class="list-item">
-            Confirmer votre choix par un clic sur le bouton "Choix genre"
+            Confirmer votre choix par un clic sur le bouton "Choix userrole"
         </li>
     </ul>
     <p>
@@ -65,8 +65,8 @@
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>Genre choisi : {{ form.userrole_dropdown_wtf.data }}</p>
-        <p>{{ form.submit_btn_ok_dplist_genre(class="btn btn-primary") }}</p>
+        <p>userrole choisi : {{ form.userrole_dropdown_wtf.data }}</p>
+        <p>{{ form.submit_btn_ok_dplist_userrole(class="btn btn-primary") }}</p>
     </form>
 
 
@@ -85,7 +85,7 @@
     <form action="{{ url_for('demo_select_dropdown_bootstrap') }}" method="POST" novalidate>
         <select name="ma_petite_liste_unique" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
             {% for row in data_userrole_drop_down %}
-                <option value="{{ row.id_userrole }}">{{ row.intitule_genre }}</option>
+                <option value="{{ row.id_userrole }}">{{ row.intitule_userrole }}</option>
             {% endfor %}
         </select>
         <button type="submit" value="Submit">Choix</button>

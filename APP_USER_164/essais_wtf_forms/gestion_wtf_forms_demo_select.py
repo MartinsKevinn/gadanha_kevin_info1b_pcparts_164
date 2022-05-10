@@ -11,20 +11,20 @@ from flask import render_template
 from flask import request
 from flask import session
 
-from APP_FILMS_164 import app
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.msg_erreurs import *
-from APP_FILMS_164.essais_wtf_forms.wtf_forms_demo_select import DemoFormSelectWTF
+from APP_USER_164 import app
+from APP_USER_164.database.database_tools import DBconnection
+from APP_USER_164.erreurs.msg_erreurs import *
+from APP_USER_164.essais_wtf_forms.wtf_forms_demo_select import DemoFormSelectWTF
 
 """
     Auteur : OM 2021.04.08
     Définition d'une "route" /userrole_delete
     
-    Test : ex. cliquer sur le menu "userrole" puis cliquer sur le bouton "DELETE" d'un "genre"
+    Test : ex. cliquer sur le menu "userrole" puis cliquer sur le bouton "DELETE" d'un "role"
     
     Paramètres : sans
     
-    But : Effacer(delete) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
+    But : Effacer(delete) un role qui a été sélectionné dans le formulaire "userrole_afficher.html"
     
     Remarque :  Dans le champ "nom_userrole_delete_wtf" du formulaire "userrole/userrole_delete_wtf.html",
                 le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
@@ -34,12 +34,12 @@ from APP_FILMS_164.essais_wtf_forms.wtf_forms_demo_select import DemoFormSelectW
 @app.route("/demo_select_wtf", methods=['GET', 'POST'])
 def demo_select_wtf():
     userrole_selectionne = None
-    # Objet formulaire pour montrer une liste déroulante basé sur la table "t_genre"
+    # Objet formulaire pour montrer une liste déroulante basé sur la table "t_userrole"
     form_demo = DemoFormSelectWTF()
     try:
-        if request.method == "POST" and form_demo.submit_btn_ok_dplist_genre.data:
+        if request.method == "POST" and form_demo.submit_btn_ok_dplist_userrole.data:
 
-            if form_demo.submit_btn_ok_dplist_genre.data:
+            if form_demo.submit_btn_ok_dplist_userrole.data:
                 print("Role sélectionné : ",
                       form_demo.userrole_dropdown_wtf.data)
                 userrole_selectionne = form_demo.userrole_dropdown_wtf.data
@@ -104,7 +104,7 @@ def demo_select_wtf():
 
 @app.route("/demo_select_dropdown_bootstrap", methods=['GET', 'POST'])
 def demo_select_dropdown_bootstrap():
-    print("genre choisi dans la liste :")
+    print("userrole choisi dans la liste :")
     if request.method == 'POST':
         choix_list_drop_down = request.form.getlist("ma_petite_liste_unique")
         print("choix_list_drop_down ", choix_list_drop_down)

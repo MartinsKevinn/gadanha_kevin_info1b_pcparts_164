@@ -9,9 +9,9 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.user.gestion_user_wtf_forms import FormWTFUpdateUser, FormWTFAddUser, FormWTFDeleteUser
+from APP_USER_164.database.database_tools import DBconnection
+from APP_USER_164.erreurs.exceptions import *
+from APP_USER_164.user.gestion_user_wtf_forms import FormWTFUpdateUser, FormWTFAddUser, FormWTFDeleteUser
 
 """Ajouter un utilisateur grâce au formulaire "user_add_wtf.html"
 Auteur : OM 2022.04.11
@@ -71,7 +71,7 @@ Test : exemple: cliquer sur le menu "Utilisateurs/Roles" puis cliquer sur le bou
 
 Paramètres : sans
 
-But : Editer(update) un genre qui a été sélectionné dans le formulaire "userrole_afficher.html"
+But : Editer(update) un userrole qui a été sélectionné dans le formulaire "userrole_afficher.html"
 
 Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "user/films_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python.
@@ -124,7 +124,7 @@ def user_update_wtf():
             valeur_select_dictionnaire = {"value_id_user": id_user_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_user, valeur_select_dictionnaire)
-            # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
+            # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom userrole" pour l'UPDATE
             data_user = mybd_conn.fetchone()
             print("data_user ", data_user, " type ", type(data_user), " userrole ",
                   data_user["id_user"])

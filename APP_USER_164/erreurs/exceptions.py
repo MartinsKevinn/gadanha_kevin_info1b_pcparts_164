@@ -11,7 +11,7 @@ import sys
 from flask import flash, render_template
 from pymysql import IntegrityError
 
-from APP_FILMS_164 import app
+from APP_USER_164 import app
 
 
 class Base(Exception):
@@ -119,7 +119,7 @@ class ExceptionFilmDeleteWtf(Base):
     pass
 
 
-class ExceptionInitAppFilms164(Base):
+class ExceptionInitAppUser164(Base):
     pass
 
 
