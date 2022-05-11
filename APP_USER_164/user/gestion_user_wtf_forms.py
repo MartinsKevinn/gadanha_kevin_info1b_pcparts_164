@@ -16,7 +16,7 @@ class FormWTFAddUser(FlaskForm):
         Dans le formulaire "userrole_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_film_regexp = ""
+    nom_user_regexp = ""
     user_firstname_add_wtf = StringField("Firstname", widget=TextArea())
     user_lastname_add_wtf = StringField("Lastname", widget=TextArea())
     user_birthdate_add_wtf = DateField("Birthdate", validators=[InputRequired("Date obligatoire"),
