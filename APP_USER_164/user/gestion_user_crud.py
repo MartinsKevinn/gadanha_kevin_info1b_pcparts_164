@@ -89,7 +89,7 @@ def user_update_wtf():
     try:
         print(" on submit ", form_update_user.validate_on_submit())
         if form_update_user.validate_on_submit():
-            # Récupèrer la valeur du champ depuis "userrole_update_wtf.html" après avoir cliqué sur "SUBMIT".
+            # Récupèrer la valeur du champ depuis "userrole_update_wtf.html" après avoir cliqué sur "SUBMIT"!
             user_firstname_update = form_update_user.user_firstname_update_wtf.data
             user_lastname_update = form_update_user.user_lastname_update_wtf.data
             user_birthdate_update = form_update_user.user_birthdate_update_wtf.data
