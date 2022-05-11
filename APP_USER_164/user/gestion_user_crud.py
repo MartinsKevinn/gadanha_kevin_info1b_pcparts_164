@@ -52,7 +52,7 @@ def user_add_wtf():
                 flash(f"Données insérées !!", "success")
                 print(f"Données insérées !!")
 
-                # Pour afficher et constater l'insertion du nouveau film (id_user_sel=0 => afficher tous les user)
+                # Pour afficher et constater l'insertion du nouveau user (id_user_sel=0 => afficher tous les user)
                 return redirect(url_for('user_userrole_afficher', id_user_sel=0))
 
         except Exception as Exception_userrole_ajouter_wtf:
@@ -65,7 +65,7 @@ def user_add_wtf():
 
 """Editer(update) un utilisateur qui a été sélectionné dans le formulaire "user_userrole_afficher.html"
 Auteur : OM 2022.04.11
-Définition d'une "route" /film_update
+Définition d'une "route" /user_update
 
 Test : exemple: cliquer sur le menu "Utilisateurs/Roles" puis cliquer sur le bouton "EDIT" d'un "utilisateur"
 
@@ -73,7 +73,7 @@ Paramètres : sans
 
 But : Editer(update) un userrole qui a été sélectionné dans le formulaire "userrole_afficher.html"
 
-Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "user/films_update_wtf.html",
+Remarque :  Dans le champ "user_firstname_update_wtf" du formulaire "user/user_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python.
             On ne doit pas accepter un champ vide.
 """
@@ -111,7 +111,7 @@ def user_update_wtf():
             print(f"Donnée mise à jour !!")
 
             # afficher et constater que la donnée est mise à jour.
-            # Afficher seulement le film modifié, "ASC" et l'"id_user_update"
+            # Afficher seulement le user modifié, "ASC" et l'"id_user_update"
             return redirect(url_for('user_userrole_afficher', id_user_sel=id_user_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer les données de la "t_user"
@@ -145,7 +145,7 @@ def user_update_wtf():
     return render_template("user/user_update_wtf.html", form_update_user=form_update_user)
 
 
-"""Effacer(delete) un film qui a été sélectionné dans le formulaire "user_userrole_afficher.html"
+"""Effacer(delete) un user qui a été sélectionné dans le formulaire "user_userrole_afficher.html"
 Auteur : OM 2022.04.11
 Définition d'une "route" /user_delete
     
@@ -153,12 +153,12 @@ Test : ex. cliquer sur le menu "utilisateur" puis cliquer sur le bouton "DELETE"
     
 Paramètres : sans
 
-Remarque :  Dans le champ "nom_film_delete_wtf" du formulaire "user/user_delete_wtf.html"
+Remarque :  Dans le champ "nom_user_delete_wtf" du formulaire "user/user_delete_wtf.html"
             On doit simplement cliquer sur "DELETE"
 """
 
 
-@app.route("/film_delete", methods=['GET', 'POST'])
+@app.route("/user_delete", methods=['GET', 'POST'])
 def user_delete_wtf():
     # Pour afficher ou cacher les boutons "EFFACER"
     data_user_delete = None
@@ -197,8 +197,8 @@ def user_delete_wtf():
                 mconn_bd.execute(str_sql_delete_fk_user_userrole, valeur_delete_dictionnaire)
                 mconn_bd.execute(str_sql_delete_user, valeur_delete_dictionnaire)
 
-            flash(f"Film définitivement effacé !!", "success")
-            print(f"Film définitivement effacé !!")
+            flash(f"Utilisateur définitivement effacé !!", "success")
+            print(f"Utilisateur définitivement effacé !!")
 
             # afficher les données
             return redirect(url_for('user_userrole_afficher', id_user_sel=0))
@@ -206,7 +206,7 @@ def user_delete_wtf():
             valeur_select_dictionnaire = {"value_id_user": id_user_delete}
             print(id_user_delete, type(id_user_delete))
 
-            # Requête qui affiche le film qui doit être efffacé.
+            # Requête qui affiche l'utilisateur qui doit être efffacé.
             str_sql_user_userrole_delete = """SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s"""
 
             with DBconnection() as mydb_conn:
@@ -222,7 +222,7 @@ def user_delete_wtf():
             btn_submit_del = False
 
     except Exception as Exception_user_delete_wtf:
-        raise ExceptionFilmDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
+        raise ExceptionUserDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
                                      f"{user_delete_wtf.__name__} ; "
                                      f"{Exception_user_delete_wtf}")
 

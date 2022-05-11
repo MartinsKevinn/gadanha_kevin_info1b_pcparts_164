@@ -5,7 +5,7 @@ Le "début de la fin"
 
 ---
 #### Avant de commencer cette version presque finale.
-##### Cette démo. CRUD (Create Read Update Delete) presque complète sur les 3 tables de la base film : Soit "t_film"; "t_userrole" et la table intermédiaire "t_userrole_film"
+##### Cette démo. CRUD (Create Read Update Delete) presque complète sur les 3 tables de la base user : Soit "t_user"; "t_userrole" et la table intermédiaire "t_userrole_user"
 * Un serveur MySql doit être installé
   * UWAMP : sur le site de "UWAMP", lire "Prerequisites IMPORTANT!!" (vous devez installer une des distributions Visual C++, j'ai choisi la plus récente) 
   * UWAMP : installer la version "EXE" (Choisir : Télécharger Exe/Install) est préférable à la version "PORTABLE"
@@ -99,7 +99,7 @@ Le "début de la fin"
 * Vous pouvez cliquer sur le bouton "Push"
 * Faites de nombreux "Commit"/"Push", c'est la garantie de ne rien perdre et que j'analyse votre avance sur votre projet
 # Vos devoirs :
-* Placer votre "DUMP" à la place de celui de ma "BD" films. Votre "DUMP" doit se nommer "VOTRENOM_VOTREPRENOM_VOTRECLASSE_VOTRESUJET_164.SQL"
+* Placer votre "DUMP" à la place de celui de ma "BD" user. Votre "DUMP" doit se nommer "VOTRENOM_VOTREPRENOM_VOTRECLASSE_VOTRESUJET_164.SQL"
   * Dans le répertoire "database" vous devez placer vos fichiers (PDF: Cahier des charges, MCD, MLD, dictionnaires des données et SQL : requêtes, etc)
   * Ouvrir le fichier "database/1_ImportationDumpSql.py"
     * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)

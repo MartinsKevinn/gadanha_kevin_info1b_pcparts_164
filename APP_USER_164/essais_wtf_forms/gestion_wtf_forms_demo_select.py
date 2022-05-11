@@ -85,13 +85,13 @@ def demo_select_wtf():
             pymysql.ProgrammingError,
             pymysql.InternalError,
             pymysql.err.IntegrityError,
-            TypeError) as erreur_gest_genr_crud:
-        code, msg = erreur_gest_genr_crud.args
-        flash(f"attention : {error_codes.get(code, msg)} {erreur_gest_genr_crud} ", "danger")
+            TypeError) as erreur_gest_userrole_crud:
+        code, msg = erreur_gest_userrole_crud.args
+        flash(f"attention : {error_codes.get(code, msg)} {erreur_gest_userrole_crud} ", "danger")
 
         flash(f"Erreur dans wtf_forms_demo_select : {sys.exc_info()[0]} "
-              f"{erreur_gest_genr_crud.args[0]} , "
-              f"{erreur_gest_genr_crud}", "danger")
+              f"{erreur_gest_userrole_crud.args[0]} , "
+              f"{erreur_gest_userrole_crud}", "danger")
 
         flash(f"__KeyError dans wtf_forms_demo_select : {sys.exc_info()[0]} {sys.exc_info()[1]} {sys.exc_info()[2]}",
               "danger")

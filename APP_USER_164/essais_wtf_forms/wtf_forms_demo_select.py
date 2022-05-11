@@ -44,12 +44,12 @@ class MonPremierWTForm(FlaskForm):
 
 
 class DemoFormSelectWTF(FlaskForm):
-    userrole_dropdown_wtf = SelectField('userroles (liste déroulante)',
+    userrole_dropdown_wtf = SelectField('userrole (liste déroulante)',
                                       validators=[DataRequired(message="Sélectionner un userrole.")],
                                       validate_choice=False
                                       )
     # Alternative qui correspond aux lignes en commentaires lignes 88 et 89 du "gestion_wtf_forms_demo_select.py"
-    # userrole_dropdown_wtf = SelectField('userroles (liste déroulante)',
+    # userrole_dropdown_wtf = SelectField('userrole (liste déroulante)',
     #                                   validators=[DataRequired(message="Sélectionner un userrole.")],
     #                                   validate_choice=False,
     #                                   coerce=int

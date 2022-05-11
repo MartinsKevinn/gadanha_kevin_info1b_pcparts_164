@@ -43,12 +43,12 @@ class FormWTFDeleteUser(FlaskForm):
     """
         Dans le formulaire "user_delete_wtf.html"
 
-        nom_film_delete_wtf : Champ qui reçoit la valeur du film, lecture seule. (readonly=true)
+        nom_user_delete_wtf : Champ qui reçoit la valeur du user, lecture seule. (readonly=true)
         submit_btn_del : Bouton d'effacement "DEFINITIF".
-        submit_btn_conf_del : Bouton de confirmation pour effacer un "film".
-        submit_btn_annuler : Bouton qui permet d'afficher la table "t_film".
+        submit_btn_conf_del : Bouton de confirmation pour effacer un "user".
+        submit_btn_annuler : Bouton qui permet d'afficher la table "t_user".
     """
-    nom_film_delete_wtf = StringField("Effacer cet utilisateur")
+    nom_user_delete_wtf = StringField("Effacer cet utilisateur")
     submit_btn_del_user = SubmitField("Effacer utilisateur")
     submit_btn_conf_del_user = SubmitField("Etes-vous sur d'effacer ?")
     submit_btn_annuler = SubmitField("Annuler")

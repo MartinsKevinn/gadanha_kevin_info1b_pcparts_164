@@ -77,9 +77,9 @@ def userrole_afficher(order_by, id_userrole_sel):
 
 """
     Auteur : OM 2021.03.22
-    Définition d'une "route" /userroles_ajouter
+    Définition d'une "route" /userrole_ajouter
     
-    Test : ex : http://127.0.0.1:5005/userroles_ajouter
+    Test : ex : http://127.0.0.1:5005/userrole_ajouter
     
     Paramètres : sans
     
@@ -176,7 +176,7 @@ def userrole_update_wtf():
             # Affiche seulement la valeur modifiée, "ASC" et l'"id_userrole_update"
             return redirect(url_for('userrole_afficher', order_by="ASC", id_userrole_sel=id_userrole_update))
         elif request.method == "GET":
-            # Opération sur la BD pour récupérer "id_userrole" et "intitule_userrole" de la "t_userrole"
+            # Opération sur la BD pour récupérer "id_userrole" et "userrole" de la "t_userrole"
             str_sql_id_userrole = "SELECT id_userrole, userrole FROM t_userrole " \
                                "WHERE id_userrole = %(value_id_userrole)s"
             valeur_select_dictionnaire = {"value_id_userrole": id_userrole_update}

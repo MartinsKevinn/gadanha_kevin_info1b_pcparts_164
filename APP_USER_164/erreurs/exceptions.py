@@ -115,7 +115,7 @@ class ExceptionUserUpdateWtf(Base):
     pass
 
 
-class ExceptionFilmDeleteWtf(Base):
+class ExceptionUserDeleteWtf(Base):
     pass
 
 
