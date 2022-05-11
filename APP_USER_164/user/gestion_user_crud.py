@@ -103,7 +103,8 @@ def user_update_wtf():
 
             str_sql_update_user = """UPDATE t_user SET user_firstname = %(value_user_firstname)s,
                                                         user_lastname = %(value_user_lastname)s,
-                                                        user_birthdate = %(value_user_birthdate)s"""
+                                                        user_birthdate = %(value_user_birthdate)s
+                                                        WHERE id_user = %(value_id_user)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_user, valeur_update_dictionnaire)
 
