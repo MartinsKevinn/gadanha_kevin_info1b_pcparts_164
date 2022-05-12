@@ -1,7 +1,7 @@
 """
-    Fichier : gestion_films_genres_crud.py
+    Fichier : gestion_config_user_crud.py
     Auteur : OM 2021.05.01
-    Gestions des "routes" FLASK et des données pour l'association entre les films et les genres.
+    Gestions des "routes" FLASK et des données pour l'association entre les config et les genres.
 """
 from pathlib import Path
 
@@ -14,39 +14,39 @@ from APP_FILMS_164.database.database_tools import DBconnection
 from APP_FILMS_164.erreurs.exceptions import *
 
 """
-    Nom : films_genres_afficher
+    Nom : user_created_config_afficher
     Auteur : OM 2021.05.01
-    Définition d'une "route" /films_genres_afficher
+    Définition d'une "route" /user_created_config_afficher
     
-    But : Afficher les films avec les genres associés pour chaque film.
+    But : Afficher les config avec les genres associés pour chaque film.
     
-    Paramètres : id_genre_sel = 0 >> tous les films.
+    Paramètres : id_genre_sel = 0 >> tous les config.
                  id_genre_sel = "n" affiche le film dont l'id est "n"
                  
 """
 
 
-@app.route("/films_genres_afficher/<int:id_film_sel>", methods=['GET', 'POST'])
-def films_genres_afficher(id_film_sel):
-    print(" films_genres_afficher id_film_sel ", id_film_sel)
+@app.route("/user_created_config_afficher/<int:id_config_sel>", methods=['GET', 'POST'])
+def user_created_config_afficher(id_config_sel):
+    print(" user_created_config_afficher id_config_sel ", id_config_sel)
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_genres_films_afficher_data = """SELECT id_config, nom_film, duree_film, description_film, cover_link_film, date_sortie_film,
-                                                            GROUP_CONCAT(intitule_genre) as GenresFilms FROM t_genre_film
-                                                            RIGHT JOIN t_config ON t_config.id_config = t_genre_film.fk_film
-                                                            LEFT JOIN t_user ON t_user.id_user = t_genre_film.fk_genre
+                strsql_genres_films_afficher_data = """SELECT id_config, config_use_case, config_rating, description_film, cover_link_film, date_sortie_film,
+                                                            GROUP_CONCAT(user_firstname) as GenresFilms FROM t_user_created_config
+                                                            RIGHT JOIN t_config ON t_config.id_config = t_user_created_config.fk_config
+                                                            LEFT JOIN t_user ON t_user.id_user = t_user_created_config.fk_genre
                                                             GROUP BY id_config"""
-                if id_film_sel == 0:
+                if id_config_sel == 0:
                     # le paramètre 0 permet d'afficher tous les films
                     # Sinon le paramètre représente la valeur de l'id du film
                     mc_afficher.execute(strsql_genres_films_afficher_data)
                 else:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    valeur_id_film_selected_dictionnaire = {"value_id_film_selected": id_film_sel}
+                    valeur_id_film_selected_dictionnaire = {"value_id_config_selected": id_config_sel}
                     # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
                     # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
-                    strsql_genres_films_afficher_data += """ HAVING id_config= %(value_id_film_selected)s"""
+                    strsql_genres_films_afficher_data += """ HAVING id_config= %(value_id_config_selected)s"""
 
                     mc_afficher.execute(strsql_genres_films_afficher_data, valeur_id_film_selected_dictionnaire)
 
@@ -55,28 +55,28 @@ def films_genres_afficher(id_film_sel):
                 print("data_genres ", data_genres_films_afficher, " Type : ", type(data_genres_films_afficher))
 
                 # Différencier les messages.
-                if not data_genres_films_afficher and id_film_sel == 0:
+                if not data_genres_films_afficher and id_config_sel == 0:
                     flash("""La table "t_config" est vide. !""", "warning")
-                elif not data_genres_films_afficher and id_film_sel > 0:
+                elif not data_genres_films_afficher and id_config_sel > 0:
                     # Si l'utilisateur change l'id_config dans l'URL et qu'il ne correspond à aucun film
-                    flash(f"Le film {id_film_sel} demandé n'existe pas !!", "warning")
+                    flash(f"Le film {id_config_sel} demandé n'existe pas !!", "warning")
                 else:
                     flash(f"Données films et genres affichés !!", "success")
 
         except Exception as Exception_films_genres_afficher:
-            raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {films_genres_afficher.__name__} ;"
+            raise ExceptionFilmsGenresAfficher(f"fichier : {Path(__file__).name}  ;  {user_created_config_afficher.__name__} ;"
                                                f"{Exception_films_genres_afficher}")
 
-    print("films_genres_afficher  ", data_genres_films_afficher)
+    print("user_created_config_afficher  ", data_genres_films_afficher)
     # Envoie la page "HTML" au serveur.
-    return render_template("films_genres/films_genres_afficher.html", data=data_genres_films_afficher)
+    return render_template("films_genres/user_created_config_afficher.html", data=data_genres_films_afficher)
 
 
 """
     nom: edit_genre_film_selected
     On obtient un objet "objet_dumpbd"
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_genres_afficher.html"
+    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "user_created_config_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
     1) Tous les genres contenus dans la "t_user".
@@ -93,24 +93,24 @@ def edit_genre_film_selected():
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_genres_afficher = """SELECT id_user, intitule_genre FROM t_user ORDER BY id_user ASC"""
+                strsql_genres_afficher = """SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user ORDER BY id_user ASC"""
                 mc_afficher.execute(strsql_genres_afficher)
             data_genres_all = mc_afficher.fetchall()
             print("dans edit_genre_film_selected ---> data_genres_all", data_genres_all)
 
-            # Récupère la valeur de "id_config" du formulaire html "films_genres_afficher.html"
+            # Récupère la valeur de "id_config" du formulaire html "user_created_config_afficher.html"
             # l'utilisateur clique sur le bouton "Modifier" et on récupère la valeur de "id_config"
-            # grâce à la variable "id_film_genres_edit_html" dans le fichier "films_genres_afficher.html"
-            # href="{{ url_for('edit_genre_film_selected', id_film_genres_edit_html=row.id_config) }}"
-            id_film_genres_edit = request.values['id_film_genres_edit_html']
+            # grâce à la variable "id_user_created_config_edit_html" dans le fichier "user_created_config_afficher.html"
+            # href="{{ url_for('edit_genre_film_selected', id_user_created_config_edit_html=row.id_config) }}"
+            id_user_created_config_edit = request.values['id_user_created_config_edit_html']
 
             # Mémorise l'id du film dans une variable de session
             # (ici la sécurité de l'application n'est pas engagée)
             # il faut éviter de stocker des données sensibles dans des variables de sessions.
-            session['session_id_film_genres_edit'] = id_film_genres_edit
+            session['session_id_film_genres_edit'] = id_user_created_config_edit
 
             # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-            valeur_id_film_selected_dictionnaire = {"value_id_film_selected": id_film_genres_edit}
+            valeur_id_film_selected_dictionnaire = {"value_id_config_selected": id_user_created_config_edit}
 
             # Récupère les données grâce à 3 requêtes MySql définie dans la fonction genres_films_afficher_data
             # 1) Sélection du film choisi
@@ -145,9 +145,9 @@ def edit_genre_film_selected():
             print(" data_genres_films_attribues ", data_genres_films_attribues, "type ",
                   type(data_genres_films_attribues))
 
-            # Extrait les valeurs contenues dans la table "t_genres", colonne "intitule_genre"
+            # Extrait les valeurs contenues dans la table "t_genres", colonne "user_firstname"
             # Le composant javascript "tagify" pour afficher les tags n'a pas besoin de l'id_user
-            lst_data_genres_films_non_attribues = [item['intitule_genre'] for item in data_genres_films_non_attribues]
+            lst_data_genres_films_non_attribues = [item['user_firstname'] for item in data_genres_films_non_attribues]
             print("lst_all_genres gf_edit_genre_film_selected ", lst_data_genres_films_non_attribues,
                   type(lst_data_genres_films_non_attribues))
 
@@ -156,7 +156,7 @@ def edit_genre_film_selected():
                                                  f"{edit_genre_film_selected.__name__} ; "
                                                  f"{Exception_edit_genre_film_selected}")
 
-    return render_template("films_genres/films_genres_modifier_tags_dropbox.html",
+    return render_template("films_genres/config_user_modifier_tags_dropbox.html",
                            data_genres=data_genres_all,
                            data_film_selected=data_genre_film_selected,
                            data_genres_attribues=data_genres_films_attribues,
@@ -166,7 +166,7 @@ def edit_genre_film_selected():
 """
     nom: update_genre_film_selected
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_genres_afficher.html"
+    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "user_created_config_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
     1) Tous les genres contenus dans la "t_user".
@@ -209,26 +209,26 @@ def update_genre_film_selected():
 
             # Pour apprécier la facilité de la vie en Python... "les ensembles en Python"
             # https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles
-            # OM 2021.05.02 Une liste de "id_user" qui doivent être effacés de la table intermédiaire "t_genre_film".
+            # OM 2021.05.02 Une liste de "id_user" qui doivent être effacés de la table intermédiaire "t_user_created_config".
             lst_diff_genres_delete_b = list(set(old_lst_data_genres_films_attribues) -
                                             set(new_lst_int_genre_film_old))
             print("lst_diff_genres_delete_b ", lst_diff_genres_delete_b)
 
-            # Une liste de "id_user" qui doivent être ajoutés à la "t_genre_film"
+            # Une liste de "id_user" qui doivent être ajoutés à la "t_user_created_config"
             lst_diff_genres_insert_a = list(
                 set(new_lst_int_genre_film_old) - set(old_lst_data_genres_films_attribues))
             print("lst_diff_genres_insert_a ", lst_diff_genres_insert_a)
 
             # SQL pour insérer une nouvelle association entre
-            # "fk_film"/"id_config" et "fk_genre"/"id_user" dans la "t_genre_film"
-            strsql_insert_genre_film = """INSERT INTO t_genre_film (id_genre_film, fk_genre, fk_film)
+            # "fk_config"/"id_config" et "fk_genre"/"id_user" dans la "t_user_created_config"
+            strsql_insert_genre_film = """INSERT INTO t_user_created_config (id_user_created_config, fk_genre, fk_config)
                                                     VALUES (NULL, %(value_fk_genre)s, %(value_fk_film)s)"""
 
-            # SQL pour effacer une (des) association(s) existantes entre "id_config" et "id_user" dans la "t_genre_film"
-            strsql_delete_genre_film = """DELETE FROM t_genre_film WHERE fk_genre = %(value_fk_genre)s AND fk_film = %(value_fk_film)s"""
+            # SQL pour effacer une (des) association(s) existantes entre "id_config" et "id_user" dans la "t_user_created_config"
+            strsql_delete_genre_film = """DELETE FROM t_user_created_config WHERE fk_genre = %(value_fk_genre)s AND fk_config = %(value_fk_film)s"""
 
             with DBconnection() as mconn_bd:
-                # Pour le film sélectionné, parcourir la liste des genres à INSÉRER dans la "t_genre_film".
+                # Pour le film sélectionné, parcourir la liste des genres à INSÉRER dans la "t_user_created_config".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_genre_ins in lst_diff_genres_insert_a:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
@@ -238,7 +238,7 @@ def update_genre_film_selected():
 
                     mconn_bd.execute(strsql_insert_genre_film, valeurs_film_sel_genre_sel_dictionnaire)
 
-                # Pour le film sélectionné, parcourir la liste des genres à EFFACER dans la "t_genre_film".
+                # Pour le film sélectionné, parcourir la liste des genres à EFFACER dans la "t_user_created_config".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_genre_del in lst_diff_genres_delete_b:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
@@ -257,15 +257,15 @@ def update_genre_film_selected():
                                                    f"{update_genre_film_selected.__name__} ; "
                                                    f"{Exception_update_genre_film_selected}")
 
-    # Après cette mise à jour de la table intermédiaire "t_genre_film",
+    # Après cette mise à jour de la table intermédiaire "t_user_created_config",
     # on affiche les films et le(urs) genre(s) associé(s).
-    return redirect(url_for('films_genres_afficher', id_film_sel=id_film_selected))
+    return redirect(url_for('user_created_config_afficher', id_config_sel=id_film_selected))
 
 
 """
     nom: genres_films_afficher_data
 
-    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "films_genres_afficher.html"
+    Récupère la liste de tous les genres du film sélectionné par le bouton "MODIFIER" de "user_created_config_afficher.html"
     Nécessaire pour afficher tous les "TAGS" des genres, ainsi l'utilisateur voit les genres à disposition
 
     On signale les erreurs importantes
@@ -276,20 +276,20 @@ def genres_films_afficher_data(valeur_id_film_selected_dict):
     print("valeur_id_film_selected_dict...", valeur_id_film_selected_dict)
     try:
 
-        strsql_film_selected = """SELECT id_config, nom_film, duree_film, description_film, cover_link_film, date_sortie_film, GROUP_CONCAT(id_user) as GenresFilms FROM t_genre_film
-                                        INNER JOIN t_config ON t_config.id_config = t_genre_film.fk_film
-                                        INNER JOIN t_user ON t_user.id_user = t_genre_film.fk_genre
-                                        WHERE id_config = %(value_id_film_selected)s"""
+        strsql_film_selected = """SELECT id_config, config_use_case, config_rating, description_film, cover_link_film, date_sortie_film, GROUP_CONCAT(id_user) as GenresFilms FROM t_user_created_config
+                                        INNER JOIN t_config ON t_config.id_config = t_user_created_config.fk_config
+                                        INNER JOIN t_user ON t_user.id_user = t_user_created_config.fk_genre
+                                        WHERE id_config = %(value_id_config_selected)s"""
 
-        strsql_genres_films_non_attribues = """SELECT id_user, intitule_genre FROM t_user WHERE id_user not in(SELECT id_user as idGenresFilms FROM t_genre_film
-                                                    INNER JOIN t_config ON t_config.id_config = t_genre_film.fk_film
-                                                    INNER JOIN t_user ON t_user.id_user = t_genre_film.fk_genre
-                                                    WHERE id_config = %(value_id_film_selected)s)"""
+        strsql_genres_films_non_attribues = """SELECT id_user, user_firstname FROM t_user WHERE id_user not in(SELECT id_user as idGenresFilms FROM t_user_created_config
+                                                    INNER JOIN t_config ON t_config.id_config = t_user_created_config.fk_config
+                                                    INNER JOIN t_user ON t_user.id_user = t_user_created_config.fk_genre
+                                                    WHERE id_config = %(value_id_config_selected)s)"""
 
-        strsql_genres_films_attribues = """SELECT id_config, id_user, intitule_genre FROM t_genre_film
-                                            INNER JOIN t_config ON t_config.id_config = t_genre_film.fk_film
-                                            INNER JOIN t_user ON t_user.id_user = t_genre_film.fk_genre
-                                            WHERE id_config = %(value_id_film_selected)s"""
+        strsql_genres_films_attribues = """SELECT id_config, id_user, user_firstname FROM t_user_created_config
+                                            INNER JOIN t_config ON t_config.id_config = t_user_created_config.fk_config
+                                            INNER JOIN t_user ON t_user.id_user = t_user_created_config.fk_genre
+                                            WHERE id_config = %(value_id_config_selected)s"""
 
         # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
         with DBconnection() as mc_afficher:
