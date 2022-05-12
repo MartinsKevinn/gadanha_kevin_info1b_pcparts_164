@@ -40,7 +40,7 @@
                 Films.
             </p>
             <table class="table table-responsive-sm">
-                {% if data_film_selected %}
+                {% if data_user_selected %}
                     <thead>
                         <tr>
                             <th class="">
@@ -65,23 +65,23 @@
                     </thead>
             {% endif %}
 
-            {% for row in data_film_selected %}
+            {% for row in data_user_selected %}
 				<tbody>
 					<tr>
 						<td class="align-middle">
-							{{ row.id_config }}
+							{{ row.id_user }}
 						</td>
 						<td class="align-middle">
-							{{ row.config_use_case }}
+							{{ row.user_firstname }}
 						</td>
 						<td class="align-middle">
-							{{ row.config_rating|default("", True) }}
+							{{ row.user_lastname|default("", True) }}
 						</td>
 						<td class="align-middle">
 							{{ row.date_sortie_film|default("", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.description_film|default("", True) }}
+							{{ row.user_birthdate|default("", True) }}
 						</td>
 						<td class="align-middle">
                             <img class="img" src={{ row.cover_link_film|default(None, True) }} style="border: 0;display:block; width:150px; max-height:auto;" alt = "image masquée FFP67 (in COVID-29 Memory) (absente) mod 164">
@@ -108,15 +108,15 @@
     <div class="row mx-md-n5">
       <div class="col px-md-5">
           <div class="p-3">
-            <form id="form_tags_select_confirm" action="{{ url_for('update_genre_film_selected') }}" method="POST">
+            <form id="form_tags_select_confirm" action="{{ url_for('update_config_user_selected') }}" method="POST">
                 <div class="qtagselect isw360">
                     <select id="OM_JTSD" name="name_select_tags" class="qtagselect__select" multiple>
-                        {% for row in data_genres_non_attribues %}
-                            <option value="{{ row.id_user }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.user_firstname }}</option>
+                        {% for row in data_config_non_attribues %}
+                            <option value="{{ row.id_config }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.config_use_case }}</option>
                         {% endfor %}
 
-                        {% for row in data_genres_attribues %}
-                            <option value="{{ row.id_user }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.user_firstname }}</option>
+                        {% for row in data_config_attribues %}
+                            <option value="{{ row.id_config }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.config_use_case }}</option>
                         {% endfor %}
                     </select>
                 </div>
