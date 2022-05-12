@@ -1,4 +1,4 @@
-"""Gestion des "routes" FLASK et des données pour les films.
+"""Gestion des "routes" FLASK et des données pour les configs.
 Fichier : gestion_config_crud.py
 Auteur : OM 2022.04.11
 """
@@ -9,9 +9,9 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
-from APP_FILMS_164.films.gestion_films_wtf_forms import FormWTFUpdateConfig, FormWTFAddConfig, FormWTFDeleteConfig
+from APP_CONFIG_164.database.database_tools import DBconnection
+from APP_CONFIG_164.erreurs.exceptions import *
+from APP_CONFIG_164.config.gestion_config_wtf_forms import FormWTFUpdateConfig, FormWTFAddConfig, FormWTFDeleteConfig
 
 """Ajouter un config grâce au formulaire "config_add_wtf.html"
 Auteur : OM 2022.04.11
@@ -22,7 +22,7 @@ Test : exemple: cliquer sur le menu "Utilisateurs/Configurations" puis cliquer s
 Paramètres : sans
 
 
-Remarque :  Dans le champ "config_use_case_update_wtf" du formulaire "films/config_update_wtf.html",
+Remarque :  Dans le champ "config_use_case_update_wtf" du formulaire "config/config_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python dans le fichier ""
             On ne doit pas accepter un champ vide.
 """
@@ -55,20 +55,20 @@ def config_add_wtf():
                                             f"{config_add_wtf.__name__} ; "
                                             f"{Exception_user_ajouter_wtf}")
 
-    return render_template("films/config_add_wtf.html", form_add_config=form_add_config)
+    return render_template("config/config_add_wtf.html", form_add_config=form_add_config)
 
 
 """Editer(update) un config qui a été sélectionné dans le formulaire "user_created_config_afficher.html"
 Auteur : OM 2022.04.11
 Définition d'une "route" /film_update
 
-Test : exemple: cliquer sur le menu "Films/Genres" puis cliquer sur le bouton "EDIT" d'un "config"
+Test : exemple: cliquer sur le menu "config/Genres" puis cliquer sur le bouton "EDIT" d'un "config"
 
 Paramètres : sans
 
 But : Editer(update) un genre qui a été sélectionné dans le formulaire "genres_afficher.html"
 
-Remarque :  Dans le champ "config_use_case_update_wtf" du formulaire "films/config_update_wtf.html",
+Remarque :  Dans le champ "config_use_case_update_wtf" du formulaire "config/config_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python.
             On ne doit pas accepter un champ vide.
 """
@@ -128,7 +128,7 @@ def config_update_wtf():
                                      f"{config_update_wtf.__name__} ; "
                                      f"{Exception_config_update_wtf}")
 
-    return render_template("films/config_update_wtf.html", form_update_config=form_update_config)
+    return render_template("config/config_update_wtf.html", form_update_config=form_update_config)
 
 
 """Effacer(delete) un config qui a été sélectionné dans le formulaire "config_user_afficher.html"
@@ -139,7 +139,7 @@ Test : ex. cliquer sur le menu "config" puis cliquer sur le bouton "DELETE" d'un
     
 Paramètres : sans
 
-Remarque :  Dans le champ "config_use_case_delete_wtf" du formulaire "films/config_delete_wtf.html"
+Remarque :  Dans le champ "config_use_case_delete_wtf" du formulaire "config/config_delete_wtf.html"
             On doit simplement cliquer sur "DELETE"
 """
 
@@ -155,13 +155,13 @@ def config_delete_wtf():
     # Objet formulaire pour effacer le config sélectionné.
     form_delete_config = FormWTFDeleteConfig()
     try:
-        # Si on clique sur "ANNULER", afficher tous les films.
+        # Si on clique sur "ANNULER", afficher toutes les configs.
         if form_delete_config.submit_btn_annuler.data:
             return redirect(url_for("user_created_config_afficher", id_config_sel=0))
 
         if form_delete_config.submit_btn_conf_del_config.data:
             # Récupère les données afin d'afficher à nouveau
-            # le formulaire "films/config_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+            # le formulaire "config/config_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
             data_config_delete = session['data_config_delete']
             print("data_config_delete ", data_config_delete)
 
@@ -201,7 +201,7 @@ def config_delete_wtf():
                 print("data_config_delete...", data_config_delete)
 
                 # Nécessaire pour mémoriser les données afin d'afficher à nouveau
-                # le formulaire "films/config_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                # le formulaire "config/config_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 session['data_config_delete'] = data_config_delete
 
             # Le bouton pour l'action "DELETE" dans le form. "config_delete_wtf.html" est caché.
@@ -212,7 +212,7 @@ def config_delete_wtf():
                                      f"{config_delete_wtf.__name__} ; "
                                      f"{Exception_config_delete_wtf}")
 
-    return render_template("films/config_delete_wtf.html",
+    return render_template("config/config_delete_wtf.html",
                            form_delete_config=form_delete_config,
                            btn_submit_del=btn_submit_del,
                            data_config_del=data_config_delete

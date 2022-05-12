@@ -9,12 +9,12 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_USER_164 import app
-from APP_USER_164.database.database_tools import DBconnection
-from APP_USER_164.erreurs.exceptions import *
-from APP_USER_164.userrole.gestion_userrole_wtf_forms import FormWTFAjouterUserrole
-from APP_USER_164.userrole.gestion_userrole_wtf_forms import FormWTFDeleteUserrole
-from APP_USER_164.userrole.gestion_userrole_wtf_forms import FormWTFUpdateUserrole
+from APP_CONFIG_164 import app
+from APP_CONFIG_164.database.database_tools import DBconnection
+from APP_CONFIG_164.erreurs.exceptions import *
+from APP_CONFIG_164.userrole.gestion_userrole_wtf_forms import FormWTFAjouterUserrole
+from APP_CONFIG_164.userrole.gestion_userrole_wtf_forms import FormWTFDeleteUserrole
+from APP_CONFIG_164.userrole.gestion_userrole_wtf_forms import FormWTFUpdateUserrole
 
 """
     Auteur : OM 2021.03.16

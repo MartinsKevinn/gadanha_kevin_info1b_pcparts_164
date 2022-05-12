@@ -11,7 +11,7 @@ import sys
 from flask import flash, render_template
 from pymysql import IntegrityError
 
-from APP_USER_164 import app
+from APP_CONFIG_164 import app
 
 
 class Base(Exception):

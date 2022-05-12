@@ -10,8 +10,8 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_FILMS_164.database.database_tools import DBconnection
-from APP_FILMS_164.erreurs.exceptions import *
+from APP_CONFIG_164.database.database_tools import DBconnection
+from APP_CONFIG_164.erreurs.exceptions import *
 
 """
     Nom : user_created_config_afficher
@@ -38,7 +38,7 @@ def user_created_config_afficher(id_config_sel):
                                                             LEFT JOIN t_user ON t_user.id_user = t_user_created_config.fk_genre
                                                             GROUP BY id_config"""
                 if id_config_sel == 0:
-                    # le paramètre 0 permet d'afficher tous les films
+                    # le paramètre 0 permet d'afficher toutes les configs
                     # Sinon le paramètre représente la valeur de l'id du film
                     mc_afficher.execute(strsql_genres_films_afficher_data)
                 else:
@@ -182,7 +182,7 @@ def update_genre_film_selected():
     if request.method == "POST":
         try:
             # Récupère l'id du film sélectionné
-            id_film_selected = session['session_id_film_genres_edit']
+            id_config_selected = session['session_id_film_genres_edit']
             print("session['session_id_film_genres_edit'] ", session['session_id_film_genres_edit'])
 
             # Récupère la liste des genres qui ne sont pas associés au film sélectionné.
@@ -233,7 +233,7 @@ def update_genre_film_selected():
                 for id_genre_ins in lst_diff_genres_insert_a:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
                     # et "id_genre_ins" (l'id du genre dans la liste) associé à une variable.
-                    valeurs_film_sel_genre_sel_dictionnaire = {"value_fk_film": id_film_selected,
+                    valeurs_film_sel_genre_sel_dictionnaire = {"value_fk_film": id_config_selected,
                                                                "value_fk_genre": id_genre_ins}
 
                     mconn_bd.execute(strsql_insert_genre_film, valeurs_film_sel_genre_sel_dictionnaire)
@@ -243,7 +243,7 @@ def update_genre_film_selected():
                 for id_genre_del in lst_diff_genres_delete_b:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
                     # et "id_genre_del" (l'id du genre dans la liste) associé à une variable.
-                    valeurs_film_sel_genre_sel_dictionnaire = {"value_fk_film": id_film_selected,
+                    valeurs_film_sel_genre_sel_dictionnaire = {"value_fk_film": id_config_selected,
                                                                "value_fk_genre": id_genre_del}
 
                     # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
@@ -258,8 +258,8 @@ def update_genre_film_selected():
                                                    f"{Exception_update_genre_film_selected}")
 
     # Après cette mise à jour de la table intermédiaire "t_user_created_config",
-    # on affiche les films et le(urs) genre(s) associé(s).
-    return redirect(url_for('user_created_config_afficher', id_config_sel=id_film_selected))
+    # on affiche les configs et le(urs) utilisateurs(s) associé(s).
+    return redirect(url_for('user_created_config_afficher', id_config_sel=id_config_selected))
 
 
 """

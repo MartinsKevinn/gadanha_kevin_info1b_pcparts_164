@@ -12,7 +12,7 @@ import pprint
 import environs
 from environs import Env
 
-from APP_USER_164.erreurs.exceptions import ErreurFichierEnvironnement
+from APP_CONFIG_164.erreurs.exceptions import ErreurFichierEnvironnement
 
 
 

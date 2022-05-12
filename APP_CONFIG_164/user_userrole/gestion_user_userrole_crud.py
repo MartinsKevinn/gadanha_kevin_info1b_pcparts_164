@@ -10,8 +10,8 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_USER_164.database.database_tools import DBconnection
-from APP_USER_164.erreurs.exceptions import *
+from APP_CONFIG_164.database.database_tools import DBconnection
+from APP_CONFIG_164.erreurs.exceptions import *
 
 """
     Nom : user_userrole_afficher
