@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Afficher FILMS {% endblock %}
+{% block title %} Afficher CPU {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="col-md-12">
@@ -74,7 +74,7 @@
 							<a class="btn btn-warning" href="{{ url_for('edit_cpumanufacturer_cpu_selected', id_cpu_cpumanufacturer_edit_html=row.id_cpu) }}" role="button">Modifier</a>
 						</td>
 						<td class="align-middle" colspan="5">
-							{{ row.CpumanufacturerCpu|default("PAS DE GENRES", True) }}
+							{{ row.CpumanufacturerCpu|default("PAS DE MANUFACTURER", True) }}
 						</td>
 					</tr>
 				</tr>
@@ -83,7 +83,7 @@
 				<tbody>
 					<tr>
 						<td>
-							Aucun film.
+							Aucun cpu.
 						</td>
 						<td>
 							<a class="btn btn-primary" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Add</a>

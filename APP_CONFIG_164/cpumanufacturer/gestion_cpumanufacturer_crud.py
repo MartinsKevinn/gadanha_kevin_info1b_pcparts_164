@@ -24,7 +24,7 @@ from APP_CONFIG_164.cpumanufacturer.gestion_cpumanufacturer_wtf_forms import For
     
     Paramètres : order_by : ASC : Ascendant, DESC : Descendant
                 id_cpu_manufacturer_sel = 0 >> tous les cpumanufacturer.
-                id_cpu_manufacturer_sel = "n" affiche le genre dont l'id est "n"
+                id_cpu_manufacturer_sel = "n" affiche le manufacturer dont l'id est "n"
 """
 
 
@@ -41,7 +41,7 @@ def cpumanufacturer_afficher(order_by, id_cpu_manufacturer_sel):
                     # la commande MySql classique est "SELECT * FROM t_cpumanufacturer"
                     # Pour "lever"(raise) une erreur s'il y a des erreurs sur les noms d'attributs dans la table
                     # donc, je précise les champs à afficher
-                    # Constitution d'un dictionnaire pour associer l'id du genre sélectionné avec un nom de variable
+                    # Constitution d'un dictionnaire pour associer l'id du manufacturer sélectionné avec un nom de variable
                     valeur_id_cpu_manufacturer_selected_dictionnaire = {
                         "value_id_cpu_manufacturer_selected": id_cpu_manufacturer_sel}
                     strsql_id_cpu_manufacturer_afficher = """SELECT id_cpu_manufacturer, CPU_Manufacturer  FROM t_cpumanufacturer WHERE id_cpu_manufacturer = %(value_id_cpu_manufacturer_selected)s"""
@@ -61,8 +61,8 @@ def cpumanufacturer_afficher(order_by, id_cpu_manufacturer_sel):
                 if not data_cpumanufacturer and id_cpu_manufacturer_sel == 0:
                     flash("""La table "t_cpumanufacturer" est vide. !!""", "warning")
                 elif not data_cpumanufacturer and id_cpu_manufacturer_sel > 0:
-                    # Si l'utilisateur change l'id_cpu_manufacturer dans l'URL et que le genre n'existe pas,
-                    flash(f"Le genre demandé n'existe pas !!", "warning")
+                    # Si l'utilisateur change l'id_cpu_manufacturer dans l'URL et que le manufacturer n'existe pas,
+                    flash(f"Le manufacturer demandé n'existe pas !!", "warning")
                 else:
                     # Dans tous les autres cas, c'est que la table "t_cpumanufacturer" est vide.
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
@@ -85,7 +85,7 @@ def cpumanufacturer_afficher(order_by, id_cpu_manufacturer_sel):
     
     Paramètres : sans
     
-    But : Ajouter un genre pour un film
+    But : Ajouter un manufacturer pour un cpu
     
     Remarque :  Dans le champ "name_genre_html" du formulaire "cpumanufacturer/genres_ajouter.html",
                 le contrôle de la saisie s'effectue ici en Python.
@@ -130,11 +130,11 @@ def cpumanufacturer_ajouter_wtf():
     Auteur : OM 2021.03.29
     Définition d'une "route" /cpumanufacturer_update
     
-    Test : ex cliquer sur le menu "cpumanufacturer" puis cliquer sur le bouton "EDIT" d'un "genre"
+    Test : ex cliquer sur le menu "cpumanufacturer" puis cliquer sur le bouton "EDIT" d'un "manufacturer"
     
     Paramètres : sans
     
-    But : Editer(update) un genre qui a été sélectionné dans le formulaire "cpumanufacturer_afficher.html"
+    But : Editer(update) un manufacturer qui a été sélectionné dans le formulaire "cpumanufacturer_afficher.html"
     
     Remarque :  Dans le champ "nom_genre_update_wtf" du formulaire "cpumanufacturer/cpumanufacturer_update_wtf.html",
                 le contrôle de la saisie s'effectue ici en Python.
@@ -184,9 +184,9 @@ def cpumanufacturer_update_wtf():
             valeur_select_dictionnaire = {"value_id_cpu_manufacturer": id_cpu_manufacturer_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_cpu_manufacturer, valeur_select_dictionnaire)
-            # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
+            # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom manufacturer" pour l'UPDATE
             data_nom_cpumanufacturer = mybd_conn.fetchone()
-            print("data_nom_cpumanufacturer ", data_nom_cpumanufacturer, " type ", type(data_nom_cpumanufacturer), " genre ",
+            print("data_nom_cpumanufacturer ", data_nom_cpumanufacturer, " type ", type(data_nom_cpumanufacturer), " manufacturer ",
                   data_nom_cpumanufacturer["CPU_Manufacturer"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "cpumanufacturer_update_wtf.html"
@@ -204,11 +204,11 @@ def cpumanufacturer_update_wtf():
     Auteur : OM 2021.04.08
     Définition d'une "route" /cpumanufacturer_delete
     
-    Test : ex. cliquer sur le menu "cpumanufacturer" puis cliquer sur le bouton "DELETE" d'un "genre"
+    Test : ex. cliquer sur le menu "cpumanufacturer" puis cliquer sur le bouton "DELETE" d'un "manufacturer"
     
     Paramètres : sans
     
-    But : Effacer(delete) un genre qui a été sélectionné dans le formulaire "cpumanufacturer_afficher.html"
+    But : Effacer(delete) un manufacturer qui a été sélectionné dans le formulaire "cpumanufacturer_afficher.html"
     
     Remarque :  Dans le champ "nom_genre_delete_wtf" du formulaire "cpumanufacturer/cpumanufacturer_delete_wtf.html",
                 le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
@@ -222,7 +222,7 @@ def cpumanufacturer_delete_wtf():
     # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_cpu_manufacturer"
     id_cpu_manufacturer_delete = request.values['id_cpu_manufacturer_btn_delete_html']
 
-    # Objet formulaire pour effacer le genre sélectionné.
+    # Objet formulaire pour effacer le manufacturer sélectionné.
     form_delete = FormWTFDeleteCpumanufacturer()
     try:
         print(" on submit ", form_delete.validate_on_submit())
@@ -237,9 +237,9 @@ def cpumanufacturer_delete_wtf():
                 data_cpu_attribue_cpumanufacturer_delete = session['data_cpu_attribue_cpumanufacturer_delete']
                 print("data_cpu_attribue_cpumanufacturer_delete ", data_cpu_attribue_cpumanufacturer_delete)
 
-                flash(f"Effacer le genre de façon définitive de la BD !!!", "danger")
+                flash(f"Effacer le manufacturer de façon définitive de la BD !!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
-                # On affiche le bouton "Effacer genre" qui va irrémédiablement EFFACER le genre
+                # On affiche le bouton "Effacer manufacturer" qui va irrémédiablement EFFACER le manufacturer
                 btn_submit_del = True
 
             if form_delete.submit_btn_del.data:
@@ -249,13 +249,13 @@ def cpumanufacturer_delete_wtf():
                 str_sql_delete_cpu_cpumanufacturer = """DELETE FROM t_cpumanufacturer_produce_cpu WHERE fk_cpumanufacturer = %(value_id_cpu_manufacturer)s"""
                 str_sql_delete_idcpumanufacturer = """DELETE FROM t_cpumanufacturer WHERE id_cpu_manufacturer = %(value_id_cpu_manufacturer)s"""
                 # Manière brutale d'effacer d'abord la "fk_cpumanufacturer", même si elle n'existe pas dans la "t_cpumanufacturer_produce_cpu"
-                # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_cpumanufacturer_produce_cpu"
+                # Ensuite on peut effacer le manufacturer vu qu'il n'est plus "lié" (INNODB) dans la "t_cpumanufacturer_produce_cpu"
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(str_sql_delete_cpu_cpumanufacturer, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_idcpumanufacturer, valeur_delete_dictionnaire)
 
-                flash(f"Genre définitivement effacé !!", "success")
-                print(f"Genre définitivement effacé !!")
+                flash(f"manufacturer définitivement effacé !!", "success")
+                print(f"manufacturer définitivement effacé !!")
 
                 # afficher les données
                 return redirect(url_for('cpumanufacturer_afficher', order_by="ASC", id_cpu_manufacturer_sel=0))
@@ -264,7 +264,7 @@ def cpumanufacturer_delete_wtf():
             valeur_select_dictionnaire = {"value_id_cpu_manufacturer": id_cpu_manufacturer_delete}
             print(id_cpu_manufacturer_delete, type(id_cpu_manufacturer_delete))
 
-            # Requête qui affiche tous les cpu_cpumanufacturer qui ont le genre que l'utilisateur veut effacer
+            # Requête qui affiche tous les cpu_cpumanufacturer qui ont le manufacturer que l'utilisateur veut effacer
             str_sql_cpumanufacturer_cpu_delete = """SELECT id_cpumanufacturer_produce_cpu, CPU_Name, id_cpu_manufacturer, CPU_Manufacturer FROM t_cpumanufacturer_produce_cpu 
                                             INNER JOIN t_cpu ON t_cpumanufacturer_produce_cpu.fk_cpu = t_cpu.id_cpu
                                             WHERE fk_cpumanufacturer = %(value_id_cpu_manufacturer)s"""
@@ -283,9 +283,9 @@ def cpumanufacturer_delete_wtf():
 
                 mydb_conn.execute(str_sql_id_cpu_manufacturer, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
-                # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
+                # vu qu'il n'y a qu'un seul champ "nom manufacturer" pour l'action DELETE
                 data_nom_cpumanufacturer = mydb_conn.fetchone()
-                print("data_nom_cpumanufacturer ", data_nom_cpumanufacturer, " type ", type(data_nom_cpumanufacturer), " genre ",
+                print("data_nom_cpumanufacturer ", data_nom_cpumanufacturer, " type ", type(data_nom_cpumanufacturer), " manufacturer ",
                       data_nom_cpumanufacturer["CPU_Manufacturer"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "cpumanufacturer_delete_wtf.html"

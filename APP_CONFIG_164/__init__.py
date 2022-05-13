@@ -57,9 +57,9 @@ try:
 
     from APP_CONFIG_164.cpu_cpumanufacturer import gestion_cpu_cpumanufacturer_crud
 
-    #from APP_CONFIG_164.config import gestion_config_crud
+    from APP_CONFIG_164.config import gestion_config_crud
 
-    #from APP_CONFIG_164.user_config import gestion_cpu_cpumanufacturer_crud
+    from APP_CONFIG_164.user_config import gestion_user_config_crud
 
 
 except Exception as Exception_init_app_config_164:

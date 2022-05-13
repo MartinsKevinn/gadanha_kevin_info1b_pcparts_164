@@ -33,7 +33,7 @@ def user_userrole_afficher(id_user_sel):
         try:
             with DBconnection() as mc_afficher:
                 strsql_userrole_user_afficher_data = """SELECT id_user, user_firstname, user_lastname, user_birthdate,
-                                                            GROUP_CONCAT(userrole) as userrole FROM t_user
+                                                            GROUP_CONCAT("Role : ", userrole) as userrole FROM t_user
                                                             LEFT JOIN t_user_has_userrole ON t_user.id_user = t_user_has_userrole.fk_user
                                                             LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                                             GROUP BY id_user"""

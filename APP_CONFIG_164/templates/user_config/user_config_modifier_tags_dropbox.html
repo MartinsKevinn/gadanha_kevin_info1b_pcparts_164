@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Afficher CPU MANUFACTURER {% endblock %}
+{% block title %} Afficher FILMS GENRES {% endblock %}
 {% block head %}
     <!--
         OM 2020.05.04
@@ -40,51 +40,39 @@
                 Films.
             </p>
             <table class="table table-responsive-sm">
-                {% if data_cpu_selected %}
+                {% if data_user_selected %}
                     <thead>
                         <tr>
                             <th class="">
-                                CPU ID
+                                id
                             </th>
                             <th class="">
-                                Name
+                                Firstname
                             </th>
                             <th class="">
-                                Codename
+                                Lastname
                             </th>
                             <th class="">
-                                Socket
-                            </th>
-                            <th class="">
-                                Cores
-                            </th>
-                            <th class="">
-                                Clock
+                                Birthdate
                             </th>
                         </tr>
                     </thead>
             {% endif %}
 
-            {% for row in data_cpu_selected %}
+            {% for row in data_user_selected %}
 				<tbody>
 					<tr>
 						<td class="align-middle">
-							{{ row.id_cpu }}
+							{{ row.id_user }}
 						</td>
 						<td class="align-middle">
-							{{ row.CPU_Name }}
+							{{ row.user_firstname }}
 						</td>
 						<td class="align-middle">
-							{{ row.CPU_Codename|default("", True) }}
+							{{ row.user_lastname|default("", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.CPU_Socket|default("", True) }}
-						</td>
-						<td class="align-middle">
-							{{ row.CPU_Cores|default("", True) }}
-						</td>
-						<td class="align-middle">
-							{{ row.CPU_Clock|default("", True) }}
+							{{ row.user_birthdate|default("", True) }}
 						</td>
 					</tr>
 				</tbody>
@@ -92,7 +80,7 @@
 				<tbody>
 					<tr>
 						<td>
-							Aucun cpu.
+							Aucun film.
 						</td>
 						<td>
 							<a class="btn btn-primary" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Add</a>
@@ -108,15 +96,15 @@
     <div class="row mx-md-n5">
       <div class="col px-md-5">
           <div class="p-3">
-            <form id="form_tags_select_confirm" action="{{ url_for('update_cpumanufacturer_cpu_selected') }}" method="POST">
+            <form id="form_tags_select_confirm" action="{{ url_for('update_config_user_selected') }}" method="POST">
                 <div class="qtagselect isw360">
                     <select id="OM_JTSD" name="name_select_tags" class="qtagselect__select" multiple>
-                        {% for row in data_genres_non_attribues %}
-                            <option value="{{ row.id_cpu_manufacturer }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.CPU_Manufacturer }}</option>
+                        {% for row in data_config_non_attribues %}
+                            <option value="{{ row.id_config }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.id_config }}</option>
                         {% endfor %}
 
-                        {% for row in data_genres_attribues %}
-                            <option value="{{ row.id_cpu_manufacturer }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.CPU_Manufacturer }}</option>
+                        {% for row in data_config_attribues %}
+                            <option value="{{ row.id_config }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.id_config }}</option>
                         {% endfor %}
                     </select>
                 </div>
