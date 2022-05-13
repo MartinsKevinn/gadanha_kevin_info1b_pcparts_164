@@ -2,10 +2,15 @@
 {% block title %} Afficher Utilisateur {% endblock %}
 {% block body %}
 <div class="container">
-	<th class="align-middle">
-		<a class="btn btn-primary" href="{{ url_for('user_add_wtf') }}" role="button">Ajouter</a>
-	</th>
 	<div class="col-md-12">
+		<p>
+			Users & Userroles
+		</p>
+		<th class="align-middle">
+			<a class="btn btn-primary" href="{{ url_for('user_add_wtf') }}" role="button">Ajouter</a>
+		</th>
+		<pre>
+		</pre>
 		<table class="table table-responsive-sm">
             {% if data %}
 				<thead>

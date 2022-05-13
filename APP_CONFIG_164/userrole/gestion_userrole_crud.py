@@ -12,9 +12,7 @@ from flask import url_for
 from APP_CONFIG_164 import app
 from APP_CONFIG_164.database.database_tools import DBconnection
 from APP_CONFIG_164.erreurs.exceptions import *
-from APP_CONFIG_164.userrole.gestion_userrole_wtf_forms import FormWTFAjouterUserrole
-from APP_CONFIG_164.userrole.gestion_userrole_wtf_forms import FormWTFDeleteUserrole
-from APP_CONFIG_164.userrole.gestion_userrole_wtf_forms import FormWTFUpdateUserrole
+from APP_CONFIG_164.userrole.gestion_userrole_wtf_forms import *
 
 """
     Auteur : OM 2021.03.16
@@ -68,7 +66,7 @@ def userrole_afficher(order_by, id_userrole_sel):
 
         except Exception as Exception_userrole_afficher:
             raise ExceptionUserroleAfficher(f"fichier : {Path(__file__).name}  ;  "
-                                          f"{userrole_afficher__name__} ; "
+                                          f"{userrole_afficher.__name__} ; "
                                           f"{Exception_userrole_afficher}")
 
     # Envoie la page "HTML" au serveur.

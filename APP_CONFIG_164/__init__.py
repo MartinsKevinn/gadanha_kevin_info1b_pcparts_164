@@ -50,7 +50,19 @@ try:
     from APP_CONFIG_164.user import gestion_user_crud
     from APP_CONFIG_164.user import gestion_user_wtf_forms
 
-except Exception as Exception_init_app_user_164:
-    print(f"4567756434 Une erreur est survenue {type(Exception_init_app_user_164)} dans"
-          f"__init__ {Exception_init_app_user_164.args}")
+    from APP_CONFIG_164.cpumanufacturer import gestion_cpumanufacturer_crud
+
+    from APP_CONFIG_164.cpu import gestion_cpu_crud
+    from APP_CONFIG_164.cpu import gestion_cpu_wtf_forms
+
+    from APP_CONFIG_164.cpu_cpumanufacturer import gestion_cpu_cpumanufacturer_crud
+
+    #from APP_CONFIG_164.config import gestion_config_crud
+
+    #from APP_CONFIG_164.user_config import gestion_cpu_cpumanufacturer_crud
+
+
+except Exception as Exception_init_app_config_164:
+    print(f"4567756434 Une erreur est survenue {type(Exception_init_app_config_164)} dans"
+          f"__init__ {Exception_init_app_config_164.args}")
     sys.exit()

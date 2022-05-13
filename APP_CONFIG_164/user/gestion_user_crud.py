@@ -13,6 +13,7 @@ from APP_CONFIG_164.database.database_tools import DBconnection
 from APP_CONFIG_164.erreurs.exceptions import *
 from APP_CONFIG_164.user.gestion_user_wtf_forms import FormWTFUpdateUser, FormWTFAddUser, FormWTFDeleteUser
 
+
 """Ajouter un utilisateur grâce au formulaire "user_add_wtf.html"
 Auteur : OM 2022.04.11
 Définition d'une "route" /user_add

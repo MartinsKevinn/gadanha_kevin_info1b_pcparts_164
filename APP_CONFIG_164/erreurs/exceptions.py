@@ -123,6 +123,78 @@ class ExceptionInitAppUser164(Base):
     pass
 
 
+class ExceptionConfigAfficher(Base):
+    pass
+
+
+class ExceptionConfigAjouterWtf(Base):
+    pass
+
+
+class ExceptionConfigUpdateWtf(Base):
+    pass
+
+
+class ExceptionConfigDeleteWtf(Base):
+    pass
+
+
+class ExceptionEditConfigUserSelected(Base):
+    pass
+
+
+class ExceptionUpdateConfigUserSelected(Base):
+    pass
+
+
+class ExceptionConfigUserAfficherData(Base):
+    pass
+
+
+class ExceptionUserConfigAfficher(Base):
+    pass
+
+
+class ExceptionCpumanufacturerAjouterWtf(Base):
+    pass
+
+
+class ExceptionCpuUpdateWtf(Base):
+    pass
+
+
+class ExceptionCpuDeleteWtf(Base):
+    pass
+
+
+class ExceptionGenresAfficher(Base):
+    pass
+
+
+class ExceptionCpumanufacturerUpdateWtf(Base):
+    pass
+
+
+class ExceptionCpumanufacturerDeleteWtf(Base):
+    pass
+
+
+class ExceptionCpuCpumanufacturerAfficher(Base):
+    pass
+
+
+class ExceptionEditCpumanufacturerCpuSelected(Base):
+    pass
+
+
+class ExceptionUpdateCpumanufacturerCpuSelected(Base):
+    pass
+
+
+class ExceptionCpumanufacturerCpuAfficherData(Base):
+    pass
+
+
 """
     Grâce à la méthode "flash" cela permet de "raise" (remonter) les erreurs "try...execpt" dans la page "home.html"
 """
