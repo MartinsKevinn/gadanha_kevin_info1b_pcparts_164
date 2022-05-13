@@ -48,6 +48,7 @@ try:
     from APP_CONFIG_164.erreurs import msg_avertissements
 
     from APP_CONFIG_164.user import gestion_user_crud
+
     from APP_CONFIG_164.user import gestion_user_wtf_forms
 
     from APP_CONFIG_164.cpumanufacturer import gestion_cpumanufacturer_crud
