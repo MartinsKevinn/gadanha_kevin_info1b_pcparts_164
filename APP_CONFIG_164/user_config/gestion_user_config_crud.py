@@ -1,7 +1,7 @@
 """
     Fichier : gestion_user_config_crud.py
     Auteur : OM 2021.05.01
-    Gestions des "routes" FLASK et des données pour l'association entre les films et les config.
+    Gestions des "routes" FLASK et des données pour l'association entre les user et les config.
 """
 from pathlib import Path
 
@@ -18,10 +18,10 @@ from APP_CONFIG_164.erreurs.exceptions import *
     Auteur : OM 2021.05.01
     Définition d'une "route" /user_config_afficher
     
-    But : Afficher les films avec les config associés pour chaque film.
+    But : Afficher les users avec les config associés pour chaque user.
     
-    Paramètres : id_config_sel = 0 >> tous les films.
-                 id_config_sel = "n" affiche le film dont l'id est "n"
+    Paramètres : id_config_sel = 0 >> tous les users.
+                 id_config_sel = "n" affiche le user dont l'id est "n"
                  
 """
 
@@ -33,16 +33,16 @@ def user_config_afficher(id_user_sel):
         try:
             with DBconnection() as mc_afficher:
                 strsql_config_user_afficher_data = """SELECT id_user, user_firstname, user_lastname, user_birthdate,
-                                                            GROUP_CONCAT("ID Config : ", id_config, ", ", "Config use case : ", config_use_case, ", ", "config_rating : ", config_rating, "/5") as UserConfig FROM t_user_created_config
+                                                            GROUP_CONCAT("ID Config : ", id_config, ", ", "Config use case : ", config_use_case, ", ", "Config rating : ", config_rating, "/5") as UserConfig FROM t_user_created_config
                                                             RIGHT JOIN t_user ON t_user.id_user = t_user_created_config.fk_user
                                                             LEFT JOIN t_config ON t_config.id_config = t_user_created_config.fk_config
                                                             GROUP BY id_user"""
                 if id_user_sel == 0:
-                    # le paramètre 0 permet d'afficher tous les films
-                    # Sinon le paramètre représente la valeur de l'id du film
+                    # le paramètre 0 permet d'afficher tous les users
+                    # Sinon le paramètre représente la valeur de l'id du user
                     mc_afficher.execute(strsql_config_user_afficher_data)
                 else:
-                    # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
+                    # Constitution d'un dictionnaire pour associer l'id du user sélectionné avec un nom de variable
                     valeur_id_user_selected_dictionnaire = {"value_id_user_selected": id_user_sel}
                     # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
                     # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
@@ -58,10 +58,10 @@ def user_config_afficher(id_user_sel):
                 if not data_config_user_afficher and id_user_sel == 0:
                     flash("""La table "t_user" est vide. !""", "warning")
                 elif not data_config_user_afficher and id_user_sel > 0:
-                    # Si l'utilisateur change l'id_user dans l'URL et qu'il ne correspond à aucun film
-                    flash(f"Le film {id_user_sel} demandé n'existe pas !!", "warning")
+                    # Si l'utilisateur change l'id_user dans l'URL et qu'il ne correspond à aucun user
+                    flash(f"L'utilisateur {id_user_sel} demandé n'existe pas !!", "warning")
                 else:
-                    flash(f"Données films et config affichés !!", "success")
+                    flash(f"Données utilisateurs et config affichés !!", "success")
 
         except Exception as Exception_user_config_afficher:
             raise ExceptionUserConfigAfficher(f"fichier : {Path(__file__).name}  ;  {user_config_afficher.__name__} ;"
@@ -76,12 +76,12 @@ def user_config_afficher(id_user_sel):
     nom: edit_config_user_selected
     On obtient un objet "objet_dumpbd"
 
-    Récupère la liste de tous les config du film sélectionné par le bouton "MODIFIER" de "user_config_afficher.html"
+    Récupère la liste de tous les config du user sélectionné par le bouton "MODIFIER" de "user_config_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
     1) Tous les config contenus dans la "t_config".
-    2) Les config attribués au film selectionné.
-    3) Les config non-attribués au film sélectionné.
+    2) Les config attribués au user selectionné.
+    3) Les config non-attribués au user sélectionné.
 
     On signale les erreurs importantes
 
@@ -104,18 +104,18 @@ def edit_config_user_selected():
             # href="{{ url_for('edit_config_user_selected', id_user_config_edit_html=row.id_user) }}"
             id_user_config_edit = request.values['id_user_config_edit_html']
 
-            # Mémorise l'id du film dans une variable de session
+            # Mémorise l'id du user dans une variable de session
             # (ici la sécurité de l'application n'est pas engagée)
             # il faut éviter de stocker des données sensibles dans des variables de sessions.
             session['session_id_user_config_edit'] = id_user_config_edit
 
-            # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
+            # Constitution d'un dictionnaire pour associer l'id du user sélectionné avec un nom de variable
             valeur_id_user_selected_dictionnaire = {"value_id_user_selected": id_user_config_edit}
 
             # Récupère les données grâce à 3 requêtes MySql définie dans la fonction config_user_afficher_data
-            # 1) Sélection du film choisi
-            # 2) Sélection des config "déjà" attribués pour le film.
-            # 3) Sélection des config "pas encore" attribués pour le film choisi.
+            # 1) Sélection du user choisi
+            # 2) Sélection des config "déjà" attribués pour le user.
+            # 3) Sélection des config "pas encore" attribués pour le user choisi.
             # ATTENTION à l'ordre d'assignation des variables retournées par la fonction "config_user_afficher_data"
             data_config_user_selected, data_config_user_non_attribues, data_config_user_attribues = \
                 config_user_afficher_data(valeur_id_user_selected_dictionnaire)
@@ -167,12 +167,12 @@ def edit_config_user_selected():
 """
     nom: update_config_user_selected
 
-    Récupère la liste de tous les config du film sélectionné par le bouton "MODIFIER" de "user_config_afficher.html"
+    Récupère la liste de tous les config du user sélectionné par le bouton "MODIFIER" de "user_config_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
     1) Tous les config contenus dans la "t_config".
-    2) Les config attribués au film selectionné.
-    3) Les config non-attribués au film sélectionné.
+    2) Les config attribués au user selectionné.
+    3) Les config non-attribués au user sélectionné.
 
     On signale les erreurs importantes
 """
@@ -182,15 +182,15 @@ def edit_config_user_selected():
 def update_config_user_selected():
     if request.method == "POST":
         try:
-            # Récupère l'id du film sélectionné
+            # Récupère l'id du user sélectionné
             id_user_selected = session['session_id_user_config_edit']
             print("session['session_id_user_config_edit'] ", session['session_id_user_config_edit'])
 
-            # Récupère la liste des config qui ne sont pas associés au film sélectionné.
+            # Récupère la liste des config qui ne sont pas associés au user sélectionné.
             old_lst_data_config_user_non_attribues = session['session_lst_data_config_user_non_attribues']
             print("old_lst_data_config_user_non_attribues ", old_lst_data_config_user_non_attribues)
 
-            # Récupère la liste des config qui sont associés au film sélectionné.
+            # Récupère la liste des config qui sont associés au user sélectionné.
             old_lst_data_config_user_attribues = session['session_lst_data_config_user_old_attribues']
             print("old_lst_data_config_user_old_attribues ", old_lst_data_config_user_attribues)
 
@@ -198,7 +198,7 @@ def update_config_user_selected():
             session.clear()
 
             # Récupère ce que l'utilisateur veut modifier comme config dans le composant "tags-selector-tagselect"
-            # dans le fichier "genres_films_modifier_tags_dropbox.html"
+            # dans le fichier "config_user_modifier_tags_dropbox.html"
             new_lst_str_config_user = request.form.getlist('name_select_tags')
             print("new_lst_str_config_user ", new_lst_str_config_user)
 
@@ -229,21 +229,21 @@ def update_config_user_selected():
             strsql_delete_config_user = """DELETE FROM t_user_created_config WHERE fk_config = %(value_fk_config)s AND fk_user = %(value_fk_user)s"""
 
             with DBconnection() as mconn_bd:
-                # Pour le film sélectionné, parcourir la liste des config à INSÉRER dans la "t_user_created_config".
+                # Pour le user sélectionné, parcourir la liste des config à INSÉRER dans la "t_user_created_config".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_config_ins in lst_diff_config_insert_a:
-                    # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    # et "id_config_ins" (l'id du genre dans la liste) associé à une variable.
+                    # Constitution d'un dictionnaire pour associer l'id du user sélectionné avec un nom de variable
+                    # et "id_config_ins" (l'id de la config dans la liste) associé à une variable.
                     valeurs_user_sel_config_sel_dictionnaire = {"value_fk_user": id_user_selected,
                                                                 "value_fk_config": id_config_ins}
 
                     mconn_bd.execute(strsql_insert_config_user, valeurs_user_sel_config_sel_dictionnaire)
 
-                # Pour le film sélectionné, parcourir la liste des config à EFFACER dans la "t_user_created_config".
+                # Pour l'utilisateur sélectionné, parcourir la liste des config à EFFACER dans la "t_user_created_config".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_config_del in lst_diff_config_delete_b:
-                    # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    # et "id_config_del" (l'id du genre dans la liste) associé à une variable.
+                    # Constitution d'un dictionnaire pour associer l'id de l'utilisateur sélectionné avec un nom de variable
+                    # et "id_config_del" (l'id de la config dans la liste) associé à une variable.
                     valeurs_user_sel_config_sel_dictionnaire = {"value_fk_user": id_user_selected,
                                                                 "value_fk_config": id_config_del}
 
@@ -259,14 +259,14 @@ def update_config_user_selected():
                                                    f"{Exception_update_config_user_selected}")
 
     # Après cette mise à jour de la table intermédiaire "t_user_created_config",
-    # on affiche les films et le(urs) genre(s) associé(s).
+    # on affiche les utilisateurs et la(les) config(s) associé(s).
     return redirect(url_for('user_config_afficher', id_user_sel=id_user_selected))
 
 
 """
     nom: config_user_afficher_data
 
-    Récupère la liste de tous les config du film sélectionné par le bouton "MODIFIER" de "user_config_afficher.html"
+    Récupère la liste de tous les config du user sélectionné par le bouton "MODIFIER" de "user_config_afficher.html"
     Nécessaire pour afficher tous les "TAGS" des config, ainsi l'utilisateur voit les config à disposition
 
     On signale les erreurs importantes
@@ -282,7 +282,7 @@ def config_user_afficher_data(valeur_id_user_selected_dict):
                                         INNER JOIN t_config ON t_config.id_config = t_user_created_config.fk_config
                                         WHERE id_user = %(value_id_user_selected)s"""
 
-        strsql_config_user_non_attribues = """SELECT id_config, config_use_case FROM t_config WHERE id_config not in(SELECT id_config as idGenresFilms FROM t_user_created_config
+        strsql_config_user_non_attribues = """SELECT id_config, config_use_case FROM t_config WHERE id_config not in(SELECT id_config as idConfigUser FROM t_user_created_config
                                                     INNER JOIN t_user ON t_user.id_user = t_user_created_config.fk_user
                                                     INNER JOIN t_config ON t_config.id_config = t_user_created_config.fk_config
                                                     WHERE id_user = %(value_id_user_selected)s)"""

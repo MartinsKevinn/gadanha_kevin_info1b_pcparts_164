@@ -68,10 +68,10 @@ def cpumanufacturer_afficher(order_by, id_cpu_manufacturer_sel):
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
                     flash(f"Données cpumanufacturer affichés !!", "success")
 
-        except Exception as Exception_genres_afficher:
-            raise ExceptionGenresAfficher(f"fichier : {Path(__file__).name}  ;  "
+        except Exception as Exception_cpumanufacturer_afficher:
+            raise ExceptionCpumanufacturerAfficher(f"fichier : {Path(__file__).name}  ;  "
                                           f"{cpumanufacturer_afficher.__name__} ; "
-                                          f"{Exception_genres_afficher}")
+                                          f"{Exception_cpumanufacturer_afficher}")
 
     # Envoie la page "HTML" au serveur.
     return render_template("cpumanufacturer/cpumanufacturer_afficher.html", data=data_cpumanufacturer)
@@ -79,15 +79,15 @@ def cpumanufacturer_afficher(order_by, id_cpu_manufacturer_sel):
 
 """
     Auteur : OM 2021.03.22
-    Définition d'une "route" /genres_ajouter
+    Définition d'une "route" /cpumanufacturer_ajouter
     
-    Test : ex : http://127.0.0.1:5005/genres_ajouter
+    Test : ex : http://127.0.0.1:5005/cpumanufacturer_ajouter
     
     Paramètres : sans
     
     But : Ajouter un manufacturer pour un cpu
     
-    Remarque :  Dans le champ "name_genre_html" du formulaire "cpumanufacturer/genres_ajouter.html",
+    Remarque :  Dans le champ "name_cpumanufacturer_html" du formulaire "cpumanufacturer/cpumanufacturer_ajouter.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -97,13 +97,13 @@ def cpumanufacturer_afficher(order_by, id_cpu_manufacturer_sel):
 """
 
 
-@app.route("/genres_ajouter", methods=['GET', 'POST'])
+@app.route("/cpumanufacturer_ajouter", methods=['GET', 'POST'])
 def cpumanufacturer_ajouter_wtf():
     form = FormWTFAjouterCpumanufacturer()
     if request.method == "POST":
         try:
             if form.validate_on_submit():
-                name_cpumanufacturer_wtf = form.nom_genre_wtf.data
+                name_cpumanufacturer_wtf = form.nom_cpumanufacturer_wtf.data
                 name_cpumanufacturer = name_cpumanufacturer_wtf.lower()
                 valeurs_insertion_dictionnaire = {"value_CPU_Manufacturer": name_cpumanufacturer}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
@@ -136,7 +136,7 @@ def cpumanufacturer_ajouter_wtf():
     
     But : Editer(update) un manufacturer qui a été sélectionné dans le formulaire "cpumanufacturer_afficher.html"
     
-    Remarque :  Dans le champ "nom_genre_update_wtf" du formulaire "cpumanufacturer/cpumanufacturer_update_wtf.html",
+    Remarque :  Dans le champ "nom_cpumanufacturer_update_wtf" du formulaire "cpumanufacturer/cpumanufacturer_update_wtf.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -158,7 +158,7 @@ def cpumanufacturer_update_wtf():
         if form_update.validate_on_submit():
             # Récupèrer la valeur du champ depuis "cpumanufacturer_update_wtf.html" après avoir cliqué sur "SUBMIT".
             # Puis la convertir en lettres minuscules.
-            name_cpumanufacturer_update = form_update.nom_genre_update_wtf.data
+            name_cpumanufacturer_update = form_update.nom_cpumanufacturer_update_wtf.data
             name_cpumanufacturer_update = name_cpumanufacturer_update.lower()
 
             valeur_update_dictionnaire = {"value_id_cpu_manufacturer": id_cpu_manufacturer_update,
@@ -190,7 +190,7 @@ def cpumanufacturer_update_wtf():
                   data_nom_cpumanufacturer["CPU_Manufacturer"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "cpumanufacturer_update_wtf.html"
-            form_update.nom_genre_update_wtf.data = data_nom_cpumanufacturer["CPU_Manufacturer"]
+            form_update.nom_cpumanufacturer_update_wtf.data = data_nom_cpumanufacturer["CPU_Manufacturer"]
 
     except Exception as Exception_cpumanufacturer_update_wtf:
         raise ExceptionCpumanufacturerUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
@@ -210,7 +210,7 @@ def cpumanufacturer_update_wtf():
     
     But : Effacer(delete) un manufacturer qui a été sélectionné dans le formulaire "cpumanufacturer_afficher.html"
     
-    Remarque :  Dans le champ "nom_genre_delete_wtf" du formulaire "cpumanufacturer/cpumanufacturer_delete_wtf.html",
+    Remarque :  Dans le champ "nom_cpumanufacturer_delete_wtf" du formulaire "cpumanufacturer/cpumanufacturer_delete_wtf.html",
                 le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
 """
 
@@ -289,7 +289,7 @@ def cpumanufacturer_delete_wtf():
                       data_nom_cpumanufacturer["CPU_Manufacturer"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "cpumanufacturer_delete_wtf.html"
-            form_delete.nom_genre_delete_wtf.data = data_nom_cpumanufacturer["CPU_Manufacturer"]
+            form_delete.nom_cpumanufacturer_delete_wtf.data = data_nom_cpumanufacturer["CPU_Manufacturer"]
 
             # Le bouton pour l'action "DELETE" dans le form. "cpumanufacturer_delete_wtf.html" est caché.
             btn_submit_del = False

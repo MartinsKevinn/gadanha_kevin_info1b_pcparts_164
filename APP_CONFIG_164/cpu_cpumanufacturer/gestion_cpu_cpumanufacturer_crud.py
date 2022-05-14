@@ -52,7 +52,8 @@ def cpu_cpumanufacturer_afficher(id_cpu_sel):
 
                 # Récupère les données de la requête.
                 data_cpumanufacturer_cpu_afficher = mc_afficher.fetchall()
-                print("data_cpumanufacturer ", data_cpumanufacturer_cpu_afficher, " Type : ", type(data_cpumanufacturer_cpu_afficher))
+                print("data_cpumanufacturer ", data_cpumanufacturer_cpu_afficher, " Type : ",
+                      type(data_cpumanufacturer_cpu_afficher))
 
                 # Différencier les messages.
                 if not data_cpumanufacturer_cpu_afficher and id_cpu_sel == 0:
@@ -64,12 +65,14 @@ def cpu_cpumanufacturer_afficher(id_cpu_sel):
                     flash(f"Données cpu et cpumanufacturer affichés !!", "success")
 
         except Exception as Exception_cpu_cpumanufacturer_afficher:
-            raise ExceptionCpuCpumanufacturerAfficher(f"fichier : {Path(__file__).name}  ;  {cpu_cpumanufacturer_afficher.__name__} ;"
-                                               f"{Exception_cpu_cpumanufacturer_afficher}")
+            raise ExceptionCpuCpumanufacturerAfficher(
+                f"fichier : {Path(__file__).name}  ;  {cpu_cpumanufacturer_afficher.__name__} ;"
+                f"{Exception_cpu_cpumanufacturer_afficher}")
 
     print("cpu_cpumanufacturer_afficher  ", data_cpumanufacturer_cpu_afficher)
     # Envoie la page "HTML" au serveur.
-    return render_template("cpu_cpumanufacturer/cpu_cpumanufacturer_afficher.html", data=data_cpumanufacturer_cpu_afficher)
+    return render_template("cpu_cpumanufacturer/cpu_cpumanufacturer_afficher.html",
+                           data=data_cpumanufacturer_cpu_afficher)
 
 
 """
@@ -127,34 +130,39 @@ def edit_cpumanufacturer_cpu_selected():
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
             # les cpumanufacturer qui ne sont pas encore sélectionnés.
-            lst_data_cpumanufacturer_cpu_non_attribues = [item['id_cpu_manufacturer'] for item in data_cpumanufacturer_cpu_non_attribues]
+            lst_data_cpumanufacturer_cpu_non_attribues = [item['id_cpu_manufacturer'] for item in
+                                                          data_cpumanufacturer_cpu_non_attribues]
             session['session_lst_data_cpumanufacturer_cpu_non_attribues'] = lst_data_cpumanufacturer_cpu_non_attribues
             print("lst_data_cpumanufacturer_cpu_non_attribues  ", lst_data_cpumanufacturer_cpu_non_attribues,
                   type(lst_data_cpumanufacturer_cpu_non_attribues))
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
             # les cpumanufacturer qui sont déjà sélectionnés.
-            lst_data_cpumanufacturer_cpu_old_attribues = [item['id_cpu_manufacturer'] for item in data_cpumanufacturer_cpu_attribues]
+            lst_data_cpumanufacturer_cpu_old_attribues = [item['id_cpu_manufacturer'] for item in
+                                                          data_cpumanufacturer_cpu_attribues]
             session['session_lst_data_cpumanufacturer_cpu_old_attribues'] = lst_data_cpumanufacturer_cpu_old_attribues
             print("lst_data_cpumanufacturer_cpu_old_attribues  ", lst_data_cpumanufacturer_cpu_old_attribues,
                   type(lst_data_cpumanufacturer_cpu_old_attribues))
 
-            print(" data data_cpumanufacturer_cpu_selected", data_cpumanufacturer_cpu_selected, "type ", type(data_cpumanufacturer_cpu_selected))
+            print(" data data_cpumanufacturer_cpu_selected", data_cpumanufacturer_cpu_selected, "type ",
+                  type(data_cpumanufacturer_cpu_selected))
             print(" data data_cpumanufacturer_cpu_non_attribues ", data_cpumanufacturer_cpu_non_attribues, "type ",
                   type(data_cpumanufacturer_cpu_non_attribues))
             print(" data_cpumanufacturer_cpu_attribues ", data_cpumanufacturer_cpu_attribues, "type ",
                   type(data_cpumanufacturer_cpu_attribues))
 
-            # Extrait les valeurs contenues dans la table "t_genres", colonne "CPU_Manufacturer"
+            # Extrait les valeurs contenues dans la table "t_cpumanufacturer", colonne "CPU_Manufacturer"
             # Le composant javascript "tagify" pour afficher les tags n'a pas besoin de l'id_cpu_manufacturer
-            lst_data_cpumanufacturer_cpu_non_attribues = [item['CPU_Manufacturer'] for item in data_cpumanufacturer_cpu_non_attribues]
-            print("lst_all_cpumanufacturer gf_edit_cpumanufacturer_cpu_selected ", lst_data_cpumanufacturer_cpu_non_attribues,
+            lst_data_cpumanufacturer_cpu_non_attribues = [item['CPU_Manufacturer'] for item in
+                                                          data_cpumanufacturer_cpu_non_attribues]
+            print("lst_all_cpumanufacturer gf_edit_cpumanufacturer_cpu_selected ",
+                  lst_data_cpumanufacturer_cpu_non_attribues,
                   type(lst_data_cpumanufacturer_cpu_non_attribues))
 
         except Exception as Exception_edit_cpumanufacturer_cpu_selected:
             raise ExceptionEditCpumanufacturerCpuSelected(f"fichier : {Path(__file__).name}  ;  "
-                                                 f"{edit_cpumanufacturer_cpu_selected.__name__} ; "
-                                                 f"{Exception_edit_cpumanufacturer_cpu_selected}")
+                                                          f"{edit_cpumanufacturer_cpu_selected.__name__} ; "
+                                                          f"{Exception_edit_cpumanufacturer_cpu_selected}")
 
     return render_template("cpu_cpumanufacturer/cpu_cpumanufacturer_modifier_tags_dropbox.html",
                            data_cpumanufacturer=data_cpumanufacturer_all,
@@ -186,7 +194,8 @@ def update_cpumanufacturer_cpu_selected():
             print("session['session_id_cpu_cpumanufacturer_edit'] ", session['session_id_cpu_cpumanufacturer_edit'])
 
             # Récupère la liste des cpumanufacturer qui ne sont pas associés au cpu sélectionné.
-            old_lst_data_cpumanufacturer_cpu_non_attribues = session['session_lst_data_cpumanufacturer_cpu_non_attribues']
+            old_lst_data_cpumanufacturer_cpu_non_attribues = session[
+                'session_lst_data_cpumanufacturer_cpu_non_attribues']
             print("old_lst_data_cpumanufacturer_cpu_non_attribues ", old_lst_data_cpumanufacturer_cpu_non_attribues)
 
             # Récupère la liste des cpumanufacturer qui sont associés au cpu sélectionné.
@@ -197,21 +206,22 @@ def update_cpumanufacturer_cpu_selected():
             session.clear()
 
             # Récupère ce que l'utilisateur veut modifier comme cpumanufacturer dans le composant "tags-selector-tagselect"
-            # dans le fichier "genres_films_modifier_tags_dropbox.html"
+            # dans le fichier "cpumanufacturer_cpu_modifier_tags_dropbox.html"
             new_lst_str_cpumanufacturer_cpu = request.form.getlist('name_select_tags')
             print("new_lst_str_cpumanufacturer_cpu ", new_lst_str_cpumanufacturer_cpu)
 
             # OM 2021.05.02 Exemple : Dans "name_select_tags" il y a ['4','65','2']
             # On transforme en une liste de valeurs numériques. [4,65,2]
             new_lst_int_cpumanufacturer_cpu_old = list(map(int, new_lst_str_cpumanufacturer_cpu))
-            print("new_lst_cpumanufacturer_cpu ", new_lst_int_cpumanufacturer_cpu_old, "type new_lst_cpumanufacturer_cpu ",
+            print("new_lst_cpumanufacturer_cpu ", new_lst_int_cpumanufacturer_cpu_old,
+                  "type new_lst_cpumanufacturer_cpu ",
                   type(new_lst_int_cpumanufacturer_cpu_old))
 
             # Pour apprécier la facilité de la vie en Python... "les ensembles en Python"
             # https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles
             # OM 2021.05.02 Une liste de "id_cpu_manufacturer" qui doivent être effacés de la table intermédiaire "t_cpumanufacturer_produce_cpu".
             lst_diff_cpumanufacturer_delete_b = list(set(old_lst_data_cpumanufacturer_cpu_attribues) -
-                                            set(new_lst_int_cpumanufacturer_cpu_old))
+                                                     set(new_lst_int_cpumanufacturer_cpu_old))
             print("lst_diff_cpumanufacturer_delete_b ", lst_diff_cpumanufacturer_delete_b)
 
             # Une liste de "id_cpu_manufacturer" qui doivent être ajoutés à la "t_cpumanufacturer_produce_cpu"
@@ -236,7 +246,8 @@ def update_cpumanufacturer_cpu_selected():
                     valeurs_cpu_sel_cpumanufacturer_sel_dictionnaire = {"value_fk_cpu": id_cpu_selected,
                                                                         "value_fk_cpumanufacturer": id_cpumanufacturer_ins}
 
-                    mconn_bd.execute(strsql_insert_cpumanufacturer_cpu, valeurs_cpu_sel_cpumanufacturer_sel_dictionnaire)
+                    mconn_bd.execute(strsql_insert_cpumanufacturer_cpu,
+                                     valeurs_cpu_sel_cpumanufacturer_sel_dictionnaire)
 
                 # Pour le cpu sélectionné, parcourir la liste des cpumanufacturer à EFFACER dans la "t_cpumanufacturer_produce_cpu".
                 # Si la liste est vide, la boucle n'est pas parcourue.
@@ -244,18 +255,19 @@ def update_cpumanufacturer_cpu_selected():
                     # Constitution d'un dictionnaire pour associer l'id du cpu sélectionné avec un nom de variable
                     # et "id_cpumanufacturer_del" (l'id du manufacturer dans la liste) associé à une variable.
                     valeurs_cpu_sel_cpumanufacturer_sel_dictionnaire = {"value_fk_cpu": id_cpu_selected,
-                                                               "value_fk_cpumanufacturer": id_cpumanufacturer_del}
+                                                                        "value_fk_cpumanufacturer": id_cpumanufacturer_del}
 
                     # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
                     # la subtilité consiste à avoir une méthode "execute" dans la classe "DBconnection"
                     # ainsi quand elle aura terminé l'insertion des données le destructeur de la classe "DBconnection"
                     # sera interprété, ainsi on fera automatiquement un commit
-                    mconn_bd.execute(strsql_delete_cpumanufacturer_cpu, valeurs_cpu_sel_cpumanufacturer_sel_dictionnaire)
+                    mconn_bd.execute(strsql_delete_cpumanufacturer_cpu,
+                                     valeurs_cpu_sel_cpumanufacturer_sel_dictionnaire)
 
         except Exception as Exception_update_cpumanufacturer_cpu_selected:
             raise ExceptionUpdateCpumanufacturerCpuSelected(f"fichier : {Path(__file__).name}  ;  "
-                                                   f"{update_cpumanufacturer_cpu_selected.__name__} ; "
-                                                   f"{Exception_update_cpumanufacturer_cpu_selected}")
+                                                            f"{update_cpumanufacturer_cpu_selected.__name__} ; "
+                                                            f"{Exception_update_cpumanufacturer_cpu_selected}")
 
     # Après cette mise à jour de la table intermédiaire "t_cpumanufacturer_produce_cpu",
     # on affiche les cpu et le(urs) manufacturer(s) associé(s).
@@ -281,7 +293,7 @@ def cpumanufacturer_cpu_afficher_data(valeur_id_cpu_selected_dict):
                                         INNER JOIN t_cpumanufacturer ON t_cpumanufacturer.id_cpu_manufacturer = t_cpumanufacturer_produce_cpu.fk_cpumanufacturer
                                         WHERE id_cpu = %(value_id_cpu_selected)s"""
 
-        strsql_cpumanufacturer_cpu_non_attribues = """SELECT id_cpu_manufacturer, CPU_Manufacturer FROM t_cpumanufacturer WHERE id_cpu_manufacturer not in(SELECT id_cpu_manufacturer as idGenresFilms FROM t_cpumanufacturer_produce_cpu
+        strsql_cpumanufacturer_cpu_non_attribues = """SELECT id_cpu_manufacturer, CPU_Manufacturer FROM t_cpumanufacturer WHERE id_cpu_manufacturer not in(SELECT id_cpu_manufacturer as idCpumanufacturerCpu FROM t_cpumanufacturer_produce_cpu
                                                     INNER JOIN t_cpu ON t_cpu.id_cpu = t_cpumanufacturer_produce_cpu.fk_cpu
                                                     INNER JOIN t_cpumanufacturer ON t_cpumanufacturer.id_cpu_manufacturer = t_cpumanufacturer_produce_cpu.fk_cpumanufacturer
                                                     WHERE id_cpu = %(value_id_cpu_selected)s)"""
@@ -298,7 +310,8 @@ def cpumanufacturer_cpu_afficher_data(valeur_id_cpu_selected_dict):
             # Récupère les données de la requête.
             data_cpumanufacturer_cpu_non_attribues = mc_afficher.fetchall()
             # Affichage dans la console
-            print("cpumanufacturer_cpu_afficher_data ----> data_cpumanufacturer_cpu_non_attribues ", data_cpumanufacturer_cpu_non_attribues,
+            print("cpumanufacturer_cpu_afficher_data ----> data_cpumanufacturer_cpu_non_attribues ",
+                  data_cpumanufacturer_cpu_non_attribues,
                   " Type : ",
                   type(data_cpumanufacturer_cpu_non_attribues))
 
@@ -322,5 +335,5 @@ def cpumanufacturer_cpu_afficher_data(valeur_id_cpu_selected_dict):
 
     except Exception as Exception_cpumanufacturer_cpu_afficher_data:
         raise ExceptionCpumanufacturerCpuAfficherData(f"fichier : {Path(__file__).name}  ;  "
-                                               f"{cpumanufacturer_cpu_afficher_data.__name__} ; "
-                                               f"{Exception_cpumanufacturer_cpu_afficher_data}")
+                                                      f"{cpumanufacturer_cpu_afficher_data.__name__} ; "
+                                                      f"{Exception_cpumanufacturer_cpu_afficher_data}")

@@ -16,9 +16,9 @@ class FormWTFAddCpu(FlaskForm):
         Dans le formulaire "cpumanufacturer_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_film_regexp = ""
+    nom_cpu_regexp = ""
     nom_cpu_add_wtf = StringField("Nom du cpu ", validators=[Length(min=2, max=2000, message="min 2 max 20"),
-                                                               Regexp(nom_film_regexp,
+                                                               Regexp(nom_cpu_regexp,
                                                                       message="Pas de chiffres, de caractères "
                                                                               "spéciaux, "
                                                                               "d'espace à double, de double "
@@ -47,12 +47,12 @@ class FormWTFDeleteCpu(FlaskForm):
     """
         Dans le formulaire "cpu_delete_wtf.html"
 
-        nom_film_delete_wtf : Champ qui reçoit la valeur du cpu, lecture seule. (readonly=true)
+        CPU_Name_delete_wtf : Champ qui reçoit la valeur du cpu, lecture seule. (readonly=true)
         submit_btn_del : Bouton d'effacement "DEFINITIF".
         submit_btn_conf_del : Bouton de confirmation pour effacer un "cpu".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_cpu".
     """
-    nom_film_delete_wtf = StringField("Effacer ce cpu")
+    CPU_Name_delete_wtf = StringField("Effacer ce cpu")
     submit_btn_del_cpu = SubmitField("Effacer cpu")
     submit_btn_conf_del_cpu = SubmitField("Etes-vous sur d'effacer ?")
     submit_btn_annuler = SubmitField("Annuler")

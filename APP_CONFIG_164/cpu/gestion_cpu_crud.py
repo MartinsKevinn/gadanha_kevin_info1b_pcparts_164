@@ -22,7 +22,7 @@ Test : exemple: cliquer sur le menu "cpu/manufacturer" puis cliquer sur le bouto
 Paramètres : sans
 
 
-Remarque :  Dans le champ "nom_cpu_update_wtf" du formulaire "cpu/films_update_wtf.html",
+Remarque :  Dans le champ "nom_cpu_update_wtf" du formulaire "cpu/cpu_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python dans le fichier ""
             On ne doit pas accepter un champ vide.
 """
@@ -68,7 +68,7 @@ Paramètres : sans
 
 But : Editer(update) un manufacturer qui a été sélectionné dans le formulaire "cpumanufacturer_afficher.html"
 
-Remarque :  Dans le champ "nom_cpu_update_wtf" du formulaire "cpu/films_update_wtf.html",
+Remarque :  Dans le champ "nom_cpu_update_wtf" du formulaire "cpu/cpu_update_wtf.html",
             le contrôle de la saisie s'effectue ici en Python.
             On ne doit pas accepter un champ vide.
 """
@@ -151,7 +151,7 @@ Test : ex. cliquer sur le menu "cpu" puis cliquer sur le bouton "DELETE" d'un "c
     
 Paramètres : sans
 
-Remarque :  Dans le champ "nom_film_delete_wtf" du formulaire "cpu/cpu_delete_wtf.html"
+Remarque :  Dans le champ "CPU_Name_delete_wtf" du formulaire "cpu/cpu_delete_wtf.html"
             On doit simplement cliquer sur "DELETE"
 """
 

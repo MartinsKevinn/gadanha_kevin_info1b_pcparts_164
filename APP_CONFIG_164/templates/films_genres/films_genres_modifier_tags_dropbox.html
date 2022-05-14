@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Afficher CPU MANUFACTURER {% endblock %}
+{% block title %} Afficher FILMS GENRES {% endblock %}
 {% block head %}
     <!--
         OM 2020.05.04
@@ -37,54 +37,54 @@
 
 			</p>
             <p>
-                CPU.
+                Films.
             </p>
             <table class="table table-responsive-sm">
-                {% if data_cpu_selected %}
+                {% if data_film_selected %}
                     <thead>
                         <tr>
                             <th class="">
-                                CPU ID
+                                id
                             </th>
                             <th class="">
-                                Name
+                                Titre
                             </th>
                             <th class="">
-                                Codename
+                                Durée
                             </th>
                             <th class="">
-                                Socket
+                                Date sortie
                             </th>
                             <th class="">
-                                Cores
+                                Description
                             </th>
                             <th class="">
-                                Clock
+                                Affiche
                             </th>
                         </tr>
                     </thead>
             {% endif %}
 
-            {% for row in data_cpu_selected %}
+            {% for row in data_film_selected %}
 				<tbody>
 					<tr>
 						<td class="align-middle">
-							{{ row.id_cpu }}
+							{{ row.id_film }}
 						</td>
 						<td class="align-middle">
-							{{ row.CPU_Name }}
+							{{ row.nom_film }}
 						</td>
 						<td class="align-middle">
-							{{ row.CPU_Codename|default("", True) }}
+							{{ row.duree_film|default("", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.CPU_Socket|default("", True) }}
+							{{ row.date_sortie_film|default("", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.CPU_Cores|default("", True) }}
+							{{ row.description_film|default("", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.CPU_Clock|default("", True) }}
+                            <img class="img" src={{ row.cover_link_film|default(None, True) }} style="border: 0;display:block; width:150px; max-height:auto;" alt = "image masquée FFP67 (in COVID-29 Memory) (absente) mod 164">
 						</td>
 					</tr>
 				</tbody>
@@ -92,7 +92,7 @@
 				<tbody>
 					<tr>
 						<td>
-							Aucun cpu.
+							Aucun film.
 						</td>
 						<td>
 							<a class="btn btn-primary" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Add</a>
@@ -108,15 +108,15 @@
     <div class="row mx-md-n5">
       <div class="col px-md-5">
           <div class="p-3">
-            <form id="form_tags_select_confirm" action="{{ url_for('update_cpumanufacturer_cpu_selected') }}" method="POST">
+            <form id="form_tags_select_confirm" action="{{ url_for('update_genre_film_selected') }}" method="POST">
                 <div class="qtagselect isw360">
                     <select id="OM_JTSD" name="name_select_tags" class="qtagselect__select" multiple>
-                        {% for row in data_cpumanufacturer_non_attribues %}
-                            <option value="{{ row.id_cpu_manufacturer }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.CPU_Manufacturer }}</option>
+                        {% for row in data_genres_non_attribues %}
+                            <option value="{{ row.id_genre }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.intitule_genre }}</option>
                         {% endfor %}
 
-                        {% for row in data_cpumanufacturer_attribues %}
-                            <option value="{{ row.id_cpu_manufacturer }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.CPU_Manufacturer }}</option>
+                        {% for row in data_genres_attribues %}
+                            <option value="{{ row.id_genre }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.intitule_genre }}</option>
                         {% endfor %}
                     </select>
                 </div>

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Afficher FILMS GENRES {% endblock %}
+{% block title %} Afficher UTILISATEUR CONFIG {% endblock %}
 {% block head %}
     <!--
         OM 2020.05.04
@@ -37,7 +37,7 @@
 
 			</p>
             <p>
-                Films.
+                User.
             </p>
             <table class="table table-responsive-sm">
                 {% if data_user_selected %}
@@ -80,7 +80,7 @@
 				<tbody>
 					<tr>
 						<td>
-							Aucun film.
+							Aucun user.
 						</td>
 						<td>
 							<a class="btn btn-primary" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Add</a>

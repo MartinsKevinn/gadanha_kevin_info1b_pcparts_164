@@ -41,25 +41,25 @@ try:
     from APP_CONFIG_164.database import database_tools
     from APP_CONFIG_164.essais_wtf_forms import gestion_essai_wtf
     from APP_CONFIG_164.essais_wtf_forms import gestion_wtf_forms_demo_select
-    from APP_CONFIG_164.userrole import gestion_userrole_crud
     from APP_CONFIG_164.demos_om_164 import routes_demos
 
+    # User
+    from APP_CONFIG_164.user import gestion_user_crud
+    from APP_CONFIG_164.user import gestion_user_wtf_forms
+
+    # Userrole
+    from APP_CONFIG_164.userrole import gestion_userrole_crud
     from APP_CONFIG_164.user_userrole import gestion_user_userrole_crud
     from APP_CONFIG_164.erreurs import msg_avertissements
 
-    from APP_CONFIG_164.user import gestion_user_crud
-
-    from APP_CONFIG_164.user import gestion_user_wtf_forms
-
+    # CPU
+    from APP_CONFIG_164.cpu_cpumanufacturer import gestion_cpu_cpumanufacturer_crud
     from APP_CONFIG_164.cpumanufacturer import gestion_cpumanufacturer_crud
-
     from APP_CONFIG_164.cpu import gestion_cpu_crud
     from APP_CONFIG_164.cpu import gestion_cpu_wtf_forms
 
-    from APP_CONFIG_164.cpu_cpumanufacturer import gestion_cpu_cpumanufacturer_crud
-
+    # Config
     from APP_CONFIG_164.config import gestion_config_crud
-
     from APP_CONFIG_164.user_config import gestion_user_config_crud
 
 

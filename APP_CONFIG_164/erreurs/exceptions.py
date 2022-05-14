@@ -167,7 +167,7 @@ class ExceptionCpuDeleteWtf(Base):
     pass
 
 
-class ExceptionGenresAfficher(Base):
+class ExceptionCpumanufacturerAfficher(Base):
     pass
 
 

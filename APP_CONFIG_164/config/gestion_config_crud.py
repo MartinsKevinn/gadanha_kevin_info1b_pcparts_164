@@ -89,8 +89,8 @@ WHERE userpseudo = 'Cricko';"""
                 if not data_config and id_config_sel == 0:
                     flash("""La table "t_config" est vide. !!""", "warning")
                 elif not data_config and id_config_sel > 0:
-                    # Si l'utilisateur change l'id_config dans l'URL et que le genre n'existe pas,
-                    flash(f"Le genre demandé n'existe pas !!", "warning")
+                    # Si l'utilisateur change l'id_config dans l'URL et que le config n'existe pas,
+                    flash(f"La config demandé n'existe pas !!", "warning")
                 else:
                     # Dans tous les autres cas, c'est que la table "t_config" est vide.
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
@@ -113,9 +113,9 @@ WHERE userpseudo = 'Cricko';"""
     
     Paramètres : sans
     
-    But : Ajouter un genre pour un film
+    But : Ajouter une config pour un utilisateur
     
-    Remarque :  Dans le champ "name_genre_html" du formulaire "config/config_ajouter.html",
+    Remarque :  Dans le champ "name_config_html" du formulaire "config/config_ajouter.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -158,11 +158,11 @@ def config_ajouter_wtf():
     Auteur : OM 2021.03.29
     Définition d'une "route" /config_update
     
-    Test : ex cliquer sur le menu "config" puis cliquer sur le bouton "EDIT" d'un "genre"
+    Test : ex cliquer sur le menu "config" puis cliquer sur le bouton "EDIT" d'une "config"
     
     Paramètres : sans
     
-    But : Editer(update) un genre qui a été sélectionné dans le formulaire "config_afficher.html"
+    But : Editer(update) une config qui a été sélectionné dans le formulaire "config_afficher.html"
     
     Remarque :  Dans le champ "config_use_case_update_wtf" du formulaire "config/config_update_wtf.html",
                 le contrôle de la saisie s'effectue ici en Python.
@@ -214,7 +214,7 @@ def config_update_wtf():
             valeur_select_dictionnaire = {"value_id_config": id_config_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_config, valeur_select_dictionnaire)
-            # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
+            # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom config" pour l'UPDATE
             data_config_use_case = mybd_conn.fetchone()
             print("data_config_use_case ", data_config_use_case, " type ", type(data_config_use_case), " use case ",
                   data_config_use_case["config_use_case"])
@@ -235,11 +235,11 @@ def config_update_wtf():
     Auteur : OM 2021.04.08
     Définition d'une "route" /config_delete
     
-    Test : ex. cliquer sur le menu "config" puis cliquer sur le bouton "DELETE" d'un "genre"
+    Test : ex. cliquer sur le menu "config" puis cliquer sur le bouton "DELETE" d'un "config"
     
     Paramètres : sans
     
-    But : Effacer(delete) un genre qui a été sélectionné dans le formulaire "config_afficher.html"
+    But : Effacer(delete) une config qui a été sélectionné dans le formulaire "config_afficher.html"
     
     Remarque :  Dans le champ "nom_config_delete_wtf" du formulaire "config/config_delete_wtf.html",
                 le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
@@ -253,7 +253,7 @@ def config_delete_wtf():
     # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_config"
     id_config_delete = request.values['id_config_btn_delete_html']
 
-    # Objet formulaire pour effacer le genre sélectionné.
+    # Objet formulaire pour effacer la config sélectionné.
     form_delete = FormWTFDeleteConfig()
     try:
         print(" on submit ", form_delete.validate_on_submit())
@@ -268,9 +268,9 @@ def config_delete_wtf():
                 data_user_attribue_config_delete = session['data_user_attribue_config_delete']
                 print("data_user_attribue_config_delete ", data_user_attribue_config_delete)
 
-                flash(f"Effacer le genre de façon définitive de la BD !!!", "danger")
+                flash(f"Effacer la config de façon définitive de la BD !!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
-                # On affiche le bouton "Effacer genre" qui va irrémédiablement EFFACER le genre
+                # On affiche le bouton "Effacer config" qui va irrémédiablement EFFACER la config
                 btn_submit_del = True
 
             if form_delete.submit_btn_del.data:
@@ -280,13 +280,13 @@ def config_delete_wtf():
                 str_sql_delete_user_config = """DELETE FROM t_user_created_config WHERE fk_config = %(value_id_config)s"""
                 str_sql_delete_idconfig = """DELETE FROM t_config WHERE id_config = %(value_id_config)s"""
                 # Manière brutale d'effacer d'abord la "fk_config", même si elle n'existe pas dans la "t_user_created_config"
-                # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_user_created_config"
+                # Ensuite on peut effacer la config vu qu'il n'est plus "lié" (INNODB) dans la "t_user_created_config"
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(str_sql_delete_user_config, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_idconfig, valeur_delete_dictionnaire)
 
-                flash(f"Genre définitivement effacé !!", "success")
-                print(f"Genre définitivement effacé !!")
+                flash(f"Config définitivement effacé !!", "success")
+                print(f"Config définitivement effacé !!")
 
                 # afficher les données
                 return redirect(url_for('config_afficher', order_by="ASC", id_config_sel=0))
@@ -295,7 +295,7 @@ def config_delete_wtf():
             valeur_select_dictionnaire = {"value_id_config": id_config_delete}
             print(id_config_delete, type(id_config_delete))
 
-            # Requête qui affiche tous les user_config qui ont le genre que l'utilisateur veut effacer
+            # Requête qui affiche tous les user_config qui ont la config que l'utilisateur veut effacer
             str_sql_config_user_delete = """SELECT id_user_created_config, user_firstname, id_config, config_use_case FROM t_user_created_config 
                                             INNER JOIN t_user ON t_user_created_config.fk_user = t_user.id_user
                                             INNER JOIN t_config ON t_user_created_config.fk_config = t_config.id_config
@@ -315,9 +315,9 @@ def config_delete_wtf():
 
                 mydb_conn.execute(str_sql_id_config, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
-                # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
+                # vu qu'il n'y a qu'un seul champ "config use case" pour l'action DELETE
                 data_config_use_case = mydb_conn.fetchone()
-                print("data_config_use_case ", data_config_use_case, " type ", type(data_config_use_case), " genre ",
+                print("data_config_use_case ", data_config_use_case, " type ", type(data_config_use_case), " config ",
                       data_config_use_case["config_use_case"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "config_delete_wtf.html"
