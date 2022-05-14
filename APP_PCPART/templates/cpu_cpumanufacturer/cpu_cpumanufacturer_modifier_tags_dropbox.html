@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %} Afficher CPU MANUFACTURER {% endblock %}
+{% block head %}
+    <!--
+        OM 2020.05.04
+        On utilise le composant "tags-selector-tagselect" juste dans cette page,
+         il n'est pas nécessaire de la charger pour chaque page
+        c'est pourquoi il ne se trouve pas dans "base.html" mais ici
+        entre les balises JINJA "block head" "endblock"
+        -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='tags-selector-tagselect/jquery.tagselect.css') }}">
+    <script src="{{ url_for('static', filename='tags-selector-tagselect/jquery.tagselect.js') }}"></script>
+{% endblock %}
+{% block body %}
+
+
+<!--
+    OM 2020.05.04
+    Il faut éviter de placer des instructions css n'importe où et surtout en plein milieu de nulle part,
+    pour dépanner l'application ce n'est vraiment pas top...
+    Mais Flask ne reconnaît pas les instructions ci-dessous lorsqu'elles sont dans un fichier externe
+-->
+
+    <style>
+        ol, ul, li {
+            list-style: none;
+        }
+    </style>
+
+
+<div class="container">
+		<div class="col-md-12">
+            <p>
+                CPU.
+            </p>
+            <table class="table table-responsive-sm">
+                {% if data_cpu_selected %}
+                    <thead>
+                        <tr>
+                            <th class="">
+                                CPU ID
+                            </th>
+                            <th class="">
+                                Name
+                            </th>
+                            <th class="">
+                                Codename
+                            </th>
+                            <th class="">
+                                Socket
+                            </th>
+                            <th class="">
+                                Cores
+                            </th>
+                            <th class="">
+                                Clock
+                            </th>
+                        </tr>
+                    </thead>
+            {% endif %}
+
+            {% for row in data_cpu_selected %}
+				<tbody>
+					<tr>
+						<td class="align-middle">
+							{{ row.id_cpu }}
+						</td>
+						<td class="align-middle">
+							{{ row.CPU_Name }}
+						</td>
+						<td class="align-middle">
+							{{ row.CPU_Codename|default("", True) }}
+						</td>
+						<td class="align-middle">
+							{{ row.CPU_Socket|default("", True) }}
+						</td>
+						<td class="align-middle">
+							{{ row.CPU_Cores|default("", True) }}
+						</td>
+						<td class="align-middle">
+							{{ row.CPU_Clock|default("", True) }}
+						</td>
+					</tr>
+				</tbody>
+            {% else %}
+				<tbody>
+					<tr>
+						<td>
+							Aucun cpu.
+						</td>
+						<td>
+							<a class="btn btn-primary" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Add</a>
+						</td>
+					</tr>
+				</tbody>
+            {% endfor %}
+			</table>
+		</div>
+	</div>
+
+<div class="container">
+    <div class="row mx-md-n5">
+      <div class="col px-md-5">
+          <div class="p-3">
+            <form id="form_tags_select_confirm" action="{{ url_for('update_cpumanufacturer_cpu_selected') }}" method="POST">
+                <div class="qtagselect isw360">
+                    <select id="OM_JTSD" name="name_select_tags" class="qtagselect__select" multiple>
+                        {% for row in data_cpumanufacturer_non_attribues %}
+                            <option value="{{ row.id_cpu_manufacturer }}" name="name_tags_non_attribues_html" class="isblue" >{{ row.CPU_Manufacturer }}</option>
+                        {% endfor %}
+
+                        {% for row in data_cpumanufacturer_attribues %}
+                            <option value="{{ row.id_cpu_manufacturer }}" name="name_tags_attribues_html" class="ispurple" selected>{{ row.CPU_Manufacturer }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </form>
+          </div>
+      </div>
+      <div class="col px-md-5">
+          <div class="p-3">
+            <input type="submit" form="form_tags_select_confirm" class="btn btn-warning" value="Modifier">
+          </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $('.qtagselect__select').tagselect({
+    // Paramètres du composant : https://www.jqueryscript.net/form/tags-selector-tagselect.html
+    // maximum number of tags allowed to select
+      'maxTag': 100,
+    // error message,
+      'tagMessage': '100 tags au max !'
+    });
+</script>
+{% endblock %}
