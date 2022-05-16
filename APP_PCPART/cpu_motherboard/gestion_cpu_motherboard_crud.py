@@ -145,7 +145,7 @@ def edit_cpu_compatible_motherboard_selected():
             print(" data_motherboard_cpu_attribues ", data_motherboard_cpu_attribues, "type ",
                   type(data_motherboard_cpu_attribues))
 
-            # Extrait les valeurs contenues dans la table "t_genres", colonne "motherboard_brand"
+            # Extrait les valeurs contenues dans la table "t_motherboard", colonne "motherboard_brand"
             # Le composant javascript "tagify" pour afficher les tags n'a pas besoin de l'id_motherboard
             lst_data_motherboard_cpu_non_attribues = [item['motherboard_brand'] for item in data_motherboard_cpu_non_attribues]
             print("lst_all_motherboard gf_edit_cpu_compatible_motherboard_selected ", lst_data_motherboard_cpu_non_attribues,
@@ -197,7 +197,7 @@ def update_motherboard_cpu_selected():
             session.clear()
 
             # Récupère ce que l'utilisateur veut modifier comme motherboard dans le composant "tags-selector-tagselect"
-            # dans le fichier "genres_films_modifier_tags_dropbox.html"
+            # dans le fichier "motherboard_cpu_modifier_tags_dropbox.html"
             new_lst_str_motherboard_cpu = request.form.getlist('name_select_tags')
             print("new_lst_str_motherboard_cpu ", new_lst_str_motherboard_cpu)
 
@@ -230,11 +230,11 @@ def update_motherboard_cpu_selected():
             with DBconnection() as mconn_bd:
                 # Pour le film sélectionné, parcourir la liste des motherboard à INSÉRER dans la "t_cpu_compatible_motherboard".
                 # Si la liste est vide, la boucle n'est pas parcourue.
-                for id_motherboard_ins in lst_diff_motherboard_insert_a:
+                for id_motherboard in lst_diff_motherboard_insert_a:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    # et "id_motherboard_ins" (l'id du genre dans la liste) associé à une variable.
+                    # et "id_motherboard" (l'id du motherboard dans la liste) associé à une variable.
                     valeurs_cpu_sel_motherboard_sel_dictionnaire = {"value_fk_cpu": id_cpu_selected,
-                                                               "value_fk_motherboard": id_motherboard_ins}
+                                                               "value_fk_motherboard": id_motherboard}
 
                     mconn_bd.execute(strsql_insert_cpu_compatible_motherboard, valeurs_cpu_sel_motherboard_sel_dictionnaire)
 
@@ -242,7 +242,7 @@ def update_motherboard_cpu_selected():
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_motherboard_del in lst_diff_motherboard_delete_b:
                     # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
-                    # et "id_motherboard_del" (l'id du genre dans la liste) associé à une variable.
+                    # et "id_motherboard_del" (l'id du motherboard dans la liste) associé à une variable.
                     valeurs_cpu_sel_motherboard_sel_dictionnaire = {"value_fk_cpu": id_cpu_selected,
                                                                "value_fk_motherboard": id_motherboard_del}
 
@@ -258,7 +258,7 @@ def update_motherboard_cpu_selected():
                                                    f"{Exception_update_motherboard_cpu_selected}")
 
     # Après cette mise à jour de la table intermédiaire "t_cpu_compatible_motherboard",
-    # on affiche les films et le(urs) genre(s) associé(s).
+    # on affiche les films et le(urs) motherboard(s) associé(s).
     return redirect(url_for('cpu_motherboard_afficher', id_cpu_sel=id_cpu_selected))
 
 

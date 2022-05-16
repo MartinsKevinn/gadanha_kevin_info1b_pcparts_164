@@ -24,7 +24,7 @@ from APP_PCPART.motherboard.gestion_motherboard_wtf_forms import FormWTFUpdateMo
     
     Paramètres : order_by : ASC : Ascendant, DESC : Descendant
                 id_motherboard_sel = 0 >> tous les motherboard.
-                id_motherboard_sel = "n" affiche le genre dont l'id est "n"
+                id_motherboard_sel = "n" affiche la motherboard dont l'id est "n"
 """
 
 
@@ -41,7 +41,7 @@ def motherboard_afficher(order_by, id_motherboard_sel):
                     # la commande MySql classique est "SELECT * FROM t_motherboard"
                     # Pour "lever"(raise) une erreur s'il y a des erreurs sur les noms d'attributs dans la table
                     # donc, je précise les champs à afficher
-                    # Constitution d'un dictionnaire pour associer l'id du genre sélectionné avec un nom de variable
+                    # Constitution d'un dictionnaire pour associer l'id de la motherboard sélectionné avec un nom de variable
                     valeur_id_motherboard_selected_dictionnaire = {"value_id_motherboard_selected": id_motherboard_sel}
                     strsql_motherboard_afficher = """SELECT id_motherboard, motherboard_brand, motherboard_model FROM t_motherboard WHERE id_motherboard = %(value_id_motherboard_selected)s"""
 
@@ -59,8 +59,8 @@ def motherboard_afficher(order_by, id_motherboard_sel):
                 if not data_motherboard and id_motherboard_sel == 0:
                     flash("""La table "t_motherboard" est vide. !!""", "warning")
                 elif not data_motherboard and id_motherboard_sel > 0:
-                    # Si l'utilisateur change l'id_motherboard dans l'URL et que le genre n'existe pas,
-                    flash(f"Le genre demandé n'existe pas !!", "warning")
+                    # Si l'utilisateur change l'id_motherboard dans l'URL et que la motherboard n'existe pas,
+                    flash(f"La motherboard demandé n'existe pas !!", "warning")
                 else:
                     # Dans tous les autres cas, c'est que la table "t_motherboard" est vide.
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
@@ -85,7 +85,7 @@ def motherboard_afficher(order_by, id_motherboard_sel):
     
     But : Ajouter un genre pour une motherboard
     
-    Remarque :  Dans le champ "name_genre_html" du formulaire "motherboard/motherboard_ajouter.html",
+    Remarque :  Dans le champ "name_motherboard_html" du formulaire "motherboard/motherboard_ajouter.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -103,10 +103,15 @@ def motherboard_ajouter_wtf():
             if form.validate_on_submit():
                 name_motherboard_wtf = form.nom_motherboard_wtf.data
                 name_motherboard = name_motherboard_wtf.lower()
-                valeurs_insertion_dictionnaire = {"value_motherboard_brand": name_motherboard}
+                model_motherboard = form.model_motherboard_wtf.data
+                release_year_motherboard = form.release_year_motherboard_wtf.data
+                valeurs_insertion_dictionnaire = {"value_motherboard_brand": name_motherboard,
+                                                  "value_motherboard_model": model_motherboard,
+                                                  "value_motherboard_release": release_year_motherboard
+                                                  }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_motherboard = """INSERT INTO t_motherboard (id_motherboard,motherboard_brand) VALUES (NULL,%(value_motherboard_brand)s) """
+                strsql_insert_motherboard = """INSERT INTO t_motherboard (id_motherboard,motherboard_brand,motherboard_model,motherboard_release_year) VALUES (NULL,%(value_motherboard_brand)s,%(value_motherboard_model)s,%(value_motherboard_release)s """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_motherboard, valeurs_insertion_dictionnaire)
 
@@ -126,13 +131,13 @@ def motherboard_ajouter_wtf():
 
 """
     Auteur : OM 2021.03.29
-    Définition d'une "route" /genre_update
+    Définition d'une "route" /motherboard_update
     
-    Test : ex cliquer sur le menu "motherboard" puis cliquer sur le bouton "EDIT" d'un "genre"
+    Test : ex cliquer sur le menu "motherboard" puis cliquer sur le bouton "EDIT" d'un "motherboard"
     
     Paramètres : sans
     
-    But : Editer(update) un genre qui a été sélectionné dans le formulaire "motherboard_afficher.html"
+    But : Editer(update) un motherboard qui a été sélectionné dans le formulaire "motherboard_afficher.html"
     
     Remarque :  Dans le champ "nom_motherboard_update_wtf" du formulaire "motherboard/motherboard_update_wtf.html",
                 le contrôle de la saisie s'effectue ici en Python.
@@ -144,10 +149,10 @@ def motherboard_ajouter_wtf():
 """
 
 
-@app.route("/genre_update", methods=['GET', 'POST'])
+@app.route("/motherboard_update", methods=['GET', 'POST'])
 def motherboard_update_wtf():
     # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_motherboard"
-    id_genre_update = request.values['id_genre_btn_edit_html']
+    id_motherboard_update = request.values['id_motherboard_btn_edit_html']
 
     # Objet formulaire pour l'UPDATE
     form_update = FormWTFUpdateMotherboard()
@@ -156,47 +161,46 @@ def motherboard_update_wtf():
         if form_update.validate_on_submit():
             # Récupèrer la valeur du champ depuis "motherboard_update_wtf.html" après avoir cliqué sur "SUBMIT".
             # Puis la convertir en lettres minuscules.
-            name_genre_update = form_update.nom_motherboard_update_wtf.data
-            name_genre_update = name_genre_update.lower()
-            date_genre_essai = form_update.date_motherboard_wtf_essai.data
+            name_motherboard_update = form_update.nom_motherboard_update_wtf.data
+            name_motherboard_update = name_motherboard_update.lower()
+            motherboard_model = form_update.model_motherboard_wtf.data
 
-            valeur_update_dictionnaire = {"value_id_genre": id_genre_update,
-                                          "value_name_genre": name_genre_update,
-                                          "value_date_genre_essai": date_genre_essai
+            valeur_update_dictionnaire = {"value_id_motherboard": id_motherboard_update,
+                                          "value_name_genre": name_motherboard_update,
+                                          "value_motherboard_model": motherboard_model
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_intitulegenre = """UPDATE t_motherboard SET motherboard_brand = %(value_name_genre)s, 
-            motherboard_model = %(value_date_genre_essai)s WHERE id_motherboard = %(value_id_genre)s """
+            str_sql_update_motherboardbrand = """UPDATE t_motherboard SET motherboard_brand = %(value_name_genre)s, 
+            motherboard_model = %(value_motherboard_model)s WHERE id_motherboard = %(value_id_motherboard)s """
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_intitulegenre, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_motherboardbrand, valeur_update_dictionnaire)
 
             flash(f"Donnée mise à jour !!", "success")
             print(f"Donnée mise à jour !!")
 
             # afficher et constater que la donnée est mise à jour.
-            # Affiche seulement la valeur modifiée, "ASC" et l'"id_genre_update"
-            return redirect(url_for('motherboard_afficher', order_by="ASC", id_motherboard_sel=id_genre_update))
+            # Affiche seulement la valeur modifiée, "ASC" et l'"id_motherboard_update"
+            return redirect(url_for('motherboard_afficher', order_by="ASC", id_motherboard_sel=id_motherboard_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_motherboard" et "motherboard_brand" de la "t_motherboard"
             str_sql_id_motherboard = "SELECT id_motherboard, motherboard_brand, motherboard_model FROM t_motherboard " \
-                               "WHERE id_motherboard = %(value_id_genre)s"
-            valeur_select_dictionnaire = {"value_id_genre": id_genre_update}
+                               "WHERE id_motherboard = %(value_id_motherboard)s"
+            valeur_select_dictionnaire = {"value_id_motherboard": id_motherboard_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_motherboard, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom genre" pour l'UPDATE
             data_nom_motherboard = mybd_conn.fetchone()
-            print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard), " genre ",
+            print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard), " motherboard_brand ",
                   data_nom_motherboard["motherboard_brand"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "motherboard_update_wtf.html"
             form_update.nom_motherboard_update_wtf.data = data_nom_motherboard["motherboard_brand"]
-            form_update.date_motherboard_wtf_essai.data = data_nom_motherboard["motherboard_model"]
 
-    except Exception as Exception_genre_update_wtf:
+    except Exception as Exception_motherboard_update_wtf:
         raise ExceptionMotherboardUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                       f"{motherboard_update_wtf.__name__} ; "
-                                      f"{Exception_genre_update_wtf}")
+                                      f"{Exception_motherboard_update_wtf}")
 
     return render_template("motherboard/motherboard_update_wtf.html", form_update=form_update)
 
@@ -218,10 +222,10 @@ def motherboard_update_wtf():
 
 @app.route("/genre_delete", methods=['GET', 'POST'])
 def motherboard_delete_wtf():
-    data_films_attribue_genre_delete = None
+    data_cpu_attribue_motherboard_delete = None
     btn_submit_del = None
     # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_motherboard"
-    id_genre_delete = request.values['id_genre_btn_delete_html']
+    id_motherboard_delete = request.values['id_motherboard_btn_delete_html']
 
     # Objet formulaire pour effacer le genre sélectionné.
     form_delete = FormWTFDeleteMotherboard()
@@ -235,59 +239,59 @@ def motherboard_delete_wtf():
             if form_delete.submit_btn_conf_del.data:
                 # Récupère les données afin d'afficher à nouveau
                 # le formulaire "motherboard/motherboard_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
-                data_films_attribue_genre_delete = session['data_films_attribue_genre_delete']
-                print("data_films_attribue_genre_delete ", data_films_attribue_genre_delete)
+                data_cpu_attribue_motherboard_delete = session['data_cpu_attribue_motherboard_delete']
+                print("data_cpu_attribue_motherboard_delete ", data_cpu_attribue_motherboard_delete)
 
-                flash(f"Effacer le genre de façon définitive de la BD !!!", "danger")
+                flash(f"Effacer la motherboard de façon définitive de la BD !!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
-                # On affiche le bouton "Effacer genre" qui va irrémédiablement EFFACER le genre
+                # On affiche le bouton "Effacer motherboard" qui va irrémédiablement EFFACER le motherboard
                 btn_submit_del = True
 
             if form_delete.submit_btn_del.data:
-                valeur_delete_dictionnaire = {"value_id_genre": id_genre_delete}
+                valeur_delete_dictionnaire = {"value_id_motherboard": id_motherboard_delete}
                 print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
-                str_sql_delete_films_genre = """DELETE FROM t_cpu_compatible_motherboard WHERE fk_motherboard = %(value_id_genre)s"""
-                str_sql_delete_idgenre = """DELETE FROM t_motherboard WHERE id_motherboard = %(value_id_genre)s"""
+                str_sql_delete_cpu_motherboard = """DELETE FROM t_cpu_compatible_motherboard WHERE fk_motherboard = %(value_id_motherboard)s"""
+                str_sql_delete_idmotherboard = """DELETE FROM t_motherboard WHERE id_motherboard = %(value_id_motherboard)s"""
                 # Manière brutale d'effacer d'abord la "fk_motherboard", même si elle n'existe pas dans la "t_cpu_compatible_motherboard"
                 # Ensuite on peut effacer le genre vu qu'il n'est plus "lié" (INNODB) dans la "t_cpu_compatible_motherboard"
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(str_sql_delete_films_genre, valeur_delete_dictionnaire)
-                    mconn_bd.execute(str_sql_delete_idgenre, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_cpu_motherboard, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_idmotherboard, valeur_delete_dictionnaire)
 
-                flash(f"Genre définitivement effacé !!", "success")
-                print(f"Genre définitivement effacé !!")
+                flash(f"Motherboard définitivement effacé !!", "success")
+                print(f"Motherboard définitivement effacé !!")
 
                 # afficher les données
                 return redirect(url_for('motherboard_afficher', order_by="ASC", id_motherboard_sel=0))
 
         if request.method == "GET":
-            valeur_select_dictionnaire = {"value_id_genre": id_genre_delete}
-            print(id_genre_delete, type(id_genre_delete))
+            valeur_select_dictionnaire = {"value_id_motherboard": id_motherboard_delete}
+            print(id_motherboard_delete, type(id_motherboard_delete))
 
             # Requête qui affiche tous les cpu_motherboard qui ont le genre que l'utilisateur veut effacer
-            str_sql_genres_films_delete = """SELECT id_cpu_compatible_motherboard, CPU_Name, id_motherboard, motherboard_brand FROM t_cpu_compatible_motherboard 
+            str_sql_motherboard_cpu_delete = """SELECT id_cpu_compatible_motherboard, CPU_Name, id_motherboard, motherboard_brand FROM t_cpu_compatible_motherboard 
                                             INNER JOIN t_cpu ON t_cpu_compatible_motherboard.fk_cpu = t_cpu.id_cpu
                                             INNER JOIN t_motherboard ON t_cpu_compatible_motherboard.fk_motherboard = t_motherboard.id_motherboard
-                                            WHERE fk_motherboard = %(value_id_genre)s"""
+                                            WHERE fk_motherboard = %(value_id_motherboard)s"""
 
             with DBconnection() as mydb_conn:
-                mydb_conn.execute(str_sql_genres_films_delete, valeur_select_dictionnaire)
-                data_films_attribue_genre_delete = mydb_conn.fetchall()
-                print("data_films_attribue_genre_delete...", data_films_attribue_genre_delete)
+                mydb_conn.execute(str_sql_motherboard_cpu_delete, valeur_select_dictionnaire)
+                data_cpu_attribue_motherboard_delete = mydb_conn.fetchall()
+                print("data_cpu_attribue_motherboard_delete...", data_cpu_attribue_motherboard_delete)
 
                 # Nécessaire pour mémoriser les données afin d'afficher à nouveau
                 # le formulaire "motherboard/motherboard_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
-                session['data_films_attribue_genre_delete'] = data_films_attribue_genre_delete
+                session['data_cpu_attribue_motherboard_delete'] = data_cpu_attribue_motherboard_delete
 
                 # Opération sur la BD pour récupérer "id_motherboard" et "motherboard_brand" de la "t_motherboard"
-                str_sql_id_motherboard = "SELECT id_motherboard, motherboard_brand FROM t_motherboard WHERE id_motherboard = %(value_id_genre)s"
+                str_sql_id_motherboard = "SELECT id_motherboard, motherboard_brand FROM t_motherboard WHERE id_motherboard = %(value_id_motherboard)s"
 
                 mydb_conn.execute(str_sql_id_motherboard, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
                 # vu qu'il n'y a qu'un seul champ "nom genre" pour l'action DELETE
                 data_nom_motherboard = mydb_conn.fetchone()
-                print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard), " genre ",
+                print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard), " motherboard ",
                       data_nom_motherboard["motherboard_brand"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "motherboard_delete_wtf.html"
@@ -304,4 +308,4 @@ def motherboard_delete_wtf():
     return render_template("motherboard/motherboard_delete_wtf.html",
                            form_delete=form_delete,
                            btn_submit_del=btn_submit_del,
-                           data_films_associes=data_films_attribue_genre_delete)
+                           data_cpu_associes=data_cpu_attribue_motherboard_delete)

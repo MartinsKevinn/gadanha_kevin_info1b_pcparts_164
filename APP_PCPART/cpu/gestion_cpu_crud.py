@@ -96,7 +96,8 @@ def cpu_update_wtf():
                                           "value_cpu_codename": cpu_codename_update,
                                           "value_cpu_cores": cpu_cores_update,
                                           "value_cpu_clock": cpu_clock_update,
-                                          "value_cpu_socket": cpu_socket_update
+                                          "value_cpu_socket": cpu_socket_update,
+                                          "value_cpu_released": cpu_released
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 

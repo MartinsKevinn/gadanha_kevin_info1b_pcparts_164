@@ -15,7 +15,7 @@ class FormWTFAjouterCpumanufacturer(FlaskForm):
         Dans le formulaire "cpumanufacturer_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_cpumanufacturer_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
+    nom_cpumanufacturer_regexp = "([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
     nom_cpumanufacturer_wtf = StringField("Manufacturer ", validators=[Length(min=2, max=20, message="min 2 max 20"),
                                                                    Regexp(nom_cpumanufacturer_regexp,
                                                                           message="Pas de chiffres, de caractères "
@@ -31,8 +31,16 @@ class FormWTFUpdateCpumanufacturer(FlaskForm):
         Dans le formulaire "cpumanufacturer_update_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_cpumanufacturer_update_wtf = StringField("Manufacturer ")
-
+    nom_cpumanufacturer_update_regexp = "([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
+    nom_cpumanufacturer_update_wtf = StringField("Manufacturer", validators=[Length(min=2, max=20, message="min 2 max 20"),
+                                                                        Regexp(nom_cpumanufacturer_update_regexp,
+                                                                               message="Pas de chiffres, de "
+                                                                                       "caractères "
+                                                                                       "spéciaux, "
+                                                                                       "d'espace à double, de double "
+                                                                                       "apostrophe, de double trait "
+                                                                                       "union")
+                                                                        ])
     submit = SubmitField("Update manufacturer")
 
 

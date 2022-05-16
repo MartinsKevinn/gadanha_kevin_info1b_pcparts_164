@@ -16,13 +16,9 @@ class FormWTFAjouterMotherboard(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
     nom_motherboard_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    nom_motherboard_wtf = StringField("Motherboard", validators=[Length(min=2, max=20, message="min 2 max 20"),
-                                                                   Regexp(nom_motherboard_regexp,
-                                                                          message="Pas de chiffres, de caractères "
-                                                                                  "spéciaux, "
-                                                                                  "d'espace à double, de double "
-                                                                                  "apostrophe, de double trait union")
-                                                                   ])
+    nom_motherboard_wtf = StringField("Motherboard Brand")
+    model_motherboard_wtf = StringField("Motherboard Model")
+    release_year_motherboard_wtf = DateField("Motherboard release year")
     submit = SubmitField("Enregistrer motherboard")
 
 
@@ -32,17 +28,9 @@ class FormWTFUpdateMotherboard(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
     nom_motherboard_update_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    nom_motherboard_update_wtf = StringField("Motherboard", validators=[Length(min=2, max=20, message="min 2 max 20"),
-                                                                          Regexp(nom_motherboard_update_regexp,
-                                                                                 message="Pas de chiffres, de "
-                                                                                         "caractères "
-                                                                                         "spéciaux, "
-                                                                                         "d'espace à double, de double "
-                                                                                         "apostrophe, de double trait "
-                                                                                         "union")
-                                                                          ])
-    date_motherboard_wtf_essai = DateField("Essai date", validators=[InputRequired("Date obligatoire"),
-                                                               DataRequired("Date non valide")])
+    nom_motherboard_update_wtf = StringField("Motherboard brand")
+    model_motherboard_update_wtf = StringField("Motherboard model")
+    release_year_motherboard_update_wtf = DateField("Motherboard release year")
     submit = SubmitField("Update motherboard")
 
 
