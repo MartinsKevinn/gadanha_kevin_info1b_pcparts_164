@@ -103,8 +103,7 @@ def cpumanufacturer_ajouter_wtf():
     if request.method == "POST":
         try:
             if form.validate_on_submit():
-                name_cpumanufacturer_wtf = form.nom_cpumanufacturer_wtf.data
-                name_cpumanufacturer = name_cpumanufacturer_wtf.lower()
+                name_cpumanufacturer = form.nom_cpumanufacturer_wtf.data
                 valeurs_insertion_dictionnaire = {"value_CPU_Manufacturer": name_cpumanufacturer}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
@@ -159,7 +158,6 @@ def cpumanufacturer_update_wtf():
             # Récupèrer la valeur du champ depuis "cpumanufacturer_update_wtf.html" après avoir cliqué sur "SUBMIT".
             # Puis la convertir en lettres minuscules.
             name_cpumanufacturer_update = form_update.nom_cpumanufacturer_update_wtf.data
-            name_cpumanufacturer_update = name_cpumanufacturer_update.lower()
 
             valeur_update_dictionnaire = {"value_id_cpu_manufacturer": id_cpu_manufacturer_update,
                                           "value_name_cpumanufacturer": name_cpumanufacturer_update

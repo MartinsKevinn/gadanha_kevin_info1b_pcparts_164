@@ -101,8 +101,7 @@ def motherboard_ajouter_wtf():
     if request.method == "POST":
         try:
             if form.validate_on_submit():
-                name_motherboard_wtf = form.nom_motherboard_wtf.data
-                name_motherboard = name_motherboard_wtf.lower()
+                name_motherboard = form.nom_motherboard_wtf.data
                 model_motherboard = form.model_motherboard_wtf.data
                 release_year_motherboard = form.release_year_motherboard_wtf.data
                 valeurs_insertion_dictionnaire = {"value_motherboard_brand": name_motherboard,
@@ -162,7 +161,6 @@ def motherboard_update_wtf():
             # Récupèrer la valeur du champ depuis "motherboard_update_wtf.html" après avoir cliqué sur "SUBMIT".
             # Puis la convertir en lettres minuscules.
             name_motherboard_update = form_update.nom_motherboard_update_wtf.data
-            name_motherboard_update = name_motherboard_update.lower()
             motherboard_model = form_update.model_motherboard_wtf.data
 
             valeur_update_dictionnaire = {"value_id_motherboard": id_motherboard_update,

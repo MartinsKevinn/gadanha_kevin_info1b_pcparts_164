@@ -14,7 +14,6 @@ from APP_PCPART.database.database_tools import DBconnection
 from APP_PCPART.erreurs.exceptions import *
 from APP_PCPART.config.gestion_config_wtf_forms import *
 
-
 """
     Auteur : OM 2021.03.16
     Définition d'une "route" /config_afficher
@@ -33,7 +32,38 @@ def config_afficher(order_by, id_config_sel):
         try:
             with DBconnection() as mc_afficher:
                 if order_by == "ASC" and id_config_sel == 0:
-                    strsql_config_afficher = """SELECT id_config, config_use_case, config_rating FROM t_config ORDER BY id_config ASC"""
+                    strsql_config_afficher = """SELECT id_config, userpseudo, config_rating, config_use_case, cpu_manufacturer, cpu_name, CONCAT(motherboard_brand, ' ', motherboard_model),
+CONCAT(aircooling_brand, ' ', aircooling_model), CONCAT(watercooling_brand, ' ', watercooling_model), CONCAT(ram_brand, ' ', ram_name), 
+ram_capacity, CONCAT(gpu_brand, ' ', gpu_name), CONCAT(case_brand, ' ', case_model), CONCAT(supply_brand, ' ', supply_model), 
+CONCAT(ssd_brand, ' ', ssd_model), ssd_capacity, CONCAT(hdd_brand, ' ', hdd_name), hdd_capacity
+FROM t_config
+LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
+LEFT JOIN t_cpu ON t_cpu.id_cpu = t_config_has_cpu.fk_cpu
+LEFT JOIN t_cpumanufacturer_produce_cpu ON t_cpu.id_cpu = t_cpumanufacturer_produce_cpu.fk_cpu
+LEFT JOIN t_cpumanufacturer ON t_cpumanufacturer.id_cpu_manufacturer = t_cpumanufacturer_produce_cpu.fk_cpumanufacturer
+LEFT JOIN t_config_has_motherboard ON t_config.id_config = t_config_has_motherboard.fk_config
+LEFT JOIN t_motherboard ON t_motherboard.id_motherboard = t_config_has_motherboard.fk_motherboard
+LEFT JOIN t_config_has_ram ON t_config.id_config = t_config_has_ram.fk_config
+LEFT JOIN t_ram ON t_ram.id_ram = t_config_has_ram.fk_ram
+LEFT JOIN t_config_has_gpu ON t_config.id_config = t_config_has_gpu.fk_config
+LEFT JOIN t_gpu ON t_gpu.id_gpu = t_config_has_gpu.fk_gpu
+LEFT JOIN t_config_has_aircooling ON t_config.id_config = t_config_has_aircooling.fk_config
+LEFT JOIN t_aircooling ON t_aircooling.id_aircooling = t_config_has_aircooling.fk_aircooling
+LEFT JOIN t_config_has_watercooling ON t_config.id_config = t_config_has_watercooling.fk_config
+LEFT JOIN t_watercooling ON t_watercooling.id_watercooling = t_config_has_watercooling.fk_watercooling
+LEFT JOIN t_config_has_case ON t_config.id_config = t_config_has_case.fk_config
+LEFT JOIN t_case ON t_case.id_case = t_config_has_case.fk_case
+LEFT JOIN t_config_has_supply ON t_config.id_config = t_config_has_supply.fk_config
+LEFT JOIN t_supply ON t_supply.id_supply = t_config_has_supply.fk_supply
+LEFT JOIN t_config_has_ssd ON t_config.id_config = t_config_has_ssd.fk_config
+LEFT JOIN t_ssd ON t_ssd.id_ssd = t_config_has_ssd.fk_ssd
+LEFT JOIN t_config_has_hdd ON t_config.id_config = t_config_has_hdd.fk_config
+LEFT JOIN t_hdd ON t_hdd.id_hdd = t_config_has_hdd.fk_hdd
+LEFT JOIN t_user_created_config ON t_config.id_config = t_user_created_config.fk_config
+LEFT JOIN t_user ON t_user.id_user = t_user_created_config.fk_user
+INNER JOIN t_user_has_userpseudo ON t_user.id_user = t_user_has_userpseudo.fk_user
+INNER JOIN t_userpseudo ON t_userpseudo.id_pseudo = t_user_has_userpseudo.fk_pseudo 
+ORDER BY id_config DESC"""
                     mc_afficher.execute(strsql_config_afficher)
                 elif order_by == "ASC":
                     # C'EST LA QUE VOUS ALLEZ DEVOIR PLACER VOTRE PROPRE LOGIQUE MySql
@@ -42,6 +72,7 @@ def config_afficher(order_by, id_config_sel):
                     # donc, je précise les champs à afficher
                     # Constitution d'un dictionnaire pour associer l'id de la config sélectionné avec un nom de variable
                     valeur_id_config_selected_dictionnaire = {"value_id_config_selected": id_config_sel}
+
                     strsql_config_afficher = """SELECT id_config, userpseudo, config_rating, config_use_case, cpu_manufacturer, cpu_name, CONCAT(motherboard_brand, ' ', motherboard_model),
 CONCAT(aircooling_brand, ' ', aircooling_model), CONCAT(watercooling_brand, ' ', watercooling_model), CONCAT(ram_brand, ' ', ram_name), 
 ram_capacity, CONCAT(gpu_brand, ' ', gpu_name), CONCAT(case_brand, ' ', case_model), CONCAT(supply_brand, ' ', supply_model), 
@@ -73,11 +104,42 @@ LEFT JOIN t_user_created_config ON t_config.id_config = t_user_created_config.fk
 LEFT JOIN t_user ON t_user.id_user = t_user_created_config.fk_user
 INNER JOIN t_user_has_userpseudo ON t_user.id_user = t_user_has_userpseudo.fk_user
 INNER JOIN t_userpseudo ON t_userpseudo.id_pseudo = t_user_has_userpseudo.fk_pseudo
-WHERE userpseudo = 'Cricko';"""
+WHERE id_config = %(value_id_config_selected)s"""
 
                     mc_afficher.execute(strsql_config_afficher, valeur_id_config_selected_dictionnaire)
                 else:
-                    strsql_config_afficher = """SELECT id_config, config_use_case, config_rating  FROM t_config ORDER BY id_config DESC"""
+                    strsql_config_afficher = """SELECT id_config, userpseudo, config_rating, config_use_case, cpu_manufacturer, cpu_name, CONCAT(motherboard_brand, ' ', motherboard_model),
+CONCAT(aircooling_brand, ' ', aircooling_model), CONCAT(watercooling_brand, ' ', watercooling_model), CONCAT(ram_brand, ' ', ram_name), 
+ram_capacity, CONCAT(gpu_brand, ' ', gpu_name), CONCAT(case_brand, ' ', case_model), CONCAT(supply_brand, ' ', supply_model), 
+CONCAT(ssd_brand, ' ', ssd_model), ssd_capacity, CONCAT(hdd_brand, ' ', hdd_name), hdd_capacity
+FROM t_config
+LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
+LEFT JOIN t_cpu ON t_cpu.id_cpu = t_config_has_cpu.fk_cpu
+LEFT JOIN t_cpumanufacturer_produce_cpu ON t_cpu.id_cpu = t_cpumanufacturer_produce_cpu.fk_cpu
+LEFT JOIN t_cpumanufacturer ON t_cpumanufacturer.id_cpu_manufacturer = t_cpumanufacturer_produce_cpu.fk_cpumanufacturer
+LEFT JOIN t_config_has_motherboard ON t_config.id_config = t_config_has_motherboard.fk_config
+LEFT JOIN t_motherboard ON t_motherboard.id_motherboard = t_config_has_motherboard.fk_motherboard
+LEFT JOIN t_config_has_ram ON t_config.id_config = t_config_has_ram.fk_config
+LEFT JOIN t_ram ON t_ram.id_ram = t_config_has_ram.fk_ram
+LEFT JOIN t_config_has_gpu ON t_config.id_config = t_config_has_gpu.fk_config
+LEFT JOIN t_gpu ON t_gpu.id_gpu = t_config_has_gpu.fk_gpu
+LEFT JOIN t_config_has_aircooling ON t_config.id_config = t_config_has_aircooling.fk_config
+LEFT JOIN t_aircooling ON t_aircooling.id_aircooling = t_config_has_aircooling.fk_aircooling
+LEFT JOIN t_config_has_watercooling ON t_config.id_config = t_config_has_watercooling.fk_config
+LEFT JOIN t_watercooling ON t_watercooling.id_watercooling = t_config_has_watercooling.fk_watercooling
+LEFT JOIN t_config_has_case ON t_config.id_config = t_config_has_case.fk_config
+LEFT JOIN t_case ON t_case.id_case = t_config_has_case.fk_case
+LEFT JOIN t_config_has_supply ON t_config.id_config = t_config_has_supply.fk_config
+LEFT JOIN t_supply ON t_supply.id_supply = t_config_has_supply.fk_supply
+LEFT JOIN t_config_has_ssd ON t_config.id_config = t_config_has_ssd.fk_config
+LEFT JOIN t_ssd ON t_ssd.id_ssd = t_config_has_ssd.fk_ssd
+LEFT JOIN t_config_has_hdd ON t_config.id_config = t_config_has_hdd.fk_config
+LEFT JOIN t_hdd ON t_hdd.id_hdd = t_config_has_hdd.fk_hdd
+LEFT JOIN t_user_created_config ON t_config.id_config = t_user_created_config.fk_config
+LEFT JOIN t_user ON t_user.id_user = t_user_created_config.fk_user
+INNER JOIN t_user_has_userpseudo ON t_user.id_user = t_user_has_userpseudo.fk_user
+INNER JOIN t_userpseudo ON t_userpseudo.id_pseudo = t_user_has_userpseudo.fk_pseudo 
+ORDER BY id_config DESC"""
 
                     mc_afficher.execute(strsql_config_afficher)
 
@@ -131,9 +193,39 @@ def config_ajouter_wtf():
     if request.method == "POST":
         try:
             if form.validate_on_submit():
-                name_config_wtf = form.nom_config_wtf.data
-                name_config = name_config_wtf.lower()
-                valeurs_insertion_dictionnaire = {"value_config_use_case": name_config}
+                config_use_case = form.config_use_case_wtf.data
+                config_rating = form.config_rating_wtf.data
+                cpu_manufacturer = form.cpu_manufacturer_wtf.data
+                cpu_name = form.cpu_name_wtf.data
+                cpu_codename = form.cpu_codename_wtf.data
+                cpu_cores = form.cpu_cores_wtf.data
+                cpu_clock = form.cpu_clock_wtf.data
+                motherboard_brand = form.motherboard_brand_wtf.data
+                motherboard_model = form.motherboard_model_wtf.data
+                motherboard_chipset = form.motherboard_chipset_wtf.data
+                motherboard_release_year = form.motherboard_release_year_wtf.data
+                ram_brand = form.ram_brand_wtf.data
+                ram_name = form.ram_name_wtf.data
+                ram_capacity = form.ram_capacity_wtf.data
+                ram_data_rate = form.ram_data_rate_wtf.data
+
+                valeurs_insertion_dictionnaire = {
+                    "value_config_use_case": config_use_case,
+                    "value_config_rating": config_rating,
+                    "value_cpu_manufacturer": cpu_manufacturer,
+                    "value_cpu_name": cpu_name,
+                    "value_cpu_codename": cpu_codename,
+                    "value_cpu_cores": cpu_cores,
+                    "value_cpu_clock": cpu_clock,
+                    "value_motherboard_brand": motherboard_brand,
+                    "value_motherboard_model": motherboard_model,
+                    "value_motherboard_chipset": motherboard_chipset,
+                    "value_motherboard_release_year": motherboard_release_year,
+                    "value_ram_brand": ram_brand,
+                    "value_ram_name": ram_name,
+                    "value_ram_capacity": ram_capacity,
+                    "value_ram_data_rate": ram_data_rate
+                }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
                 strsql_insert_config = """INSERT INTO t_config (id_config,config_use_case) VALUES (NULL,%(value_config_use_case)s) """
@@ -187,7 +279,6 @@ def config_update_wtf():
             # Récupèrer la valeur du champ depuis "config_update_wtf.html" après avoir cliqué sur "SUBMIT".
             # Puis la convertir en lettres minuscules.
             config_use_case_update = form_update.config_use_case_update_wtf.data
-            config_use_case_update = config_use_case_update.lower()
             config_rating = form_update.config_rating_wtf_essai.data
 
             valeur_update_dictionnaire = {"value_id_config": id_config_update,
@@ -210,7 +301,7 @@ def config_update_wtf():
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_config" et "config_use_case" de la "t_config"
             str_sql_id_config = "SELECT id_config, config_use_case, config_rating FROM t_config " \
-                               "WHERE id_config = %(value_id_config)s"
+                                "WHERE id_config = %(value_id_config)s"
             valeur_select_dictionnaire = {"value_id_config": id_config_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_config, valeur_select_dictionnaire)
@@ -225,8 +316,8 @@ def config_update_wtf():
 
     except Exception as Exception_config_update_wtf:
         raise ExceptionConfigUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
-                                      f"{config_update_wtf.__name__} ; "
-                                      f"{Exception_config_update_wtf}")
+                                       f"{config_update_wtf.__name__} ; "
+                                       f"{Exception_config_update_wtf}")
 
     return render_template("config/config_update_wtf.html", form_update=form_update)
 
@@ -241,7 +332,7 @@ def config_update_wtf():
     
     But : Effacer(delete) une config qui a été sélectionné dans le formulaire "config_afficher.html"
     
-    Remarque :  Dans le champ "nom_config_delete_wtf" du formulaire "config/config_delete_wtf.html",
+    Remarque :  Dans le champ "config_use_case_delete_wtf" du formulaire "config/config_delete_wtf.html",
                 le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
 """
 
@@ -321,15 +412,15 @@ def config_delete_wtf():
                       data_config_use_case["config_use_case"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "config_delete_wtf.html"
-            form_delete.nom_config_delete_wtf.data = data_config_use_case["config_use_case"]
+            form_delete.config_use_case_delete_wtf.data = data_config_use_case["config_use_case"]
 
             # Le bouton pour l'action "DELETE" dans le form. "config_delete_wtf.html" est caché.
             btn_submit_del = False
 
     except Exception as Exception_config_delete_wtf:
         raise ExceptionConfigDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
-                                      f"{config_delete_wtf.__name__} ; "
-                                      f"{Exception_config_delete_wtf}")
+                                       f"{config_delete_wtf.__name__} ; "
+                                       f"{Exception_config_delete_wtf}")
 
     return render_template("config/config_delete_wtf.html",
                            form_delete=form_delete,

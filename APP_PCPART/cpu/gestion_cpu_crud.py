@@ -37,10 +37,10 @@ def cpu_add_wtf():
             if form_add_cpu.validate_on_submit():
                 nom_cpu_add = form_add_cpu.nom_cpu_add_wtf.data
 
-                valeurs_insertion_dictionnaire = {"value_nom_cpu": nom_cpu_add}
+                valeurs_insertion_dictionnaire = {"value_cpu_name": nom_cpu_add}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_cpu = """INSERT INTO t_cpu (id_cpu,CPU_Name) VALUES (NULL,%(value_nom_cpu)s) """
+                strsql_insert_cpu = """INSERT INTO t_cpu (id_cpu,CPU_Name) VALUES (NULL,%(value_cpu_name)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_cpu, valeurs_insertion_dictionnaire)
 
@@ -92,7 +92,7 @@ def cpu_update_wtf():
             cpu_socket_update = form_update_cpu.cpu_socket_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_cpu": id_cpu_update,
-                                          "value_nom_cpu": nom_cpu_update,
+                                          "value_cpu_name": nom_cpu_update,
                                           "value_cpu_codename": cpu_codename_update,
                                           "value_cpu_cores": cpu_cores_update,
                                           "value_cpu_clock": cpu_clock_update,
@@ -101,7 +101,7 @@ def cpu_update_wtf():
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_cpu = """UPDATE t_cpu SET CPU_Name = %(value_nom_cpu)s,
+            str_sql_update_nom_cpu = """UPDATE t_cpu SET CPU_Name = %(value_cpu_name)s,
                                                             CPU_Codename = %(value_cpu_codename)s,
                                                             CPU_Cores = %(value_cpu_cores)s,
                                                             CPU_Clock = %(value_cpu_clock)s,

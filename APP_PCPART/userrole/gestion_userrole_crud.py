@@ -99,8 +99,7 @@ def userrole_ajouter_wtf():
     if request.method == "POST":
         try:
             if form.validate_on_submit():
-                name_userrole_wtf = form.nom_userrole_wtf.data
-                name_userrole = name_userrole_wtf.lower()
+                name_userrole = form.nom_userrole_wtf.data
                 valeurs_insertion_dictionnaire = {"value_userrole": name_userrole}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
@@ -155,7 +154,6 @@ def userrole_update_wtf():
             # Récupèrer la valeur du champ depuis "userrole_update_wtf.html" après avoir cliqué sur "SUBMIT".
             # Puis la convertir en lettres minuscules.
             name_userrole_update = form_update.nom_userrole_update_wtf.data
-            name_userrole_update = name_userrole_update.lower()
 
             valeur_update_dictionnaire = {"value_id_userrole": id_userrole_update,
                                           "value_name_userrole": name_userrole_update

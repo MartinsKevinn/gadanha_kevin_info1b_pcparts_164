@@ -12,9 +12,107 @@
 				{{ form.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form.nom_config_wtf.label }}<br>
-						{{ form.nom_config_wtf(size=32) }}<br>
-						{% for error in form.nom_config_wtf.errors %}
+						{{ form.config_use_case_wtf.label }}<br>
+						{{ form.config_use_case_wtf(size=32) }}<br>
+						{% for error in form.config_use_case_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.config_rating_wtf.label }}<br>
+						{{ form.config_rating_wtf(size=32) }}<br>
+						{% for error in form.config_rating_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.cpu_manufacturer_wtf.label }}<br>
+						{{ form.cpu_manufacturer_wtf(size=32) }}<br>
+						{% for error in form.cpu_manufacturer_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.cpu_name_wtf.label }}<br>
+						{{ form.cpu_name_wtf(size=32) }}<br>
+						{% for error in form.cpu_name_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.cpu_codename_wtf.label }}<br>
+						{{ form.cpu_codename_wtf(size=32) }}<br>
+						{% for error in form.cpu_codename_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.cpu_cores_wtf.label }}<br>
+						{{ form.cpu_cores_wtf(size=32) }}<br>
+						{% for error in form.cpu_cores_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.cpu_clock_wtf.label }}<br>
+						{{ form.cpu_clock_wtf(size=32) }}<br>
+						{% for error in form.cpu_clock_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.motherboard_brand_wtf.label }}<br>
+						{{ form.motherboard_brand_wtf(size=32) }}<br>
+						{% for error in form.motherboard_brand_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.motherboard_model_wtf.label }}<br>
+						{{ form.motherboard_model_wtf(size=32) }}<br>
+						{% for error in form.motherboard_model_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.motherboard_chipset_wtf.label }}<br>
+						{{ form.motherboard_chipset_wtf(size=32) }}<br>
+						{% for error in form.motherboard_chipset_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.motherboard_release_year_wtf.label }}<br>
+						{{ form.motherboard_release_year_wtf(size=32) }}<br>
+						{% for error in form.motherboard_release_year_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.ram_brand_wtf.label }}<br>
+						{{ form.ram_brand_wtf(size=32) }}<br>
+						{% for error in form.ram_brand_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.ram_name_wtf.label }}<br>
+						{{ form.ram_name_wtf(size=32) }}<br>
+						{% for error in form.ram_name_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.ram_capacity_wtf.label }}<br>
+						{{ form.ram_capacity_wtf(size=32) }}<br>
+						{% for error in form.ram_capacity_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form.ram_data_rate_wtf.label }}<br>
+						{{ form.ram_data_rate_wtf(size=32) }}<br>
+						{% for error in form.ram_data_rate_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>

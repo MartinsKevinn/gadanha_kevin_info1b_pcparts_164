@@ -20,13 +20,31 @@
 						<thead>
 							<tr>
 								<th>
-									MANUFACTURER(S)
+									Manufacturer ID(S)
+								</th>
+								<th>
+									MANUFACTURER
+								</th>
+								<th>
+									CPU ID
+								</th>
+								<th>
+									CPU Name
 								</th>
 							</tr>
 						</thead>
 						{% for row in data_cpu_associes %}
 							<tbody>
 								<tr>
+									<td>
+										{{ row.id_cpu_manufacturer }}
+									</td>
+									<td>
+										{{ row.CPU_Manufacturer }}
+									</td>
+									<td>
+										{{ row.id_cpu }}
+									</td>
 									<td>
 										{{ row.CPU_Name }}
 									</td>
