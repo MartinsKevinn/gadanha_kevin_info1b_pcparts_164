@@ -15,14 +15,7 @@ class FormWTFAjouterConfig(FlaskForm):
         Dans le formulaire "config_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    config_use_case_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    config_use_case_wtf = StringField("Config Use Case", validators=[Length(min=2, max=20, message="min 2 max 20"),
-                                                                   Regexp(config_use_case_regexp,
-                                                                          message="Pas de chiffres, de caractères "
-                                                                                  "spéciaux, "
-                                                                                  "d'espace à double, de double "
-                                                                                  "apostrophe, de double trait union")
-                                                                   ])
+    config_use_case_wtf = StringField("Config Use Case")
     config_rating_wtf = StringField("Config Rating")
     cpu_manufacturer_wtf = StringField("CPU Manufacturer")
     cpu_name_wtf = StringField("CPU Name")
@@ -32,7 +25,8 @@ class FormWTFAjouterConfig(FlaskForm):
     motherboard_brand_wtf = StringField("Motherboard Brand")
     motherboard_model_wtf = StringField("Motherboard Model")
     motherboard_chipset_wtf = StringField("Motherboard Chipset")
-    motherboard_release_year_wtf = StringField("Motherboard Release Year")
+    motherboard_release_year_wtf = DateField("Motherboard Release Year", validators=[InputRequired("Date obligatoire"),
+                                                                                     DataRequired("Date non valide")])
     ram_brand_wtf = StringField("RAM Brand")
     ram_name_wtf = StringField("RAM Name")
     ram_capacity_wtf = StringField("RAM Capacity")
@@ -47,17 +41,18 @@ class FormWTFUpdateConfig(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
     config_use_case_update_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    config_use_case_update_wtf = StringField("Clavioter la config ", validators=[Length(min=2, max=20, message="min 2 max 20"),
-                                                                          Regexp(config_use_case_update_regexp,
-                                                                                 message="Pas de chiffres, de "
-                                                                                         "caractères "
-                                                                                         "spéciaux, "
-                                                                                         "d'espace à double, de double "
-                                                                                         "apostrophe, de double trait "
-                                                                                         "union")
-                                                                          ])
-    config_rating_wtf_essai = DateField("Essai date", validators=[InputRequired("Date obligatoire"),
-                                                               DataRequired("Date non valide")])
+    config_use_case_update_wtf = StringField("Clavioter la config ",
+                                             validators=[Length(min=2, max=20, message="min 2 max 20"),
+                                                         Regexp(config_use_case_update_regexp,
+                                                                message="Pas de chiffres, de "
+                                                                        "caractères "
+                                                                        "spéciaux, "
+                                                                        "d'espace à double, de double "
+                                                                        "apostrophe, de double trait "
+                                                                        "union")
+                                                         ])
+    config_rating_update_wtf = DateField("Essai date", validators=[InputRequired("Date obligatoire"),
+                                                                   DataRequired("Date non valide")])
     submit = SubmitField("Update config")
 
 

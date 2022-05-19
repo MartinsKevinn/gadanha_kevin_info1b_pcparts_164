@@ -33,7 +33,7 @@ def user_config_afficher(id_user_sel):
         try:
             with DBconnection() as mc_afficher:
                 strsql_config_user_afficher_data = """SELECT id_user, user_firstname, user_lastname, user_birthdate,
-                                                            GROUP_CONCAT("ID Config : ", id_config, ", ", "Config use case : ", config_use_case, ", ", "Config rating : ", config_rating, "/5") as UserConfig FROM t_user_created_config
+                                                            GROUP_CONCAT("ID Config : ", id_config, ", ", "Config use case : ", config_use_case, ", ", "Config rating : ", config_rating) as UserConfig FROM t_user_created_config
                                                             RIGHT JOIN t_user ON t_user.id_user = t_user_created_config.fk_user
                                                             LEFT JOIN t_config ON t_config.id_config = t_user_created_config.fk_config
                                                             GROUP BY id_user"""
