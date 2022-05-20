@@ -4,12 +4,9 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<p>
-				Configs à disposition :
-			</p>
+			<h1 class="text-center" style="text-decoration:underline">Configurations</h1>
 			<a class="btn btn-primary" href="{{ url_for('config_ajouter_wtf') }}" role="button">Add</a>
 			<pre></pre>
-
 			<table class="table table-bordered table-sm">
 			{% if data %}
                 <thead>
@@ -56,8 +53,11 @@
 			{% endfor %}
 			</table>
 
+			<pre></pre>
 			<table class="table table-bordered table-sm">
-			<h2>Processor</h2>
+			<h1 class="text-center" style="text-decoration:underline">Configurations with their components</h1>
+			<pre></pre>
+			<h2 class="text-center">Processor</h2>
 			{% if data %}
                 <thead>
                     <tr>
@@ -120,8 +120,9 @@
 			{% endfor %}
 			</table>
 
+			<pre></pre>
 			<table class="table table-bordered table-sm">
-			<h2>Motherboard & RAM</h2>
+			<h2 class="text-center">Motherboard & RAM</h2>
 			{% if data %}
 				<thead>
 					<tr>
@@ -184,8 +185,9 @@
             {% endfor %}
 			</table>
 
+			<pre></pre>
 			<table class="table table-bordered table-sm">
-			<h2>Graphic Card</h2>
+			<h2 class="text-center">Graphic Card</h2>
 			{% if data %}
 				<thead>
 					<tr>
@@ -248,8 +250,9 @@
 			{% endfor %}
 			</table>
 
+			<pre></pre>
 			<table class="table table-bordered table-sm">
-			<h2>Power Supply</h2>
+			<h2 class="text-center">Power Supply</h2>
 			{% if data %}
 				<thead>
 					<tr>
@@ -294,8 +297,9 @@
 			{% endfor %}
 			</table>
 
+			<pre></pre>
 			<table class="table table-bordered table-sm">
-			<h2>Storage</h2>
+			<h2 class="text-center">Storage</h2>
 			{% if data %}
 				<thead>
 					<tr>
@@ -394,6 +398,160 @@
 						</td>
 						<td class="align-middle">
 							{{ row.hdd_rpm }}
+						</td>
+					</tr>
+				</tbody>
+			{% endfor %}
+			</table>
+
+			<pre></pre>
+			<table class="table table-bordered table-sm">
+			<h2 class="text-center">Case</h2>
+			{% if data %}
+                <thead>
+                    <tr>
+						<th class="align-middle">
+							Config ID
+                        </th>
+						<th class="align-middle">
+							Case Brand
+                        </th>
+						<th class="align-middle">
+                            Case Model
+                        </th>
+                        <th class="align-middle">
+                            Case Color
+                        </th>
+					</tr>
+				</thead>
+			{% endif %}
+            {% for row in data %}
+				<tbody>
+					<tr>
+						<td class="align-middle">
+							{{ row.id_config }}
+						</td>
+						<td class="align-middle">
+							{{ row.case_brand }}
+						</td>
+						<td class="align-middle">
+							{{ row.case_model }}
+						</td>
+						<td class="align-middle">
+							{{ row.case_color }}
+						</td>
+					</tr>
+				</tbody>
+            {% endfor %}
+			</table>
+
+			<pre></pre>
+			<table class="table table-bordered table-sm">
+			<h2 class="text-center">Cooling</h2>
+			{% if data %}
+                <thead>
+                    <tr>
+						<th class="align-middle">
+							Config ID
+                        </th>
+						<th class="align-middle">
+							Aircooling Brand
+                        </th>
+						<th class="align-middle">
+                            Aircooling Model
+                        </th>
+                        <th class="align-middle">
+                            Aircooling Dimensions
+                        </th>
+                        <th class="align-middle">
+							Aircooling Fans
+                        </th>
+						<th class="align-middle">
+                            Aircooling Socket Support
+                        </th>
+						<th class="align-middle">
+							Aircooling Fan Speed
+                        </th>
+					</tr>
+				</thead>
+			{% endif %}
+            {% for row in data %}
+				<tbody>
+					<tr>
+						<td class="align-middle">
+							{{ row.id_config }}
+						</td>
+						<td class="align-middle">
+							{{ row.aircooling_brand }}
+						</td>
+						<td class="align-middle">
+							{{ row.aircooling_model }}
+						</td>
+						<td class="align-middle">
+							{{ row.aircooling_dimensions }}
+						</td>
+						<td class="align-middle">
+							{{ row.aircooling_fans }}
+						</td>
+						<td class="align-middle">
+							{{ row.aircooling_socket_support }}
+						</td>
+						<td class="align-middle">
+							{{ row.aircooling_fan_speed }}
+						</td>
+					</tr>
+				</tbody>
+            {% endfor %}
+			{% if data %}
+                <thead>
+                    <tr>
+						<th class="text-center" class="align-middle">
+							Config ID
+                        </th>
+						<th class="text-center" class="align-middle">
+							Watercooling Brand
+                        </th>
+						<th class="align-middle">
+                            Watercooling Model
+                        </th>
+                        <th class="align-middle">
+                            Watercooling Dimensions
+                        </th>
+                        <th class="align-middle">
+							Watercooling Scale
+                        </th>
+						<th class="align-middle">
+                            Watercooling Socket Support
+                        </th>
+						<th class="align-middle">
+							Watercooling Fan Speed
+                        </th>
+					</tr>
+				</thead>
+			{% endif %}
+            {% for row in data %}
+				<tbody>
+					<tr>
+						<td class="align-middle">
+							{{ row.id_config }}
+						</td>
+						<td class="align-middle">
+							{{ row.watercooling_brand }}
+						</td>
+						<td class="align-middle">
+							{{ row.watercooling_model }}
+						</td>
+						<td class="align-middle">
+							{{ row.watercooling_dimensions }}
+						</td>
+						<td class="align-middle">
+							{{ row.watercooling_scale }}
+						</td>
+						<td class="align-middle">
+							{{ row.watercooling_socket_support }}
+						</td>
+						<td class="align-middle">
+							{{ row.watercooling_fan_speed }}
 						</td>
 					</tr>
 				</tbody>

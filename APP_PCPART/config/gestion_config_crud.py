@@ -32,10 +32,12 @@ def config_afficher(order_by, id_config_sel):
         try:
             with DBconnection() as mc_afficher:
                 if order_by == "ASC" and id_config_sel == 0:
-                    strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released, 
-                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, 
+                    strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released,
+                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity,
                                                 gpu_manufacturer, gpu_brand, gpu_name, gpu_codename, gpu_memory, gpu_tdp, gpu_released, supply_brand, supply_model, supply_power, supply_certification,
-                                                ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm FROM t_config
+                                                ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm,
+                                                case_brand, case_model, case_color, aircooling_brand, aircooling_model, aircooling_dimensions, aircooling_fans, aircooling_socket_support, aircooling_fan_speed, 
+                                                watercooling_brand, watercooling_model, watercooling_dimensions, watercooling_scale, watercooling_socket_support, watercooling_fan_speed FROM t_config
                                                 LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
                                                 LEFT JOIN t_cpu ON t_cpu.id_cpu = t_config_has_cpu.fk_cpu
                                                 LEFT JOIN t_cpumanufacturer_produce_cpu ON t_cpu.id_cpu = t_cpumanufacturer_produce_cpu.fk_cpu
