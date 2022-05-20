@@ -32,8 +32,10 @@ def config_afficher(order_by, id_config_sel):
         try:
             with DBconnection() as mc_afficher:
                 if order_by == "ASC" and id_config_sel == 0:
-                    strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, 
-                                                motherboard_brand, motherboard_model, ram_brand, ram_name, ram_capacity FROM t_config
+                    strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released, 
+                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, 
+                                                gpu_manufacturer, gpu_brand, gpu_name, gpu_codename, gpu_memory, gpu_tdp, gpu_released, supply_brand, supply_model, supply_power, supply_certification,
+                                                ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm FROM t_config
                                                 LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
                                                 LEFT JOIN t_cpu ON t_cpu.id_cpu = t_config_has_cpu.fk_cpu
                                                 LEFT JOIN t_cpumanufacturer_produce_cpu ON t_cpu.id_cpu = t_cpumanufacturer_produce_cpu.fk_cpu
@@ -42,7 +44,23 @@ def config_afficher(order_by, id_config_sel):
                                                 LEFT JOIN t_motherboard ON t_motherboard.id_motherboard = t_config_has_motherboard.fk_motherboard
                                                 LEFT JOIN t_config_has_ram ON t_config.id_config = t_config_has_ram.fk_config
                                                 LEFT JOIN t_ram ON t_ram.id_ram = t_config_has_ram.fk_ram
-                                                ORDER BY id_config DESC"""
+                                                LEFT JOIN t_config_has_gpu ON t_config.id_config = t_config_has_gpu.fk_config
+                                                LEFT JOIN t_gpu ON t_gpu.id_gpu = t_config_has_gpu.fk_gpu
+                                                LEFT JOIN t_gpumanufacturer_produce_gpu ON t_gpu.id_gpu = t_gpumanufacturer_produce_gpu.fk_gpu
+                                                LEFT JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpumanufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
+                                                LEFT JOIN t_config_has_aircooling ON t_config.id_config = t_config_has_aircooling.fk_config
+                                                LEFT JOIN t_aircooling ON t_aircooling.id_aircooling = t_config_has_aircooling.fk_aircooling
+                                                LEFT JOIN t_config_has_watercooling ON t_config.id_config = t_config_has_watercooling.fk_config
+                                                LEFT JOIN t_watercooling ON t_watercooling.id_watercooling = t_config_has_watercooling.fk_watercooling
+                                                LEFT JOIN t_config_has_case ON t_config.id_config = t_config_has_case.fk_config
+                                                LEFT JOIN t_case ON t_case.id_case = t_config_has_case.fk_case
+                                                LEFT JOIN t_config_has_supply ON t_config.id_config = t_config_has_supply.fk_config
+                                                LEFT JOIN t_supply ON t_supply.id_supply = t_config_has_supply.fk_supply
+                                                LEFT JOIN t_config_has_ssd ON t_config.id_config = t_config_has_ssd.fk_config
+                                                LEFT JOIN t_ssd ON t_ssd.id_ssd = t_config_has_ssd.fk_ssd
+                                                LEFT JOIN t_config_has_hdd ON t_config.id_config = t_config_has_hdd.fk_config
+                                                LEFT JOIN t_hdd ON t_hdd.id_hdd = t_config_has_hdd.fk_hdd
+                                                ORDER BY config_rating ASC"""
                     mc_afficher.execute(strsql_config_afficher)
                 elif order_by == "ASC":
                     # C'EST LA QUE VOUS ALLEZ DEVOIR PLACER VOTRE PROPRE LOGIQUE MySql
@@ -52,8 +70,10 @@ def config_afficher(order_by, id_config_sel):
                     # Constitution d'un dictionnaire pour associer l'id de la config sélectionné avec un nom de variable
                     valeur_id_config_selected_dictionnaire = {"value_id_config_selected": id_config_sel}
 
-                    strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, motherboard_brand, 
-                                                motherboard_model, ram_brand, ram_name, ram_capacity FROM t_config
+                    strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released, 
+                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, 
+                                                gpu_manufacturer, gpu_brand, gpu_name, gpu_codename, gpu_memory, gpu_tdp, gpu_released, supply_brand, supply_model, supply_power, supply_certification,
+                                                ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm FROM t_config
                                                 LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
                                                 LEFT JOIN t_cpu ON t_cpu.id_cpu = t_config_has_cpu.fk_cpu
                                                 LEFT JOIN t_cpumanufacturer_produce_cpu ON t_cpu.id_cpu = t_cpumanufacturer_produce_cpu.fk_cpu
@@ -62,12 +82,30 @@ def config_afficher(order_by, id_config_sel):
                                                 LEFT JOIN t_motherboard ON t_motherboard.id_motherboard = t_config_has_motherboard.fk_motherboard
                                                 LEFT JOIN t_config_has_ram ON t_config.id_config = t_config_has_ram.fk_config
                                                 LEFT JOIN t_ram ON t_ram.id_ram = t_config_has_ram.fk_ram
+                                                LEFT JOIN t_config_has_gpu ON t_config.id_config = t_config_has_gpu.fk_config
+                                                LEFT JOIN t_gpu ON t_gpu.id_gpu = t_config_has_gpu.fk_gpu
+                                                LEFT JOIN t_gpumanufacturer_produce_gpu ON t_gpu.id_gpu = t_gpumanufacturer_produce_gpu.fk_gpu
+                                                LEFT JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpumanufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
+                                                LEFT JOIN t_config_has_aircooling ON t_config.id_config = t_config_has_aircooling.fk_config
+                                                LEFT JOIN t_aircooling ON t_aircooling.id_aircooling = t_config_has_aircooling.fk_aircooling
+                                                LEFT JOIN t_config_has_watercooling ON t_config.id_config = t_config_has_watercooling.fk_config
+                                                LEFT JOIN t_watercooling ON t_watercooling.id_watercooling = t_config_has_watercooling.fk_watercooling
+                                                LEFT JOIN t_config_has_case ON t_config.id_config = t_config_has_case.fk_config
+                                                LEFT JOIN t_case ON t_case.id_case = t_config_has_case.fk_case
+                                                LEFT JOIN t_config_has_supply ON t_config.id_config = t_config_has_supply.fk_config
+                                                LEFT JOIN t_supply ON t_supply.id_supply = t_config_has_supply.fk_supply
+                                                LEFT JOIN t_config_has_ssd ON t_config.id_config = t_config_has_ssd.fk_config
+                                                LEFT JOIN t_ssd ON t_ssd.id_ssd = t_config_has_ssd.fk_ssd
+                                                LEFT JOIN t_config_has_hdd ON t_config.id_config = t_config_has_hdd.fk_config
+                                                LEFT JOIN t_hdd ON t_hdd.id_hdd = t_config_has_hdd.fk_hdd
                                                 WHERE id_config = %(value_id_config_selected)s"""
 
                     mc_afficher.execute(strsql_config_afficher, valeur_id_config_selected_dictionnaire)
                 else:
-                    strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, motherboard_brand, 
-                                                motherboard_model, ram_brand, ram_name, ram_capacity FROM t_config
+                    strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released, 
+                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, 
+                                                gpu_manufacturer, gpu_brand, gpu_name, gpu_codename, gpu_memory, gpu_tdp, gpu_released, supply_brand, supply_model, supply_power, supply_certification,
+                                                ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm FROM t_config
                                                 LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
                                                 LEFT JOIN t_cpu ON t_cpu.id_cpu = t_config_has_cpu.fk_cpu
                                                 LEFT JOIN t_cpumanufacturer_produce_cpu ON t_cpu.id_cpu = t_cpumanufacturer_produce_cpu.fk_cpu
@@ -76,7 +114,23 @@ def config_afficher(order_by, id_config_sel):
                                                 LEFT JOIN t_motherboard ON t_motherboard.id_motherboard = t_config_has_motherboard.fk_motherboard
                                                 LEFT JOIN t_config_has_ram ON t_config.id_config = t_config_has_ram.fk_config
                                                 LEFT JOIN t_ram ON t_ram.id_ram = t_config_has_ram.fk_ram
-                                                ORDER BY id_config DESC"""
+                                                LEFT JOIN t_config_has_gpu ON t_config.id_config = t_config_has_gpu.fk_config
+                                                LEFT JOIN t_gpu ON t_gpu.id_gpu = t_config_has_gpu.fk_gpu
+                                                LEFT JOIN t_gpumanufacturer_produce_gpu ON t_gpu.id_gpu = t_gpumanufacturer_produce_gpu.fk_gpu
+                                                LEFT JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpumanufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
+                                                LEFT JOIN t_config_has_aircooling ON t_config.id_config = t_config_has_aircooling.fk_config
+                                                LEFT JOIN t_aircooling ON t_aircooling.id_aircooling = t_config_has_aircooling.fk_aircooling
+                                                LEFT JOIN t_config_has_watercooling ON t_config.id_config = t_config_has_watercooling.fk_config
+                                                LEFT JOIN t_watercooling ON t_watercooling.id_watercooling = t_config_has_watercooling.fk_watercooling
+                                                LEFT JOIN t_config_has_case ON t_config.id_config = t_config_has_case.fk_config
+                                                LEFT JOIN t_case ON t_case.id_case = t_config_has_case.fk_case
+                                                LEFT JOIN t_config_has_supply ON t_config.id_config = t_config_has_supply.fk_config
+                                                LEFT JOIN t_supply ON t_supply.id_supply = t_config_has_supply.fk_supply
+                                                LEFT JOIN t_config_has_ssd ON t_config.id_config = t_config_has_ssd.fk_config
+                                                LEFT JOIN t_ssd ON t_ssd.id_ssd = t_config_has_ssd.fk_ssd
+                                                LEFT JOIN t_config_has_hdd ON t_config.id_config = t_config_has_hdd.fk_config
+                                                LEFT JOIN t_hdd ON t_hdd.id_hdd = t_config_has_hdd.fk_hdd
+                                                ORDER BY config_rating ASC"""
 
                     mc_afficher.execute(strsql_config_afficher)
 
@@ -144,7 +198,6 @@ def config_ajouter_wtf():
                 ram_brand = form.ram_brand_wtf.data
                 ram_name = form.ram_name_wtf.data
                 ram_capacity = form.ram_capacity_wtf.data
-                ram_data_rate = form.ram_data_rate_wtf.data
 
                 valeurs_insertion_dictionnaire = {
                     "value_config_use_case": config_use_case,
@@ -160,8 +213,7 @@ def config_ajouter_wtf():
                     "value_motherboard_release_year": motherboard_release_year,
                     "value_ram_brand": ram_brand,
                     "value_ram_name": ram_name,
-                    "value_ram_capacity": ram_capacity,
-                    "value_ram_data_rate": ram_data_rate
+                    "value_ram_capacity": ram_capacity
                 }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
