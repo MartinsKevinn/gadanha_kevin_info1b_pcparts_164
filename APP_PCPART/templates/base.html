@@ -46,7 +46,7 @@
 				<ul class="navbar-nav">
 					<li class="nav-item">
 						<!--		Afficher la liste des userrole dans l'ordre (ASC) et tous les userrole (0)-->
-						<a class="nav-link" href="{{ url_for('userrole_afficher', order_by='ASC', id_userrole_sel=0) }}">User Roles</a>
+						<a class="nav-link" href="{{ url_for('userrole_afficher', order_by='ASC', id_userrole_sel=0) }}">Roles</a>
 					</li>
 					<li class="nav-item">
 						<!--		Afficher la liste des userrole dans l'ordre (ASC) et tous les userrole (0)-->
@@ -56,14 +56,19 @@
 						<!--		Afficher la liste des userrole dans l'ordre (ASC) et tous les userrole (0)-->
 						<a class="nav-link" href="{{ url_for('cpumanufacturer_afficher', order_by='ASC', id_cpu_manufacturer_sel=0) }}">CPU Manufacturers</a>
 					</li>
-					<li class="nav-item">
-						<!--		Afficher la liste des userrole dans l'ordre (ASC) et tous les userrole (0)-->
-						<a class="nav-link" href="{{ url_for('motherboard_afficher', order_by='ASC', id_motherboard_sel=0) }}">Motherboards</a>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navdropdowncomponents" role="button"
+						   data-bs-toggle="dropdown" aria-expanded="false">
+							Components/...
+						</a>
+						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="nav-link" href="{{ url_for('motherboard_afficher', order_by='ASC', id_motherboard_sel=0) }}">Motherboards</a></li>
+						</ul>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navdropdownuser" role="button"
 						   data-bs-toggle="dropdown" aria-expanded="false">
-							Utilisateurs
+							User/...
 						</a>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 							<li><a class="nav-link" href="{{ url_for('user_config_afficher', id_user_sel=0) }}">Utilisateurs/Config</a></li>
@@ -73,7 +78,7 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navdropdowncpu" role="button"
 						   data-bs-toggle="dropdown" aria-expanded="false">
-							CPU
+							CPU/...
 						</a>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 							<li><a class="nav-link" href="{{ url_for('cpu_cpumanufacturer_afficher', id_cpu_sel=0) }}">CPU/Manufacturer</a></li>

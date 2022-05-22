@@ -66,7 +66,7 @@ def cpumanufacturer_afficher(order_by, id_cpu_manufacturer_sel):
                 else:
                     # Dans tous les autres cas, c'est que la table "t_cpumanufacturer" est vide.
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
-                    flash(f"Données cpumanufacturer affichés !!", "success")
+                    flash(f"Data CPU Manufacturers shown !!", "success")
 
         except Exception as Exception_cpumanufacturer_afficher:
             raise ExceptionCpumanufacturerAfficher(f"fichier : {Path(__file__).name}  ;  "

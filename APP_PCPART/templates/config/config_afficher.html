@@ -36,10 +36,10 @@
 							{{ row.id_config }}
 						</td>
 						<td class="align-middle">
-							{{ row.config_use_case }}
+							{{ row.config_use_case|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.config_rating }}
+							{{ row.config_rating|default("None", True) }}
 						</td>
 						</td>
 						<td class="text-center" class="align-middle">
@@ -95,25 +95,25 @@
 							{{ row.id_config }}
 						</td>
 						<td class="align-middle">
-							{{ row.cpu_manufacturer }}
+							{{ row.cpu_manufacturer|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.cpu_name }}
+							{{ row.cpu_name|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.cpu_codename }}
+							{{ row.cpu_codename|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.cpu_cores }}
+							{{ row.cpu_cores|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.cpu_clock }}
+							{{ row.cpu_clock|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.cpu_tdp }}
+							{{ row.cpu_tdp|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.cpu_released }}
+							{{ row.cpu_released|default("None", True) }}
 						</td>
 					</tr>
 				</tbody>
@@ -150,6 +150,9 @@
                         <th class="align-middle">
                             RAM Capacity
                         </th>
+						<th class="align-middle">
+                            RAM Data Rate
+                        </th>
                     </tr>
                 </thead>
             {% endif %}
@@ -160,25 +163,28 @@
 							{{ row.id_config }}
 						</td>
 						<td class="align-middle">
-							{{ row.motherboard_brand }}
+							{{ row.motherboard_brand|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.motherboard_model }}
+							{{ row.motherboard_model|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.motherboard_chipset }}
+							{{ row.motherboard_chipset|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.motherboard_release_year }}
+							{{ row.motherboard_release_year|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.ram_brand }}
+							{{ row.ram_brand|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.ram_name }}
+							{{ row.ram_name|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.ram_capacity }}
+							{{ row.ram_capacity|default("None", True) }}
+						</td>
+						<td class="align-middle">
+							{{ row.ram_data_rate|default("None", True) }}
 						</td>
 					</tr>
 				</tbody>
@@ -222,28 +228,28 @@
 				<tbody>
 					<tr>
 						<td class="align-middle">
-							{{ row.id_config }}
+							{{ row.id_config|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.gpu_manufacturer }}
+							{{ row.gpu_manufacturer|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.gpu_brand }}
+							{{ row.gpu_brand|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.gpu_name }}
+							{{ row.gpu_name|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.gpu_codename }}
+							{{ row.gpu_codename|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.gpu_memory }}
+							{{ row.gpu_memory|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.gpu_tdp }}
+							{{ row.gpu_tdp|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.gpu_released }}
+							{{ row.gpu_released|default("None", True) }}
 						</td>
 					</tr>
 				</tbody>
@@ -281,16 +287,16 @@
 							{{ row.id_config }}
 						</td>
 						<td class="align-middle">
-							{{ row.supply_brand }}
+							{{ row.supply_brand|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.supply_model }}
+							{{ row.supply_model|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.supply_power }}
+							{{ row.supply_power|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.supply_certification }}
+							{{ row.supply_certification|default("None", True) }}
 						</td>
 					</tr>
 				</tbody>
@@ -331,25 +337,25 @@
 				<tbody>
 					<tr>
 						<td class="align-middle">
-							{{ row.id_config }}
+							{{ row.id_config|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.ssd_brand }}
+							{{ row.ssd_brand|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.ssd_model }}
+							{{ row.ssd_model|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.ssd_interface }}
+							{{ row.ssd_interface|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.ssd_form_factor }}
+							{{ row.ssd_form_factor|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.ssd_capacity }}
+							{{ row.ssd_capacity|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.ssd_nand_type }}
+							{{ row.ssd_nand_type|default("None", True) }}
 						</td>
 					</tr>
 				</tbody>
@@ -385,19 +391,22 @@
 							{{ row.id_config }}
 						</td>
 						<td class="align-middle">
-							{{ row.hdd_brand }}
+							{{ row.hdd_brand|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.hdd_name }}
+							{{ row.hdd_name|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.hdd_interface }}
+							{{ row.hdd_interface|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.hdd_capacity }}
+							{{ row.hdd_capacity|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.hdd_rpm }}
+							{{ row.hdd_rpm|default("None", True) }}
+						</td>
+						<td class="align-middle">
+
 						</td>
 					</tr>
 				</tbody>
@@ -432,13 +441,13 @@
 							{{ row.id_config }}
 						</td>
 						<td class="align-middle">
-							{{ row.case_brand }}
+							{{ row.case_brand|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.case_model }}
+							{{ row.case_model|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.case_color }}
+							{{ row.case_color|default("None", True) }}
 						</td>
 					</tr>
 				</tbody>
@@ -482,22 +491,22 @@
 							{{ row.id_config }}
 						</td>
 						<td class="align-middle">
-							{{ row.aircooling_brand }}
+							{{ row.aircooling_brand|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.aircooling_model }}
+							{{ row.aircooling_model|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.aircooling_dimensions }}
+							{{ row.aircooling_dimensions|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.aircooling_fans }}
+							{{ row.aircooling_fans|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.aircooling_socket_support }}
+							{{ row.aircooling_socket_support|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.aircooling_fan_speed }}
+							{{ row.aircooling_fan_speed|default("None", True) }}
 						</td>
 					</tr>
 				</tbody>
@@ -505,10 +514,10 @@
 			{% if data %}
                 <thead>
                     <tr>
-						<th class="text-center" class="align-middle">
+						<th class="align-middle">
 							Config ID
                         </th>
-						<th class="text-center" class="align-middle">
+						<th class="align-middle">
 							Watercooling Brand
                         </th>
 						<th class="align-middle">
@@ -536,22 +545,22 @@
 							{{ row.id_config }}
 						</td>
 						<td class="align-middle">
-							{{ row.watercooling_brand }}
+							{{ row.watercooling_brand|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.watercooling_model }}
+							{{ row.watercooling_model|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.watercooling_dimensions }}
+							{{ row.watercooling_dimensions|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.watercooling_scale }}
+							{{ row.watercooling_scale|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.watercooling_socket_support }}
+							{{ row.watercooling_socket_support|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.watercooling_fan_speed }}
+							{{ row.watercooling_fan_speed|default("None", True) }}
 						</td>
 					</tr>
 				</tbody>

@@ -62,7 +62,7 @@ def userrole_afficher(order_by, id_userrole_sel):
                 else:
                     # Dans tous les autres cas, c'est que la table "t_userrole" est vide.
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
-                    flash(f"Données roles affichés !!", "success")
+                    flash(f"Data roles shown !!", "success")
 
         except Exception as Exception_userrole_afficher:
             raise ExceptionUserroleAfficher(f"fichier : {Path(__file__).name}  ;  "

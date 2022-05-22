@@ -32,11 +32,11 @@ def config_afficher(order_by, id_config_sel):
         try:
             with DBconnection() as mc_afficher:
                 if order_by == "ASC" and id_config_sel == 0:
-                    strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released,
-                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity,
+                    strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released, 
+                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, ram_data_rate,
                                                 gpu_manufacturer, gpu_brand, gpu_name, gpu_codename, gpu_memory, gpu_tdp, gpu_released, supply_brand, supply_model, supply_power, supply_certification,
                                                 ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm,
-                                                case_brand, case_model, case_color, aircooling_brand, aircooling_model, aircooling_dimensions, aircooling_fans, aircooling_socket_support, aircooling_fan_speed, 
+                                                case_brand, case_model, case_color, aircooling_brand, aircooling_model, aircooling_dimensions, aircooling_fans, aircooling_socket_support, aircooling_fan_speed,
                                                 watercooling_brand, watercooling_model, watercooling_dimensions, watercooling_scale, watercooling_socket_support, watercooling_fan_speed FROM t_config
                                                 LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
                                                 LEFT JOIN t_cpu ON t_cpu.id_cpu = t_config_has_cpu.fk_cpu
@@ -73,7 +73,7 @@ def config_afficher(order_by, id_config_sel):
                     valeur_id_config_selected_dictionnaire = {"value_id_config_selected": id_config_sel}
 
                     strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released, 
-                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, 
+                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, ram_data_rate,
                                                 gpu_manufacturer, gpu_brand, gpu_name, gpu_codename, gpu_memory, gpu_tdp, gpu_released, supply_brand, supply_model, supply_power, supply_certification,
                                                 ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm FROM t_config
                                                 LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
@@ -105,7 +105,7 @@ def config_afficher(order_by, id_config_sel):
                     mc_afficher.execute(strsql_config_afficher, valeur_id_config_selected_dictionnaire)
                 else:
                     strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released, 
-                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, 
+                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, ram_data_rate,
                                                 gpu_manufacturer, gpu_brand, gpu_name, gpu_codename, gpu_memory, gpu_tdp, gpu_released, supply_brand, supply_model, supply_power, supply_certification,
                                                 ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm FROM t_config
                                                 LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
@@ -149,7 +149,7 @@ def config_afficher(order_by, id_config_sel):
                 else:
                     # Dans tous les autres cas, c'est que la table "t_config" est vide.
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
-                    flash(f"Données config affichés !!", "success")
+                    flash(f"Data configs shown !!", "success")
 
         except Exception as Exception_config_afficher:
             raise ExceptionConfigAfficher(f"fichier : {Path(__file__).name}  ;  "
@@ -193,6 +193,8 @@ def config_ajouter_wtf():
                 cpu_codename = form.cpu_codename_wtf.data
                 cpu_cores = form.cpu_cores_wtf.data
                 cpu_clock = form.cpu_clock_wtf.data
+                cpu_tdp = form.cpu_tdp_wtf.data
+                cpu_released = form.cpu_released_wtf.data
                 motherboard_brand = form.motherboard_brand_wtf.data
                 motherboard_model = form.motherboard_model_wtf.data
                 motherboard_chipset = form.motherboard_chipset_wtf.data
@@ -200,6 +202,18 @@ def config_ajouter_wtf():
                 ram_brand = form.ram_brand_wtf.data
                 ram_name = form.ram_name_wtf.data
                 ram_capacity = form.ram_capacity_wtf.data
+                ram_data_rate = form.ram_data_rate_wtf.data
+                gpu_manufacturer = form.gpu_manufacturer_wtf.data
+                gpu_brand = form.gpu_brand_wtf.data
+                gpu_name = form.gpu_name_wtf.data
+                gpu_codename = form.gpu_codename_wtf.data
+                gpu_memory = form.gpu_memory_wtf.data
+                gpu_tdp = form.gpu_tdp_wtf.data
+                gpu_released = form.gpu_released_wtf.data
+                supply_brand = form.supply_brand_wtf.data
+                supply_model = form.supply_model_wtf.data
+                supply_power = form.supply_power_wtf.data
+                supply_certification = form.supply_certification_wtf.data
 
                 valeurs_insertion_dictionnaire = {
                     "value_config_use_case": config_use_case,
@@ -209,13 +223,27 @@ def config_ajouter_wtf():
                     "value_cpu_codename": cpu_codename,
                     "value_cpu_cores": cpu_cores,
                     "value_cpu_clock": cpu_clock,
+                    "value_cpu_tdp": cpu_tdp,
+                    "value_cpu_released": cpu_released,
                     "value_motherboard_brand": motherboard_brand,
                     "value_motherboard_model": motherboard_model,
                     "value_motherboard_chipset": motherboard_chipset,
                     "value_motherboard_release_year": motherboard_release_year,
                     "value_ram_brand": ram_brand,
                     "value_ram_name": ram_name,
-                    "value_ram_capacity": ram_capacity
+                    "value_ram_capacity": ram_capacity,
+                    "value_ram_data_rate": ram_data_rate,
+                    "value_gpu_manufacturer": gpu_manufacturer,
+                    "value_gpu_brand": gpu_brand,
+                    "value_gpu_name": gpu_name,
+                    "value_gpu_codename": gpu_codename,
+                    "value_gpu_memory": gpu_memory,
+                    "value_gpu_tdp": gpu_tdp,
+                    "value_gpu_released": gpu_released,
+                    "value_supply_brand": supply_brand,
+                    "value_supply_model": supply_model,
+                    "value_supply_power": supply_power,
+                    "value_supply_certification": supply_certification
                 }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 

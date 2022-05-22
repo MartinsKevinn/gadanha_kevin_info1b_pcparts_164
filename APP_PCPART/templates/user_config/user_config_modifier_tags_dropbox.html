@@ -60,13 +60,13 @@
 							{{ row.id_user }}
 						</td>
 						<td class="align-middle">
-							{{ row.user_firstname }}
+							{{ row.user_firstname|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.user_lastname|default("", True) }}
+							{{ row.user_lastname|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.user_birthdate|default("", True) }}
+							{{ row.user_birthdate|default("None", True) }}
 						</td>
 					</tr>
 				</tbody>
