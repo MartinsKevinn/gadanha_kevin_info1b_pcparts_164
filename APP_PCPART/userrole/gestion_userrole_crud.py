@@ -259,7 +259,7 @@ def userrole_delete_wtf():
             print(id_userrole_delete, type(id_userrole_delete))
 
             # Requête qui affiche tous les users qui ont le role que l'utilisateur veut effacer
-            str_sql_user_userrole_delete = """SELECT id_user, user_firstname, user_lastname, id_userrole, userrole FROM t_user_has_userrole
+            str_sql_user_userrole_delete = """SELECT id_user, user_firstname, user_lastname, user_photo, id_userrole, userrole FROM t_user_has_userrole
                                             LEFT JOIN t_user ON t_user_has_userrole.fk_user = t_user.id_user
                                             LEFT JOIN t_userrole ON t_user_has_userrole.fk_userrole = t_userrole.id_userrole
                                             WHERE fk_userrole = %(value_id_userrole)s"""

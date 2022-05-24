@@ -42,6 +42,9 @@
 					  <th class="align-middle">
 						{{ row.user_birthdate|default("None", True) }}
 					  </th>
+					  <td class="align-middle">
+						  <img class="img" src={{ row.user_photo|default(None, True) }} style="border: 0;display:block; width:150px; max-height:auto;"  alt = "Image ERROR">
+					  </td>
 					  <th class="align-middle">
 						<a class="btn btn-warning" href="{{ url_for('user_update_wtf', id_user_btn_edit_html=row.id_user) }}" role="button">Edit</a>
 					  </th>

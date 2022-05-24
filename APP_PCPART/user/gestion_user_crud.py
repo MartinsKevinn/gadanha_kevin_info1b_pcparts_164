@@ -121,7 +121,7 @@ def user_update_wtf():
         elif request.method == "GET":
             # Opération sur la BD pour récupérer les données de la "t_user"
 
-            # str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s, user_firstname = %(value_user_firstname)s, user_lastname = %(value_user_lastname)s, user_birthdate = %(value_user_birthdate)s"
+            # str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate, user_photo FROM t_user WHERE id_user = %(value_id_user)s, user_firstname = %(value_user_firstname)s, user_lastname = %(value_user_lastname)s, user_birthdate = %(value_user_birthdate)s, user_photo = %(value_user_photo)s"
 
             # str_sql_id_user = "SELECT id_user FROM t_user WHERE id_user = %(value_id_user)s"
             str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate, user_photo FROM t_user WHERE id_user = %(value_id_user)s"
@@ -137,11 +137,10 @@ def user_update_wtf():
             # Afficher la valeur sélectionnée dans le champ du formulaire "user_update_wtf.html"
             form_update_user.user_firstname_update_wtf.data = data_user["user_firstname"]
             form_update_user.user_lastname_update_wtf.data = data_user["user_lastname"]
-            form_update_user.user_birthdate_update_wtf.data = data_user["user_birthdate"]
-            form_update_user.user_photo_update_wtf.data = data_user["user_photo"]
             # Debug simple pour contrôler la valeur dans la console "run" de PyCharm
             print(f" user lastname  ", data_user["user_lastname"], "  type ", type(data_user["user_lastname"]))
             form_update_user.user_birthdate_update_wtf.data = data_user["user_birthdate"]
+            form_update_user.user_photo_update_wtf.data = data_user["user_photo"]
 
     except Exception as Exception_user_update_wtf:
         raise ExceptionUserUpdateWtf(f"fichier : {Path(__file__).name}  ;  "

@@ -32,7 +32,7 @@ def user_config_afficher(id_user_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_config_user_afficher_data = """SELECT id_user, user_firstname, user_lastname, user_birthdate,
+                strsql_config_user_afficher_data = """SELECT id_user, user_firstname, user_lastname, user_birthdate, user_photo,
                                                             GROUP_CONCAT("ID Config : ", id_config, ", ", "Config use case : ", config_use_case, ", ", "Config rating : ", config_rating) as UserConfig FROM t_user_created_config
                                                             RIGHT JOIN t_user ON t_user.id_user = t_user_created_config.fk_user
                                                             LEFT JOIN t_config ON t_config.id_config = t_user_created_config.fk_config
@@ -277,7 +277,7 @@ def config_user_afficher_data(valeur_id_user_selected_dict):
     print("valeur_id_user_selected_dict...", valeur_id_user_selected_dict)
     try:
 
-        strsql_user_selected = """SELECT id_user, user_firstname, user_lastname, user_birthdate, GROUP_CONCAT(id_config) as UserConfig FROM t_user_created_config
+        strsql_user_selected = """SELECT id_user, user_firstname, user_lastname, user_birthdate, user_photo, GROUP_CONCAT(id_config) as UserConfig FROM t_user_created_config
                                         INNER JOIN t_user ON t_user.id_user = t_user_created_config.fk_user
                                         INNER JOIN t_config ON t_config.id_config = t_user_created_config.fk_config
                                         WHERE id_user = %(value_id_user_selected)s"""

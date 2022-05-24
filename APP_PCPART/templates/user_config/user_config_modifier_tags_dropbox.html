@@ -49,6 +49,9 @@
                             <th class="">
                                 Birthdate
                             </th>
+                            <th class="">
+                                Photo
+                            </th>
                         </tr>
                     </thead>
             {% endif %}
@@ -67,6 +70,9 @@
 						</td>
 						<td class="align-middle">
 							{{ row.user_birthdate|default("None", True) }}
+						</td>
+                        <td class="align-middle">
+							<img class="img" src={{ row.user_photo|default(None, True) }} style="border: 0;display:block; width:150px; max-height:auto;"  alt = "Image ERROR">
 						</td>
 					</tr>
 				</tbody>

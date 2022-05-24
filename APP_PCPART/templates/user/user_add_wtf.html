@@ -34,7 +34,7 @@
 					</p>
 					<p>
 						{{ form_add_user.user_photo_add_wtf.label }}<br>
-						{{ form_add_user.user_photo_add_wtf(size=32) }}<br>
+						{{ form_add_user.user_photo_add_wtf(cols=100, rows=10) }}<br>
 						{% for error in form_add_user.user_photo_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
