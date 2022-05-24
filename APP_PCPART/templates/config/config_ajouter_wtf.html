@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %} Ajouter une CONFIG (WTF) {% endblock %}
+{% block title %} Add a CONFIG (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Ajouter une nouvelle CONFIG (WTForms)
+				Add a new CONFIG (WTForms)
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
@@ -13,14 +13,14 @@
 				<div class="form-group">
 					<p>
 						{{ form.config_use_case_wtf.label }}<br>
-						{{ form.config_use_case_wtf(size=32) }}<br>
+						{{ form.config_use_case_wtf(size=1) }}<br>
 						{% for error in form.config_use_case_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
 						{{ form.config_rating_wtf.label }}<br>
-						{{ form.config_rating_wtf(size=32) }}<br>
+						{{ form.config_rating_wtf(size=1) }}<br>
 						{% for error in form.config_rating_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
@@ -75,13 +75,6 @@
 						{{ form.motherboard_model_wtf.label }}<br>
 						{{ form.motherboard_model_wtf(size=32) }}<br>
 						{% for error in form.motherboard_model_wtf.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-						{% endfor %}
-					</p>
-					<p>
-						{{ form.motherboard_chipset_wtf.label }}<br>
-						{{ form.motherboard_chipset_wtf(size=32) }}<br>
-						{% for error in form.motherboard_chipset_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>

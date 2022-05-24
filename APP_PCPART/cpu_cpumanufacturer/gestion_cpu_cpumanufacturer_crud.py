@@ -32,7 +32,7 @@ def cpu_cpumanufacturer_afficher(id_cpu_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_cpumanufacturer_cpu_afficher_data = """SELECT id_cpu, CPU_Name, CPU_Codename, CPU_Cores, CPU_Clock, CPU_Socket,
+                strsql_cpumanufacturer_cpu_afficher_data = """SELECT id_cpu, CPU_Name, CPU_Codename, CPU_Cores, CPU_Clock, CPU_Socket, CPU_Released,
                                                             GROUP_CONCAT(CPU_Manufacturer) as CpumanufacturerCpu FROM t_cpumanufacturer_produce_cpu
                                                             RIGHT JOIN t_cpu ON t_cpu.id_cpu = t_cpumanufacturer_produce_cpu.fk_cpu
                                                             LEFT JOIN t_cpumanufacturer ON t_cpumanufacturer.id_cpu_manufacturer = t_cpumanufacturer_produce_cpu.fk_cpumanufacturer
@@ -57,12 +57,12 @@ def cpu_cpumanufacturer_afficher(id_cpu_sel):
 
                 # Différencier les messages.
                 if not data_cpumanufacturer_cpu_afficher and id_cpu_sel == 0:
-                    flash("""La table "t_cpu" est vide. !""", "warning")
+                    flash("""Table "t_cpu" is empty !""", "warning")
                 elif not data_cpumanufacturer_cpu_afficher and id_cpu_sel > 0:
                     # Si l'utilisateur change l'id_cpu dans l'URL et qu'il ne correspond à aucun cpu
-                    flash(f"Le cpu {id_cpu_sel} demandé n'existe pas !!", "warning")
+                    flash(f"Searched CPU {id_cpu_sel} doesn't exist !!", "warning")
                 else:
-                    flash(f"Données cpu et cpumanufacturer affichés !!", "success")
+                    flash(f"Data CPUs and Manufacturers shown !!", "success")
 
         except Exception as Exception_cpu_cpumanufacturer_afficher:
             raise ExceptionCpuCpumanufacturerAfficher(

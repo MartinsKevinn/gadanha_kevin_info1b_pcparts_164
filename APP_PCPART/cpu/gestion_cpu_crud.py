@@ -55,7 +55,7 @@ def cpu_add_wtf():
                                             f"{cpu_add_wtf.__name__} ; "
                                             f"{Exception_cpumanufacturer_ajouter_wtf}")
 
-    return render_template("cpu/user_add_wtf.html", form_add_cpu=form_add_cpu)
+    return render_template("cpu/cpu_add_wtf.html", form_add_cpu=form_add_cpu)
 
 
 """Editer(update) un cpu qui a été sélectionné dans le formulaire "cpu_cpumanufacturer_afficher.html"
@@ -90,14 +90,14 @@ def cpu_update_wtf():
             cpu_cores_update = form_update_cpu.cpu_cores_update_wtf.data
             cpu_clock_update = form_update_cpu.cpu_clock_update_wtf.data
             cpu_socket_update = form_update_cpu.cpu_socket_update_wtf.data
-
+            cpu_released_update = form_update_cpu.cpu_released_update_wtf.data
             valeur_update_dictionnaire = {"value_id_cpu": id_cpu_update,
                                           "value_cpu_name": nom_cpu_update,
                                           "value_cpu_codename": cpu_codename_update,
                                           "value_cpu_cores": cpu_cores_update,
                                           "value_cpu_clock": cpu_clock_update,
                                           "value_cpu_socket": cpu_socket_update,
-                                          "value_cpu_released": cpu_released
+                                          "value_cpu_released": cpu_released_update
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
@@ -110,8 +110,8 @@ def cpu_update_wtf():
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_nom_cpu, valeur_update_dictionnaire)
 
-            flash(f"Donnée mise à jour !!", "success")
-            print(f"Donnée mise à jour !!")
+            flash(f"Data updated !!", "success")
+            print(f"Data updated !!")
 
             # afficher et constater que la donnée est mise à jour.
             # Afficher seulement le cpu modifié, "ASC" et l'"id_cpu_update"
@@ -135,6 +135,7 @@ def cpu_update_wtf():
             form_update_cpu.cpu_cores_update_wtf.data = data_cpu["CPU_Cores"]
             form_update_cpu.cpu_clock_update_wtf.data = data_cpu["CPU_Clock"]
             form_update_cpu.cpu_socket_update_wtf.data = data_cpu["CPU_Socket"]
+            form_update_cpu.cpu_released_wtf.data = data_cpu["CPU_Released"]
 
     except Exception as Exception_cpu_update_wtf:
         raise ExceptionCpuUpdateWtf(f"fichier : {Path(__file__).name}  ;  "

@@ -19,6 +19,9 @@
 						<th class="" >
 						  Birthdate
 						</th>
+						<th class="" >
+						  Photo
+						</th>
 					</tr>
 				</thead>
 			{% endif %}
@@ -29,13 +32,16 @@
 						  {{ row.id_user }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.user_firstname }}
+						{{ row.user_firstname|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.user_lastname}}
+						{{ row.user_lastname|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.user_birthdate}}
+						{{ row.user_birthdate|default("None", True) }}
+					  </th>
+						<th class="align-middle">
+						  <img class="img" src={{ row.user_photo|default(None, True) }} style="border: 0;display:block; width:150px; max-height:auto;"  alt = "image masquée FFP8 (in COVID-19 Memory) (absente) mod 164">
 					  </th>
 					  <th class="align-middle">
 						<a class="btn btn-primary" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Add</a>
@@ -48,7 +54,7 @@
 					  </th>
 					<tr>
 						<td class="align-middle">
-							<a class="btn btn-warning" href="{{ url_for('edit_userrole_user_selected', id_user_userrole_edit_html=row.id_user) }}" role="button">Modifier</a>
+							<a class="btn btn-warning" href="{{ url_for('edit_userrole_user_selected', id_user_userrole_edit_html=row.id_user) }}" role="button">Edit</a>
 						</td>
 						<td class="align-middle" colspan="5">
 							{{ row.userrole|default("PAS DE ROLE", True) }}
@@ -60,10 +66,7 @@
 				<tbody>
 					<tr>
 						<td>
-							Aucun utilisateur.
-						</td>
-						<td>
-							<a class="btn btn-primary" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Add</a>
+							No user.
 						</td>
 					</tr>
 				</tbody>

@@ -27,7 +27,7 @@ except TypeError as e:
     print(f"Cannot sum the variables. The exception was: {e}")
 
 try:
-    myfunction(100, a)
+    myfunction(100, e)
 except (TypeError, NameError) as e:
     print(f"Cannot sum the variables. The exception was {e}")
 

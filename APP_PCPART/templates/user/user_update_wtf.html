@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %} Editer un UTILISATEUR (WTF) {% endblock %}
+{% block title %} Edit a USER (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Editer un UTILISATEUR
+				Edit a USER
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
@@ -29,6 +29,13 @@
 						{{ form_update_user.user_birthdate_update_wtf.label }}<br>
 						{{ form_update_user.user_birthdate_update_wtf(cols=50, rows=1) }}<br>
 						{% for error in form_update_user.user_birthdate_update_wtf.errors %}
+						<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_update_user.user_photo_update_wtf.label }}<br>
+						{{ form_update_user.user_photo_update_wtf(cols=100, rows=10) }}<br>
+						{% for error in form_update_user.user_photo_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>

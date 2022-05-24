@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %} Ajouter un utilisateur (WTF) {% endblock %}
+{% block title %} Add USER (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Ajouter un nouvel utilisateur (WTForms)
+				Add a new User (WTForms)
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
@@ -29,6 +29,13 @@
 						{{ form_add_user.user_birthdate_add_wtf.label }}<br>
 						{{ form_add_user.user_birthdate_add_wtf(size=32) }}<br>
 						{% for error in form_add_user.user_birthdate_add_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_add_user.user_photo_add_wtf.label }}<br>
+						{{ form_add_user.user_photo_add_wtf(size=32) }}<br>
+						{% for error in form_add_user.user_photo_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>

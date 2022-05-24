@@ -1,56 +1,64 @@
 {% extends "base.html" %}
-{% block title %} Effacer un UTILISATEUR (WTF) {% endblock %}
+{% block title %} Delete a USER (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Effacer un UTILISATEUR
+				Delete a USER
 			</p>
 			<table class="table table-responsive-sm">
 				{% if data_user_del %}
 				<thead>
-				<tr>
-					<th class="">
-						Id
-					</th>
-					<th class="">
-						Firstname
-					</th>
-					<th class="">
-						Lastname
-					</th>
-					<th class="">
-						Birthdate
-					</th>
-				</tr>
+					<tr>
+						<th class="">
+							Id
+						</th>
+						<th class="">
+							Firstname
+						</th>
+						<th class="">
+							Lastname
+						</th>
+						<th class="">
+							Birthdate
+						</th>
+						<th class="">
+							Photo
+						</th>
+					</tr>
 				</thead>
 				{% endif %}
 				{% for row in data_user_del %}
 				<tbody>
-				<tr>
-					<th class="align-middle">
-						{{ row.id_user }}
-					</th>
-					<th class="align-middle">
-						{{ row.user_firstname }}
-					</th>
-					<th class="align-middle">
-						{{ row.user_lastname|default("", True) }}
-					</th>
-					<th class="align-middle">
-						{{ row.user_birthdate|default("", True) }}
-					</th>
-				</tr>
+					<tr>
+						<th class="align-middle">
+							{{ row.id_user }}
+						</th>
+						<th class="align-middle">
+							{{ row.user_firstname|default("None", True) }}
+						</th>
+						<th class="align-middle">
+							{{ row.user_lastname|default("None", True) }}
+						</th>
+						<th class="align-middle">
+							{{ row.user_birthdate|default("None", True) }}
+						</th>
+						<th class="align-middle">
+							{{ row.user_birthdate|default("None", True) }}
+						</th>
+						<th class="align-middle">
+							{{ row.user_photo|default("None", True) }}
+						</th>
+					</tr>
 				</tbody>
 				{% else %}
 				<tbody>
-				<tr>
+					<tr>
 
-				</tr>
+					</tr>
 				</tbody>
 				{% endfor %}
-
 			</table>
 
 			<form action="" method="POST" novalidate>

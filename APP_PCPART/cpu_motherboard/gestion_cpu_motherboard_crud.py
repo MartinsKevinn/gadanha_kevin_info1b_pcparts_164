@@ -1,7 +1,7 @@
 """
     Fichier : gestion_cpu_motherboard_crud.py
     Auteur : OM 2021.05.01
-    Gestions des "routes" FLASK et des données pour l'association entre les films et les motherboard.
+    Gestions des "routes" FLASK et des données pour l'association entre les CPUs et les motherboard.
 """
 from pathlib import Path
 
@@ -18,10 +18,10 @@ from APP_PCPART.erreurs.exceptions import *
     Auteur : OM 2021.05.01
     Définition d'une "route" /cpu_motherboard_afficher
     
-    But : Afficher les films avec les motherboard associés pour chaque film.
+    But : Afficher les CPUs avec les motherboard associés pour chaque CPU.
     
-    Paramètres : id_motherboard_sel = 0 >> tous les films.
-                 id_motherboard_sel = "n" affiche le film dont l'id est "n"
+    Paramètres : id_motherboard_sel = 0 >> tous les CPU.
+                 id_motherboard_sel = "n" affiche le CPU dont l'id est "n"
                  
 """
 
@@ -38,11 +38,11 @@ def cpu_motherboard_afficher(id_cpu_sel):
                                                             LEFT JOIN t_motherboard ON t_motherboard.id_motherboard = t_cpu_compatible_motherboard.fk_motherboard
                                                             GROUP BY id_cpu"""
                 if id_cpu_sel == 0:
-                    # le paramètre 0 permet d'afficher tous les films
-                    # Sinon le paramètre représente la valeur de l'id du film
+                    # le paramètre 0 permet d'afficher tous les CPUs
+                    # Sinon le paramètre représente la valeur de l'id du CPU
                     mc_afficher.execute(strsql_motherboard_cpu_afficher_data)
                 else:
-                    # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
+                    # Constitution d'un dictionnaire pour associer l'id du CPU sélectionné avec un nom de variable
                     valeur_id_cpu_selected_dictionnaire = {"value_id_cpu_selected": id_cpu_sel}
                     # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
                     # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
@@ -58,10 +58,10 @@ def cpu_motherboard_afficher(id_cpu_sel):
                 if not data_motherboard_cpu_afficher and id_cpu_sel == 0:
                     flash("""La table "t_cpu" est vide. !""", "warning")
                 elif not data_motherboard_cpu_afficher and id_cpu_sel > 0:
-                    # Si l'utilisateur change l'id_cpu dans l'URL et qu'il ne correspond à aucun film
-                    flash(f"Le film {id_cpu_sel} demandé n'existe pas !!", "warning")
+                    # Si l'utilisateur change l'id_cpu dans l'URL et qu'il ne correspond à aucun CPU
+                    flash(f"Le CPU {id_cpu_sel} demandé n'existe pas !!", "warning")
                 else:
-                    flash(f"Données films et motherboard affichés !!", "success")
+                    flash(f"Data CPUs and compatible Motherboards shown !!", "success")
 
         except Exception as Exception_cpu_motherboard_afficher:
             raise ExceptionCpuMotherboardAfficher(f"fichier : {Path(__file__).name}  ;  {cpu_motherboard_afficher.__name__} ;"
@@ -76,12 +76,12 @@ def cpu_motherboard_afficher(id_cpu_sel):
     nom: edit_cpu_compatible_motherboard_selected
     On obtient un objet "objet_dumpbd"
 
-    Récupère la liste de tous les motherboard du film sélectionné par le bouton "MODIFIER" de "cpu_motherboard_afficher.html"
+    Récupère la liste de tous les motherboard du CPU sélectionné par le bouton "MODIFIER" de "cpu_motherboard_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
     1) Tous les motherboard contenus dans la "t_motherboard".
-    2) Les motherboard attribués au film selectionné.
-    3) Les motherboard non-attribués au film sélectionné.
+    2) Les motherboard attribués au CPU selectionné.
+    3) Les motherboard non-attribués au CPU sélectionné.
 
     On signale les erreurs importantes
 
@@ -104,18 +104,18 @@ def edit_cpu_compatible_motherboard_selected():
             # href="{{ url_for('edit_cpu_compatible_motherboard_selected', id_cpu_motherboard_edit_html=row.id_cpu) }}"
             id_cpu_motherboard_edit = request.values['id_cpu_motherboard_edit_html']
 
-            # Mémorise l'id du film dans une variable de session
+            # Mémorise l'id du CPU dans une variable de session
             # (ici la sécurité de l'application n'est pas engagée)
             # il faut éviter de stocker des données sensibles dans des variables de sessions.
             session['session_id_cpu_motherboard_edit'] = id_cpu_motherboard_edit
 
-            # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
+            # Constitution d'un dictionnaire pour associer l'id du CPU sélectionné avec un nom de variable
             valeur_id_cpu_selected_dictionnaire = {"value_id_cpu_selected": id_cpu_motherboard_edit}
 
             # Récupère les données grâce à 3 requêtes MySql définie dans la fonction motherboard_cpu_afficher_data
-            # 1) Sélection du film choisi
-            # 2) Sélection des motherboard "déjà" attribués pour le film.
-            # 3) Sélection des motherboard "pas encore" attribués pour le film choisi.
+            # 1) Sélection du CPU choisi
+            # 2) Sélection des motherboard "déjà" attribués pour le CPU.
+            # 3) Sélection des motherboard "pas encore" attribués pour le CPU choisi.
             # ATTENTION à l'ordre d'assignation des variables retournées par la fonction "motherboard_cpu_afficher_data"
             data_motherboard_cpu_selected, data_motherboard_cpu_non_attribues, data_motherboard_cpu_attribues = \
                 motherboard_cpu_afficher_data(valeur_id_cpu_selected_dictionnaire)
@@ -166,12 +166,12 @@ def edit_cpu_compatible_motherboard_selected():
 """
     nom: update_motherboard_cpu_selected
 
-    Récupère la liste de tous les motherboard du film sélectionné par le bouton "MODIFIER" de "cpu_motherboard_afficher.html"
+    Récupère la liste de tous les motherboard du CPU sélectionné par le bouton "MODIFIER" de "cpu_motherboard_afficher.html"
     
     Dans une liste déroulante particulière (tags-selector-tagselect), on voit :
     1) Tous les motherboard contenus dans la "t_motherboard".
-    2) Les motherboard attribués au film selectionné.
-    3) Les motherboard non-attribués au film sélectionné.
+    2) Les motherboard attribués au CPU selectionné.
+    3) Les motherboard non-attribués au CPU sélectionné.
 
     On signale les erreurs importantes
 """
@@ -181,15 +181,15 @@ def edit_cpu_compatible_motherboard_selected():
 def update_motherboard_cpu_selected():
     if request.method == "POST":
         try:
-            # Récupère l'id du film sélectionné
+            # Récupère l'id du CPU sélectionné
             id_cpu_selected = session['session_id_cpu_motherboard_edit']
             print("session['session_id_cpu_motherboard_edit'] ", session['session_id_cpu_motherboard_edit'])
 
-            # Récupère la liste des motherboard qui ne sont pas associés au film sélectionné.
+            # Récupère la liste des motherboard qui ne sont pas associés au CPU sélectionné.
             old_lst_data_motherboard_cpu_non_attribues = session['session_lst_data_motherboard_cpu_non_attribues']
             print("old_lst_data_motherboard_cpu_non_attribues ", old_lst_data_motherboard_cpu_non_attribues)
 
-            # Récupère la liste des motherboard qui sont associés au film sélectionné.
+            # Récupère la liste des motherboard qui sont associés au CPU sélectionné.
             old_lst_data_motherboard_cpu_attribues = session['session_lst_data_motherboard_cpu_old_attribues']
             print("old_lst_data_motherboard_cpu_old_attribues ", old_lst_data_motherboard_cpu_attribues)
 
@@ -228,20 +228,20 @@ def update_motherboard_cpu_selected():
             strsql_delete_motherboard_cpu = """DELETE FROM t_cpu_compatible_motherboard WHERE fk_motherboard = %(value_fk_motherboard)s AND fk_cpu = %(value_fk_cpu)s"""
 
             with DBconnection() as mconn_bd:
-                # Pour le film sélectionné, parcourir la liste des motherboard à INSÉRER dans la "t_cpu_compatible_motherboard".
+                # Pour le CPU sélectionné, parcourir la liste des motherboard à INSÉRER dans la "t_cpu_compatible_motherboard".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_motherboard in lst_diff_motherboard_insert_a:
-                    # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
+                    # Constitution d'un dictionnaire pour associer l'id du CPU sélectionné avec un nom de variable
                     # et "id_motherboard" (l'id du motherboard dans la liste) associé à une variable.
                     valeurs_cpu_sel_motherboard_sel_dictionnaire = {"value_fk_cpu": id_cpu_selected,
                                                                "value_fk_motherboard": id_motherboard}
 
                     mconn_bd.execute(strsql_insert_cpu_compatible_motherboard, valeurs_cpu_sel_motherboard_sel_dictionnaire)
 
-                # Pour le film sélectionné, parcourir la liste des motherboard à EFFACER dans la "t_cpu_compatible_motherboard".
+                # Pour le CPU sélectionné, parcourir la liste des motherboard à EFFACER dans la "t_cpu_compatible_motherboard".
                 # Si la liste est vide, la boucle n'est pas parcourue.
                 for id_motherboard_del in lst_diff_motherboard_delete_b:
-                    # Constitution d'un dictionnaire pour associer l'id du film sélectionné avec un nom de variable
+                    # Constitution d'un dictionnaire pour associer l'id du CPU sélectionné avec un nom de variable
                     # et "id_motherboard_del" (l'id du motherboard dans la liste) associé à une variable.
                     valeurs_cpu_sel_motherboard_sel_dictionnaire = {"value_fk_cpu": id_cpu_selected,
                                                                "value_fk_motherboard": id_motherboard_del}
@@ -258,14 +258,14 @@ def update_motherboard_cpu_selected():
                                                    f"{Exception_update_motherboard_cpu_selected}")
 
     # Après cette mise à jour de la table intermédiaire "t_cpu_compatible_motherboard",
-    # on affiche les films et le(urs) motherboard(s) associé(s).
+    # on affiche les CPUs et le(urs) motherboard(s) associé(s).
     return redirect(url_for('cpu_motherboard_afficher', id_cpu_sel=id_cpu_selected))
 
 
 """
     nom: motherboard_cpu_afficher_data
 
-    Récupère la liste de tous les motherboard du film sélectionné par le bouton "MODIFIER" de "cpu_motherboard_afficher.html"
+    Récupère la liste de tous les motherboard du CPU sélectionné par le bouton "MODIFIER" de "cpu_motherboard_afficher.html"
     Nécessaire pour afficher tous les "TAGS" des motherboard, ainsi l'utilisateur voit les motherboard à disposition
 
     On signale les erreurs importantes

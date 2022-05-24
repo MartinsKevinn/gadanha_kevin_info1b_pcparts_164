@@ -12,9 +12,7 @@ from flask import url_for
 from APP_PCPART import app
 from APP_PCPART.database.database_tools import DBconnection
 from APP_PCPART.erreurs.exceptions import *
-from APP_PCPART.cpumanufacturer.gestion_cpumanufacturer_wtf_forms import FormWTFAjouterCpumanufacturer
-from APP_PCPART.cpumanufacturer.gestion_cpumanufacturer_wtf_forms import FormWTFDeleteCpumanufacturer
-from APP_PCPART.cpumanufacturer.gestion_cpumanufacturer_wtf_forms import FormWTFUpdateCpumanufacturer
+from APP_PCPART.cpumanufacturer.gestion_cpumanufacturer_wtf_forms import *
 
 """
     Auteur : OM 2021.03.16
@@ -168,8 +166,8 @@ def cpumanufacturer_update_wtf():
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_CPU_Manufacturer, valeur_update_dictionnaire)
 
-            flash(f"Donnée mise à jour !!", "success")
-            print(f"Donnée mise à jour !!")
+            flash(f"Data updated !!", "success")
+            print(f"Data updated !!")
 
             # afficher et constater que la donnée est mise à jour.
             # Affiche seulement la valeur modifiée, "ASC" et l'"id_cpu_manufacturer_update"
@@ -235,7 +233,7 @@ def cpumanufacturer_delete_wtf():
                 data_cpu_attribue_cpumanufacturer_delete = session['data_cpu_attribue_cpumanufacturer_delete']
                 print("data_cpu_attribue_cpumanufacturer_delete ", data_cpu_attribue_cpumanufacturer_delete)
 
-                flash(f"Effacer le manufacturer de façon définitive de la BD !!!", "danger")
+                flash(f"Delete permanently manufacturer !!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
                 # On affiche le bouton "Effacer manufacturer" qui va irrémédiablement EFFACER le manufacturer
                 btn_submit_del = True
@@ -252,8 +250,8 @@ def cpumanufacturer_delete_wtf():
                     mconn_bd.execute(str_sql_delete_cpu_cpumanufacturer, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_idcpumanufacturer, valeur_delete_dictionnaire)
 
-                flash(f"manufacturer définitivement effacé !!", "success")
-                print(f"manufacturer définitivement effacé !!")
+                flash(f"Manufacturer permanently deleted !!", "success")
+                print(f"Manufacturer permanently deleted !!")
 
                 # afficher les données
                 return redirect(url_for('cpumanufacturer_afficher', order_by="ASC", id_cpu_manufacturer_sel=0))

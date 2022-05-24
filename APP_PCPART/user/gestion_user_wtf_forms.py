@@ -4,10 +4,8 @@ Auteur : OM 2022.04.11
 
 """
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, DateField
-from wtforms import SubmitField
-from wtforms.validators import Length, InputRequired, NumberRange, DataRequired
-from wtforms.validators import Regexp
+from wtforms import *
+from wtforms.validators import *
 from wtforms.widgets import TextArea
 
 
@@ -19,10 +17,11 @@ class FormWTFAddUser(FlaskForm):
     nom_user_regexp = ""
     user_firstname_add_wtf = StringField("Firstname", widget=TextArea())
     user_lastname_add_wtf = StringField("Lastname", widget=TextArea())
-    user_birthdate_add_wtf = DateField("Birthdate", validators=[InputRequired("Date obligatoire"),
-                                                                  DataRequired("Date non valide")])
+    user_birthdate_add_wtf = DateField("Birthdate", validators=[InputRequired("Mandatory date"),
+                                                                DataRequired("Invalid date")])
+    user_photo_add_wtf = StringField("Photo", widget=TextArea())
 
-    submit = SubmitField("Enregistrer utilisateur")
+    submit = SubmitField("Save user")
 
 
 class FormWTFUpdateUser(FlaskForm):
@@ -33,10 +32,10 @@ class FormWTFUpdateUser(FlaskForm):
 
     user_firstname_update_wtf = StringField("Firstname", widget=TextArea())
     user_lastname_update_wtf = StringField("Lastname", widget=TextArea())
-    user_birthdate_update_wtf = DateField("Birthdate", validators=[InputRequired("Date obligatoire"),
-                                                                     DataRequired("Date non valide")])
-
-    submit = SubmitField("Update utilisateur")
+    user_birthdate_update_wtf = DateField("Birthdate", validators=[InputRequired("Mandatory date"),
+                                                                   DataRequired("Invalid date")])
+    user_photo_update_wtf = StringField("Photo", widget=TextArea())
+    submit = SubmitField("Update user")
 
 
 class FormWTFDeleteUser(FlaskForm):
@@ -48,7 +47,7 @@ class FormWTFDeleteUser(FlaskForm):
         submit_btn_conf_del : Bouton de confirmation pour effacer un "user".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_user".
     """
-    nom_user_delete_wtf = StringField("Effacer cet utilisateur")
-    submit_btn_del_user = SubmitField("Effacer utilisateur")
-    submit_btn_conf_del_user = SubmitField("Etes-vous sur d'effacer ?")
-    submit_btn_annuler = SubmitField("Annuler")
+    nom_user_delete_wtf = StringField("Delete this user")
+    submit_btn_del_user = SubmitField("Delete user")
+    submit_btn_conf_del_user = SubmitField("Are you sure you want to delete ?")
+    submit_btn_annuler = SubmitField("Cancel")

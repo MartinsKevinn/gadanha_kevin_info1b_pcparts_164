@@ -32,7 +32,7 @@ def user_userrole_afficher(id_user_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_userrole_user_afficher_data = """SELECT id_user, user_firstname, user_lastname, user_birthdate,
+                strsql_userrole_user_afficher_data = """SELECT id_user, user_firstname, user_lastname, user_birthdate, user_photo,
                                                             GROUP_CONCAT(" ", userrole) as userrole FROM t_user
                                                             LEFT JOIN t_user_has_userrole ON t_user.id_user = t_user_has_userrole.fk_user
                                                             LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
@@ -56,12 +56,12 @@ def user_userrole_afficher(id_user_sel):
 
                 # Différencier les messages.
                 if not data_userrole_user_afficher and id_user_sel == 0:
-                    flash("""La table "t_user" est vide. !""", "warning")
+                    flash("""Table "t_user" is empty !""", "warning")
                 elif not data_userrole_user_afficher and id_user_sel > 0:
                     # Si l'utilisateur change l'id_user dans l'URL et qu'il ne correspond à aucun user
                     flash(f"L'utilisateur {id_user_sel} demandé n'existe pas !!", "warning")
                 else:
-                    flash(f"Données utilisateurs et roles affichés !!", "success")
+                    flash(f"Data users and roles shown !!", "success")
 
         except Exception as Exception_user_userrole_afficher:
             raise ExceptionUserUserroleAfficher(f"fichier : {Path(__file__).name}  ;  {user_userrole_afficher.__name__} ;"
@@ -211,7 +211,7 @@ def update_userrole_user_selected():
             # https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles
             # OM 2021.05.02 Une liste de "id_userrole" qui doivent être effacés de la table intermédiaire "t_userrole_user".
             lst_diff_userrole_delete_b = list(set(old_lst_data_userrole_user_attribues) -
-                                            set(new_lst_int_userrole_user_old))
+                                              set(new_lst_int_userrole_user_old))
             print("lst_diff_userrole_delete_b ", lst_diff_userrole_delete_b)
 
             # Une liste de "id_userrole" qui doivent être ajoutés à la "t_userrole_user"
@@ -234,7 +234,7 @@ def update_userrole_user_selected():
                     # Constitution d'un dictionnaire pour associer l'id du user sélectionné avec un nom de variable
                     # et "id_userrole_ins" (l'id du role dans la liste) associé à une variable.
                     valeurs_user_sel_userrole_sel_dictionnaire = {"value_fk_user": id_user_selected,
-                                                               "value_fk_userrole": id_userrole_ins}
+                                                                  "value_fk_userrole": id_userrole_ins}
 
                     mconn_bd.execute(strsql_insert_userrole_user, valeurs_user_sel_userrole_sel_dictionnaire)
 
@@ -244,7 +244,7 @@ def update_userrole_user_selected():
                     # Constitution d'un dictionnaire pour associer l'id du user sélectionné avec un nom de variable
                     # et "id_userrole_del" (l'id du userrole dans la liste) associé à une variable.
                     valeurs_user_sel_userrole_sel_dictionnaire = {"value_fk_user": id_user_selected,
-                                                               "value_fk_userrole": id_userrole_del}
+                                                                  "value_fk_userrole": id_userrole_del}
 
                     # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".
                     # la subtilité consiste à avoir une méthode "execute" dans la classe "DBconnection"
@@ -276,7 +276,7 @@ def userrole_user_afficher_data(valeur_id_user_selected_dict):
     print("valeur_id_user_selected_dict...", valeur_id_user_selected_dict)
     try:
 
-        strsql_user_selected = """SELECT id_user, user_firstname, user_lastname, user_birthdate, GROUP_CONCAT(userrole) as Userrole FROM t_user_has_userrole
+        strsql_user_selected = """SELECT id_user, user_firstname, user_lastname, user_birthdate, user_photo, GROUP_CONCAT(userrole) as Userrole FROM t_user_has_userrole
                                         LEFT JOIN t_user ON t_user.id_user = t_user_has_userrole.fk_user
                                         LEFT JOIN t_userrole ON t_userrole.id_userrole = t_user_has_userrole.fk_userrole
                                         WHERE id_user = %(value_id_user_selected)s"""
@@ -322,5 +322,5 @@ def userrole_user_afficher_data(valeur_id_user_selected_dict):
 
     except Exception as Exception_userrole_user_afficher_data:
         raise ExceptionUserroleUserAfficherData(f"fichier : {Path(__file__).name}  ;  "
-                                               f"{userrole_user_afficher_data.__name__} ; "
-                                               f"{Exception_userrole_user_afficher_data}")
+                                                f"{userrole_user_afficher_data.__name__} ; "
+                                                f"{Exception_userrole_user_afficher_data}")

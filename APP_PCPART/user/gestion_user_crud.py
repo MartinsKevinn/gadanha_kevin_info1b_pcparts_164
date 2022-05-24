@@ -4,10 +4,8 @@ Auteur : OM 2022.04.11
 """
 from pathlib import Path
 
-from flask import redirect
-from flask import request
-from flask import session
-from flask import url_for
+from flask import *
+
 
 from APP_PCPART.database.database_tools import DBconnection
 from APP_PCPART.erreurs.exceptions import *
@@ -39,14 +37,16 @@ def user_add_wtf():
                 user_firstname_add = form_add_user.user_firstname_add_wtf.data
                 user_lastname_add = form_add_user.user_lastname_add_wtf.data
                 user_birthdate_add = form_add_user.user_birthdate_add_wtf.data
+                user_photo_add = form_add_user.user_photo_add_wtf.data
 
                 valeurs_insertion_dictionnaire = {"value_user_firstname": user_firstname_add,
                                                   "value_user_lastname": user_lastname_add,
-                                                  "value_user_birthdate": user_birthdate_add}
+                                                  "value_user_birthdate": user_birthdate_add,
+                                                  "value_user_photo": user_photo_add}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_user = """INSERT INTO t_user (id_user, user_firstname, user_lastname, user_birthdate) 
-                VALUES (NULL,%(value_user_firstname)s,%(value_user_lastname)s,%(value_user_birthdate)s) """
+                strsql_insert_user = """INSERT INTO t_user (id_user, user_firstname, user_lastname, user_birthdate, user_photo) 
+                VALUES (NULL,%(value_user_firstname)s,%(value_user_lastname)s,%(value_user_birthdate)s,%(value_user_photo)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_user, valeurs_insertion_dictionnaire)
 
@@ -94,23 +94,26 @@ def user_update_wtf():
             user_firstname_update = form_update_user.user_firstname_update_wtf.data
             user_lastname_update = form_update_user.user_lastname_update_wtf.data
             user_birthdate_update = form_update_user.user_birthdate_update_wtf.data
+            user_photo_update = form_update_user.user_photo_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_user": id_user_update,
                                           "value_user_firstname": user_firstname_update,
                                           "value_user_lastname": user_lastname_update,
-                                          "value_user_birthdate": user_birthdate_update
+                                          "value_user_birthdate": user_birthdate_update,
+                                          "value_user_photo": user_photo_update
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
             str_sql_update_user = """UPDATE t_user SET user_firstname = %(value_user_firstname)s,
                                                         user_lastname = %(value_user_lastname)s,
                                                         user_birthdate = %(value_user_birthdate)s
+                                                        user_photo = %(value_user_photo)s
                                                         WHERE id_user = %(value_id_user)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_user, valeur_update_dictionnaire)
 
-            flash(f"Donnée mise à jour !!", "success")
-            print(f"Donnée mise à jour !!")
+            flash(f"Data updated !!", "success")
+            print(f"Data updated !!")
 
             # afficher et constater que la donnée est mise à jour.
             # Afficher seulement le user modifié, "ASC" et l'"id_user_update"
@@ -121,7 +124,7 @@ def user_update_wtf():
             # str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s, user_firstname = %(value_user_firstname)s, user_lastname = %(value_user_lastname)s, user_birthdate = %(value_user_birthdate)s"
 
             # str_sql_id_user = "SELECT id_user FROM t_user WHERE id_user = %(value_id_user)s"
-            str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s"
+            str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate, user_photo FROM t_user WHERE id_user = %(value_id_user)s"
 
             valeur_select_dictionnaire = {"value_id_user": id_user_update}
             with DBconnection() as mybd_conn:
@@ -135,6 +138,7 @@ def user_update_wtf():
             form_update_user.user_firstname_update_wtf.data = data_user["user_firstname"]
             form_update_user.user_lastname_update_wtf.data = data_user["user_lastname"]
             form_update_user.user_birthdate_update_wtf.data = data_user["user_birthdate"]
+            form_update_user.user_photo_update_wtf.data = data_user["user_photo"]
             # Debug simple pour contrôler la valeur dans la console "run" de PyCharm
             print(f" user lastname  ", data_user["user_lastname"], "  type ", type(data_user["user_lastname"]))
             form_update_user.user_birthdate_update_wtf.data = data_user["user_birthdate"]
@@ -209,7 +213,7 @@ def user_delete_wtf():
             print(id_user_delete, type(id_user_delete))
 
             # Requête qui affiche l'utilisateur qui doit être efffacé.
-            str_sql_user_userrole_delete = """SELECT id_user, user_firstname, user_lastname, user_birthdate FROM t_user WHERE id_user = %(value_id_user)s"""
+            str_sql_user_userrole_delete = """SELECT id_user, user_firstname, user_lastname, user_birthdate, user_photo FROM t_user WHERE id_user = %(value_id_user)s"""
 
             with DBconnection() as mydb_conn:
                 mydb_conn.execute(str_sql_user_userrole_delete, valeur_select_dictionnaire)

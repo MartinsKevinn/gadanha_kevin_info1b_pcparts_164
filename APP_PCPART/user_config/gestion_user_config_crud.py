@@ -56,12 +56,12 @@ def user_config_afficher(id_user_sel):
 
                 # Différencier les messages.
                 if not data_config_user_afficher and id_user_sel == 0:
-                    flash("""La table "t_user" est vide. !""", "warning")
+                    flash("""Table "t_user" is empty !""", "warning")
                 elif not data_config_user_afficher and id_user_sel > 0:
                     # Si l'utilisateur change l'id_user dans l'URL et qu'il ne correspond à aucun user
-                    flash(f"L'utilisateur {id_user_sel} demandé n'existe pas !!", "warning")
+                    flash(f"Searched user {id_user_sel} doesn't exist !!", "warning")
                 else:
-                    flash(f"Données utilisateurs et config affichés !!", "success")
+                    flash(f"Data users and configs shown !!", "success")
 
         except Exception as Exception_user_config_afficher:
             raise ExceptionUserConfigAfficher(f"fichier : {Path(__file__).name}  ;  {user_config_afficher.__name__} ;"

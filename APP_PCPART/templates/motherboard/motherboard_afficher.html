@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block title %} Afficher MOTHERBOARD {% endblock %}
+{% block title %} Show MOTHERBOARD {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<p>
-				Motherboard à disposition.
-			</p>
+			<h1 class="text-center" style="text-decoration:underline">
+				Motherboards
+			</h1>
 			<pre></pre>
 			<td class="text-center" class="align-middle">
 				<a class="btn btn-primary" href="{{ url_for('motherboard_ajouter_wtf') }}" role="button">Add</a>
@@ -45,13 +45,13 @@
 							{{ row.id_motherboard }}
 						</td>
 						<td class="align-middle">
-							{{ row.motherboard_brand }}
+							{{ row.motherboard_brand|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.motherboard_model }}
+							{{ row.motherboard_model|default("None", True) }}
 						</td>
 						<td class="align-middle">
-							{{ row.motherboard_release_year }}
+							{{ row.motherboard_release_year|default("None", True) }}
 						</td>
 						<td class="text-center" class="align-middle">
 							<a class="btn btn-warning" href="{{ url_for('motherboard_update_wtf', id_motherboard_btn_edit_html=row.id_motherboard) }}" role="button">Edit</a>

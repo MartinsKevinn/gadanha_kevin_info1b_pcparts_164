@@ -25,7 +25,7 @@ class FormWTFAddCpu(FlaskForm):
                                                                               "apostrophe, de double trait union")
                                                                ])
 
-    submit = SubmitField("Enregistrer cpu")
+    submit = SubmitField("Save cpu")
 
 
 class FormWTFUpdateCpu(FlaskForm):
@@ -39,6 +39,7 @@ class FormWTFUpdateCpu(FlaskForm):
     cpu_cores_update_wtf = StringField("Cores", widget=TextArea())
     cpu_clock_update_wtf = StringField("Clock", widget=TextArea())
     cpu_socket_update_wtf = StringField("Socket", widget=TextArea())
+    cpu_released_update_wtf = StringField("Release date", widget=TextArea())
 
     submit = SubmitField("Update cpu")
 
@@ -52,7 +53,7 @@ class FormWTFDeleteCpu(FlaskForm):
         submit_btn_conf_del : Bouton de confirmation pour effacer un "cpu".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_cpu".
     """
-    CPU_Name_delete_wtf = StringField("Effacer ce cpu")
-    submit_btn_del_cpu = SubmitField("Effacer cpu")
-    submit_btn_conf_del_cpu = SubmitField("Etes-vous sur d'effacer ?")
-    submit_btn_annuler = SubmitField("Annuler")
+    CPU_Name_delete_wtf = StringField("Delete this CPU")
+    submit_btn_del_cpu = SubmitField("Delete CPU")
+    submit_btn_conf_del_cpu = SubmitField("Are you sure you want to delete ?")
+    submit_btn_annuler = SubmitField("Cancel")

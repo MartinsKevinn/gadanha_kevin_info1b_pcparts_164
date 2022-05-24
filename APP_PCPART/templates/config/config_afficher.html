@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Afficher CONFIG {% endblock %}
+{% block title %} Show CONFIGs {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
@@ -167,9 +167,6 @@
 						</td>
 						<td class="align-middle">
 							{{ row.motherboard_model|default("None", True) }}
-						</td>
-						<td class="align-middle">
-							{{ row.motherboard_chipset|default("None", True) }}
 						</td>
 						<td class="align-middle">
 							{{ row.motherboard_release_year|default("None", True) }}
@@ -568,7 +565,7 @@
 				<tbody>
 					<tr>
 						<td>
-							Aucune config.
+							No config.
 						</td>
 						<td>
 							<a class="btn btn-primary" href="{{ url_for('config_ajouter_wtf') }}" role="button">Add</a>

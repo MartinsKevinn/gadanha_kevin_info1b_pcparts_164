@@ -1,9 +1,13 @@
 {% extends "base.html" %}
-{% block title %} Afficher Utilisateurs {% endblock %}
+{% block title %} Show USERSs {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="col-md-12">
+		<h1 class="text-center" style="text-decoration:underline">
+			Users & Configs
+		</h1>
 		<a class="btn btn-primary" href="{{ url_for('user_add_wtf') }}" role="button">Add</a>
+		<pre></pre>
 		<table class="table table-responsive-sm">
             {% if data %}
 				<thead>
@@ -49,7 +53,7 @@
 							<a class="btn btn-warning" href="{{ url_for('edit_config_user_selected', id_user_config_edit_html=row.id_user) }}" role="button">Edit</a>
 						</td>
 						<td class="align-middle" colspan="5">
-							{{ row.UserConfig|default("PAS DE CONFIG", True) }}
+							{{ row.UserConfig|default("NO CONFIG", True) }}
 						</td>
 					</tr>
 				</tr>
@@ -58,10 +62,7 @@
 				<tbody>
 					<tr>
 						<td>
-							Aucun utilisateur.
-						</td>
-						<td>
-							<a class="btn btn-primary" href="{{ url_for('avertissement_sympa_pour_geeks') }}" role="button">Add</a>
+							No user.
 						</td>
 					</tr>
 				</tbody>

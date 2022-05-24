@@ -66,8 +66,8 @@ def userrole_afficher(order_by, id_userrole_sel):
 
         except Exception as Exception_userrole_afficher:
             raise ExceptionUserroleAfficher(f"fichier : {Path(__file__).name}  ;  "
-                                          f"{userrole_afficher.__name__} ; "
-                                          f"{Exception_userrole_afficher}")
+                                            f"{userrole_afficher.__name__} ; "
+                                            f"{Exception_userrole_afficher}")
 
     # Envoie la page "HTML" au serveur.
     return render_template("userrole/userrole_afficher.html", data=data_userrole)
@@ -115,8 +115,8 @@ def userrole_ajouter_wtf():
 
         except Exception as Exception_userrole_ajouter_wtf:
             raise ExceptionUserroleAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
-                                            f"{userrole_ajouter_wtf.__name__} ; "
-                                            f"{Exception_userrole_ajouter_wtf}")
+                                              f"{userrole_ajouter_wtf.__name__} ; "
+                                              f"{Exception_userrole_ajouter_wtf}")
 
     return render_template("userrole/userrole_ajouter_wtf.html", form=form)
 
@@ -165,8 +165,8 @@ def userrole_update_wtf():
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_userrole, valeur_update_dictionnaire)
 
-            flash(f"Donnée mise à jour !!", "success")
-            print(f"Donnée mise à jour !!")
+            flash(f"Data updated !!", "success")
+            print(f"Data updated !!")
 
             # afficher et constater que la donnée est mise à jour.
             # Affiche seulement la valeur modifiée, "ASC" et l'"id_userrole_update"
@@ -174,7 +174,7 @@ def userrole_update_wtf():
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_userrole" et "userrole" de la "t_userrole"
             str_sql_id_userrole = "SELECT id_userrole, userrole FROM t_userrole " \
-                               "WHERE id_userrole = %(value_id_userrole)s"
+                                  "WHERE id_userrole = %(value_id_userrole)s"
             valeur_select_dictionnaire = {"value_id_userrole": id_userrole_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_userrole, valeur_select_dictionnaire)
@@ -186,11 +186,10 @@ def userrole_update_wtf():
             # Afficher la valeur sélectionnée dans les champs du formulaire "userrole_update_wtf.html"
             form_update.nom_userrole_update_wtf.data = data_nom_userrole["userrole"]
 
-
     except Exception as Exception_userrole_update_wtf:
         raise ExceptionUserroleUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
-                                      f"{userrole_update_wtf.__name__} ; "
-                                      f"{Exception_userrole_update_wtf}")
+                                         f"{userrole_update_wtf.__name__} ; "
+                                         f"{Exception_userrole_update_wtf}")
 
     return render_template("userrole/userrole_update_wtf.html", form_update=form_update)
 
@@ -259,7 +258,7 @@ def userrole_delete_wtf():
             valeur_select_dictionnaire = {"value_id_userrole": id_userrole_delete}
             print(id_userrole_delete, type(id_userrole_delete))
 
-            # Requête qui affiche tous les user_userrole qui ont le role que l'utilisateur veut effacer
+            # Requête qui affiche tous les users qui ont le role que l'utilisateur veut effacer
             str_sql_user_userrole_delete = """SELECT id_user, user_firstname, user_lastname, id_userrole, userrole FROM t_user_has_userrole
                                             LEFT JOIN t_user ON t_user_has_userrole.fk_user = t_user.id_user
                                             LEFT JOIN t_userrole ON t_user_has_userrole.fk_userrole = t_userrole.id_userrole
@@ -292,8 +291,8 @@ def userrole_delete_wtf():
 
     except Exception as Exception_userrole_delete_wtf:
         raise ExceptionUserroleDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
-                                      f"{userrole_delete_wtf.__name__} ; "
-                                      f"{Exception_userrole_delete_wtf}")
+                                         f"{userrole_delete_wtf.__name__} ; "
+                                         f"{Exception_userrole_delete_wtf}")
 
     return render_template("userrole/userrole_delete_wtf.html",
                            form_delete_userrole=form_delete_userrole,

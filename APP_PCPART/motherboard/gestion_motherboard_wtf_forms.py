@@ -19,7 +19,7 @@ class FormWTFAjouterMotherboard(FlaskForm):
     nom_motherboard_wtf = StringField("Motherboard Brand")
     model_motherboard_wtf = StringField("Motherboard Model")
     release_year_motherboard_wtf = DateField("Motherboard release year")
-    submit = SubmitField("Enregistrer motherboard")
+    submit = SubmitField("Save motherboard")
 
 
 class FormWTFUpdateMotherboard(FlaskForm):
@@ -43,7 +43,8 @@ class FormWTFDeleteMotherboard(FlaskForm):
         submit_btn_conf_del : Bouton de confirmation pour effacer une "motherboard".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_motherboard".
     """
-    nom_motherboard_delete_wtf = StringField("Effacer cette motherboard")
-    submit_btn_del = SubmitField("Effacer motherboard")
-    submit_btn_conf_del = SubmitField("Etes-vous sur d'effacer ?")
-    submit_btn_annuler = SubmitField("Annuler")
+    nom_motherboard_delete_wtf = StringField("Delete this motherboard")
+    model_motherboard_delete_wtf = StringField("Delete this motherboard")
+    submit_btn_del = SubmitField("Delete motherboard")
+    submit_btn_conf_del = SubmitField("Are you sure you want to delete ?")
+    submit_btn_annuler = SubmitField("Cancel")

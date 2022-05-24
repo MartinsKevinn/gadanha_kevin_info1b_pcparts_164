@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>{% block title %}Mon beau projet{% endblock %}</title>
+	<title>{% block title %}My beautiful shit{% endblock %}</title>
 
 	<!-- Bootstrap CSS en local -->
 	<!-- OM 2020.05.04 OM JE PREFERE GARDER MES FICHIERS CSS ET JS DANS UN REPERTOIRE "EN LOCAL"
@@ -59,7 +59,7 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navdropdowncomponents" role="button"
 						   data-bs-toggle="dropdown" aria-expanded="false">
-							Components/...
+							Components
 						</a>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 							<li><a class="nav-link" href="{{ url_for('motherboard_afficher', order_by='ASC', id_motherboard_sel=0) }}">Motherboards</a></li>
@@ -85,7 +85,7 @@
 							<li><a class="nav-link" href="{{ url_for('cpu_motherboard_afficher', id_cpu_sel=0) }}">CPU/Motherboard</a></li>
 						</ul>
 					</li>
-					<!--
+
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('personnes_taille_dict') }}">Démo "TAILLE"</a>
 					</li>
@@ -103,7 +103,7 @@
 							<li><a class="dropdown-item" href="{{ url_for('demo_select_wtf') }}">Essai DROPDOWN</a></li>
 						</ul>
 					</li>
-					-->
+
 				</ul>
 			</div>
 		</div>

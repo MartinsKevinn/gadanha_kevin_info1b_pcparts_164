@@ -9,7 +9,6 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_PCPART import app
 from APP_PCPART.database.database_tools import DBconnection
 from APP_PCPART.erreurs.exceptions import *
 from APP_PCPART.config.gestion_config_wtf_forms import *
@@ -33,7 +32,7 @@ def config_afficher(order_by, id_config_sel):
             with DBconnection() as mc_afficher:
                 if order_by == "ASC" and id_config_sel == 0:
                     strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released, 
-                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, ram_data_rate,
+                                                motherboard_brand, motherboard_model, motherboard_release_year, ram_brand, ram_name, ram_capacity, ram_data_rate,
                                                 gpu_manufacturer, gpu_brand, gpu_name, gpu_codename, gpu_memory, gpu_tdp, gpu_released, supply_brand, supply_model, supply_power, supply_certification,
                                                 ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm,
                                                 case_brand, case_model, case_color, aircooling_brand, aircooling_model, aircooling_dimensions, aircooling_fans, aircooling_socket_support, aircooling_fan_speed,
@@ -73,7 +72,7 @@ def config_afficher(order_by, id_config_sel):
                     valeur_id_config_selected_dictionnaire = {"value_id_config_selected": id_config_sel}
 
                     strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released, 
-                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, ram_data_rate,
+                                                motherboard_brand, motherboard_model, motherboard_release_year, ram_brand, ram_name, ram_capacity, ram_data_rate,
                                                 gpu_manufacturer, gpu_brand, gpu_name, gpu_codename, gpu_memory, gpu_tdp, gpu_released, supply_brand, supply_model, supply_power, supply_certification,
                                                 ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm FROM t_config
                                                 LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
@@ -105,7 +104,7 @@ def config_afficher(order_by, id_config_sel):
                     mc_afficher.execute(strsql_config_afficher, valeur_id_config_selected_dictionnaire)
                 else:
                     strsql_config_afficher = """SELECT id_config, config_rating, config_use_case, cpu_manufacturer, cpu_name, cpu_codename, cpu_cores, cpu_clock, cpu_tdp, cpu_released, 
-                                                motherboard_brand, motherboard_model, motherboard_chipset, motherboard_release_year, ram_brand, ram_name, ram_capacity, ram_data_rate,
+                                                motherboard_brand, motherboard_model, motherboard_release_year, ram_brand, ram_name, ram_capacity, ram_data_rate,
                                                 gpu_manufacturer, gpu_brand, gpu_name, gpu_codename, gpu_memory, gpu_tdp, gpu_released, supply_brand, supply_model, supply_power, supply_certification,
                                                 ssd_brand, ssd_model, ssd_interface, ssd_form_factor, ssd_capacity, ssd_nand_type, hdd_brand, hdd_name, hdd_interface, hdd_capacity, hdd_rpm FROM t_config
                                                 LEFT JOIN t_config_has_cpu ON t_config.id_config = t_config_has_cpu.fk_config
@@ -197,7 +196,6 @@ def config_ajouter_wtf():
                 cpu_released = form.cpu_released_wtf.data
                 motherboard_brand = form.motherboard_brand_wtf.data
                 motherboard_model = form.motherboard_model_wtf.data
-                motherboard_chipset = form.motherboard_chipset_wtf.data
                 motherboard_release_year = form.motherboard_release_year_wtf.data
                 ram_brand = form.ram_brand_wtf.data
                 ram_name = form.ram_name_wtf.data
@@ -227,7 +225,6 @@ def config_ajouter_wtf():
                     "value_cpu_released": cpu_released,
                     "value_motherboard_brand": motherboard_brand,
                     "value_motherboard_model": motherboard_model,
-                    "value_motherboard_chipset": motherboard_chipset,
                     "value_motherboard_release_year": motherboard_release_year,
                     "value_ram_brand": ram_brand,
                     "value_ram_name": ram_name,
@@ -298,7 +295,7 @@ def config_update_wtf():
             # Récupèrer la valeur du champ depuis "config_update_wtf.html" après avoir cliqué sur "SUBMIT".
             # Puis la convertir en lettres minuscules.
             config_use_case_update = form_update.config_use_case_update_wtf.data
-            config_rating = form_update.config_rating_update_wtf.data
+            config_rating_update = form_update.config_rating_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_config": id_config_update,
                                           "value_config_use_case": config_use_case_update,
@@ -311,8 +308,8 @@ def config_update_wtf():
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_config_use_case, valeur_update_dictionnaire)
 
-            flash(f"Donnée mise à jour !!", "success")
-            print(f"Donnée mise à jour !!")
+            flash(f"Data updated !!", "success")
+            print(f"Data updated !!")
 
             # afficher et constater que la donnée est mise à jour.
             # Affiche seulement la valeur modifiée, "ASC" et l'"id_config_update"
@@ -378,7 +375,7 @@ def config_delete_wtf():
                 data_user_attribue_config_delete = session['data_user_attribue_config_delete']
                 print("data_user_attribue_config_delete ", data_user_attribue_config_delete)
 
-                flash(f"Effacer la config de façon définitive de la BD !!!", "danger")
+                flash(f"Delete permanently configuration !!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
                 # On affiche le bouton "Effacer config" qui va irrémédiablement EFFACER la config
                 btn_submit_del = True
@@ -395,8 +392,8 @@ def config_delete_wtf():
                     mconn_bd.execute(str_sql_delete_user_config, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_idconfig, valeur_delete_dictionnaire)
 
-                flash(f"Config définitivement effacé !!", "success")
-                print(f"Config définitivement effacé !!")
+                flash(f"Config permanently deleted !!", "success")
+                print(f"Config permanently deleted !!")
 
                 # afficher les données
                 return redirect(url_for('config_afficher', order_by="ASC", id_config_sel=0))
@@ -421,7 +418,7 @@ def config_delete_wtf():
                 session['data_user_attribue_config_delete'] = data_user_attribue_config_delete
 
                 # Opération sur la BD pour récupérer "id_config" et "config_use_case" de la "t_config"
-                str_sql_id_config = "SELECT id_config, config_use_case FROM t_config WHERE id_config = %(value_id_config)s"
+                str_sql_id_config = "SELECT id_config, config_use_case, config_rating FROM t_config WHERE id_config = %(value_id_config)s"
 
                 mydb_conn.execute(str_sql_id_config, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",

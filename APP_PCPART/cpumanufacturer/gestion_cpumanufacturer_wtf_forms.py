@@ -23,7 +23,7 @@ class FormWTFAjouterCpumanufacturer(FlaskForm):
                                                                                   "d'espace à double, de double "
                                                                                   "apostrophe, de double trait union")
                                                                    ])
-    submit = SubmitField("Enregistrer manufacturer")
+    submit = SubmitField("Save manufacturer")
 
 
 class FormWTFUpdateCpumanufacturer(FlaskForm):
