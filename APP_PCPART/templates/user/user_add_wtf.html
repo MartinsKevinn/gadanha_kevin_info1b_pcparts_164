@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Add a new User (WTForms)
+				Add a new USER
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
@@ -34,7 +34,7 @@
 					</p>
 					<p>
 						{{ form_add_user.user_photo_add_wtf.label }}<br>
-						{{ form_add_user.user_photo_add_wtf(cols=100, rows=10) }}<br>
+						{{ form_add_user.user_photo_add_wtf(cols=50, rows=10) }}<br>
 						{% for error in form_add_user.user_photo_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}

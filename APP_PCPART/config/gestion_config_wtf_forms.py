@@ -79,7 +79,7 @@ class FormWTFUpdateConfig(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
     config_use_case_update_wtf = SelectField("Config Use Case", choices=['Gaming', 'Work'])
-    config_rating_update_wtf = SelectField("Config rating", choices=['1/5', '2/5', '3/5', '4/5', '5/5'])
+    config_rating_update_wtf = SelectField("Config Rate", choices=['1/5', '2/5', '3/5', '4/5', '5/5'])
     submit = SubmitField("Update config")
 
 
@@ -92,8 +92,9 @@ class FormWTFDeleteConfig(FlaskForm):
         submit_btn_conf_del : Bouton de confirmation pour effacer une "config".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_config".
     """
-    config_use_case_delete_wtf = StringField("Delete this configuration")
+    config_use_case_delete_wtf = StringField("Config Use Case")
+    config_rating_delete_wtf = StringField("Config Rate")
 
     submit_btn_del = SubmitField("Delete configuration")
-    submit_btn_conf_del = SubmitField("Are you sure you want to delete ?")
+    submit_btn_conf_del = SubmitField("Are you sure you want to delete it ?")
     submit_btn_annuler = SubmitField("Cancel")

@@ -233,7 +233,7 @@ def cpumanufacturer_delete_wtf():
                 data_cpu_attribue_cpumanufacturer_delete = session['data_cpu_attribue_cpumanufacturer_delete']
                 print("data_cpu_attribue_cpumanufacturer_delete ", data_cpu_attribue_cpumanufacturer_delete)
 
-                flash(f"Delete permanently manufacturer !!!", "danger")
+                flash(f"Delete permanently the manufacturer !!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
                 # On affiche le bouton "Effacer manufacturer" qui va irrémédiablement EFFACER le manufacturer
                 btn_submit_del = True
@@ -261,8 +261,9 @@ def cpumanufacturer_delete_wtf():
             print(id_cpu_manufacturer_delete, type(id_cpu_manufacturer_delete))
 
             # Requête qui affiche tous les cpu_cpumanufacturer qui ont le manufacturer que l'utilisateur veut effacer
-            str_sql_cpumanufacturer_cpu_delete = """SELECT id_cpumanufacturer_produce_cpu, CPU_Name, id_cpu_manufacturer, CPU_Manufacturer FROM t_cpumanufacturer_produce_cpu 
+            str_sql_cpumanufacturer_cpu_delete = """SELECT id_cpu, CPU_Name, id_cpu_manufacturer, CPU_Manufacturer FROM t_cpumanufacturer_produce_cpu 
                                             INNER JOIN t_cpu ON t_cpumanufacturer_produce_cpu.fk_cpu = t_cpu.id_cpu
+                                            INNER JOIN t_cpumanufacturer ON t_cpumanufacturer_produce_cpu.fk_cpumanufacturer = t_cpumanufacturer.id_cpu_manufacturer
                                             WHERE fk_cpumanufacturer = %(value_id_cpu_manufacturer)s"""
 
             with DBconnection() as mydb_conn:

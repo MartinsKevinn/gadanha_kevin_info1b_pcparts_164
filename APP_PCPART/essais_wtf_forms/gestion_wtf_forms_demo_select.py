@@ -72,7 +72,7 @@ def demo_select_wtf():
             # Ceci est simplement une petite démo. on fixe la valeur PRESELECTIONNEE de la liste
             form_demo.userrole_dropdown_wtf.data = "philosophique"
             userrole_selectionne = form_demo.userrole_dropdown_wtf.data
-            print("role choisi dans la liste :", userrole_selectionne)
+            print("role chose in the list :", userrole_selectionne)
             session['userrole_selectionne_get'] = userrole_selectionne
 
     # OM 2020.04.16 ATTENTION à l'ordre des excepts, il est très important de respecter l'ordre.
@@ -104,7 +104,7 @@ def demo_select_wtf():
 
 @app.route("/demo_select_dropdown_bootstrap", methods=['GET', 'POST'])
 def demo_select_dropdown_bootstrap():
-    print("userrole choisi dans la liste :")
+    print("userrole chose in the list :")
     if request.method == 'POST':
         choix_list_drop_down = request.form.getlist("ma_petite_liste_unique")
         print("choix_list_drop_down ", choix_list_drop_down)

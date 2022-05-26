@@ -53,7 +53,7 @@ class FormWTFDeleteUserrole(FlaskForm):
         submit_btn_conf_del : Bouton de confirmation pour effacer un "userrole".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_userrole".
     """
-    nom_userrole_delete_wtf = StringField("Effacer ce role")
-    submit_btn_del = SubmitField("Effacer role")
-    submit_btn_conf_del = SubmitField("Etes-vous sur d'effacer ?")
-    submit_btn_annuler = SubmitField("Annuler")
+    nom_userrole_delete_wtf = StringField("Delete this role")
+    submit_btn_del = SubmitField("Delete role")
+    submit_btn_conf_del = SubmitField("Are you sure you want to delete it ?")
+    submit_btn_annuler = SubmitField("Cancel")

@@ -93,7 +93,7 @@ def user_update_wtf():
             # Récupèrer la valeur du champ depuis "userrole_update_wtf.html" après avoir cliqué sur "SUBMIT"!
             user_firstname_update = form_update_user.user_firstname_update_wtf.data
             user_lastname_update = form_update_user.user_lastname_update_wtf.data
-            user_birthdate_update = form_update_user.user_birthdate_update_wtf.data
+            user_birthdate_update = form_update_user.user_birthdate_update_wtf.data 
             user_photo_update = form_update_user.user_photo_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_user": id_user_update,

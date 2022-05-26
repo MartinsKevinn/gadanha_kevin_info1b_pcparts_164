@@ -12,15 +12,21 @@
 				{{ form_delete.hidden_tag() }}
 				<table class="table table-bordered table-sm">
 					{% if data_cpu_associes %}
-						<h3>Cette motherboard est associé avec le(s) CPU(s) suivant(s) :</h3>
+						<h3>This motherboard is associated with this/these CPU(s) :</h3>
 					{% else %}
-						<h3>Cette motherboard à effacer n'est associé à aucun CPU.</h3>
+						<h3>No CPU associated to this manufacturer.</h3>
 					{% endif %}
 					{% if data_cpu_associes %}
 						<thead>
 							<tr>
 								<th>
-									CPU(S)
+									CPU ID
+								</th>
+								<th>
+									CPU Name
+								</th>
+								<th>
+									CPU Codename
 								</th>
 							</tr>
 						</thead>
@@ -28,7 +34,13 @@
 							<tbody>
 								<tr>
 									<td>
+										{{ row.id_cpu }}
+									</td>
+									<td>
 										{{ row.CPU_Name }}
+									</td>
+									<td>
+										{{ row.CPU_Codename }}
 									</td>
 								</tr>
 							</tbody>
@@ -41,6 +53,13 @@
 						{{ form_delete.nom_motherboard_delete_wtf.label }}<br>
 						{{ form_delete.nom_motherboard_delete_wtf(size=32, readonly=true) }}<br>
 						{% for error in form_delete.nom_motherboard_delete_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_delete.model_motherboard_delete_wtf.label }}<br>
+						{{ form_delete.model_motherboard_delete_wtf(size=32, readonly=true) }}<br>
+						{% for error in form_delete.model_motherboard_delete_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>

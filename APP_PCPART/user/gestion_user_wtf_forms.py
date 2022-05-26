@@ -19,7 +19,7 @@ class FormWTFAddUser(FlaskForm):
     user_lastname_add_wtf = StringField("Lastname", widget=TextArea())
     user_birthdate_add_wtf = DateField("Birthdate", validators=[InputRequired("Mandatory date"),
                                                                 DataRequired("Invalid date")])
-    user_photo_add_wtf = StringField("Photo", widget=TextArea())
+    user_photo_add_wtf = StringField("Photo link", widget=TextArea())
 
     submit = SubmitField("Save user")
 
@@ -34,7 +34,7 @@ class FormWTFUpdateUser(FlaskForm):
     user_lastname_update_wtf = StringField("Lastname", widget=TextArea())
     user_birthdate_update_wtf = DateField("Birthdate", validators=[InputRequired("Mandatory date"),
                                                                    DataRequired("Invalid date")])
-    user_photo_update_wtf = StringField("Photo", widget=TextArea())
+    user_photo_update_wtf = StringField("Photo link", widget=TextArea())
     submit = SubmitField("Update user")
 
 
@@ -49,5 +49,5 @@ class FormWTFDeleteUser(FlaskForm):
     """
     nom_user_delete_wtf = StringField("Delete this user")
     submit_btn_del_user = SubmitField("Delete user")
-    submit_btn_conf_del_user = SubmitField("Are you sure you want to delete ?")
+    submit_btn_conf_del_user = SubmitField("Are you sure you want to delete it ?")
     submit_btn_annuler = SubmitField("Cancel")

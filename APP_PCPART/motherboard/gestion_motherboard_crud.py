@@ -273,7 +273,7 @@ def motherboard_delete_wtf():
             print(id_motherboard_delete, type(id_motherboard_delete))
 
             # Requête qui affiche tous les cpu_motherboard qui ont la motherboard que l'utilisateur veut effacer
-            str_sql_motherboard_cpu_delete = """SELECT id_cpu_compatible_motherboard, CPU_Name, id_motherboard, motherboard_brand FROM t_cpu_compatible_motherboard 
+            str_sql_motherboard_cpu_delete = """SELECT id_cpu, CPU_Name, CPU_Codename, id_motherboard, motherboard_brand, motherboard_model FROM t_cpu_compatible_motherboard 
                                             INNER JOIN t_cpu ON t_cpu_compatible_motherboard.fk_cpu = t_cpu.id_cpu
                                             INNER JOIN t_motherboard ON t_cpu_compatible_motherboard.fk_motherboard = t_motherboard.id_motherboard
                                             WHERE fk_motherboard = %(value_id_motherboard)s"""
@@ -288,17 +288,21 @@ def motherboard_delete_wtf():
                 session['data_cpu_attribue_motherboard_delete'] = data_cpu_attribue_motherboard_delete
 
                 # Opération sur la BD pour récupérer "id_motherboard" et "motherboard_brand" de la "t_motherboard"
-                str_sql_id_motherboard = "SELECT id_motherboard, motherboard_brand FROM t_motherboard WHERE id_motherboard = %(value_id_motherboard)s"
+                str_sql_id_motherboard = "SELECT id_motherboard, motherboard_brand, motherboard_model FROM t_motherboard WHERE id_motherboard = %(value_id_motherboard)s"
 
                 mydb_conn.execute(str_sql_id_motherboard, valeur_select_dictionnaire)
-                # Une seule valeur est suffisante "fetchone()",
-                # vu qu'il n'y a qu'un seul champ "brand motherboard" pour l'action DELETE
                 data_nom_motherboard = mydb_conn.fetchone()
                 print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard), " motherboard ",
                       data_nom_motherboard["motherboard_brand"])
 
+                mydb_conn.execute(str_sql_id_motherboard, valeur_select_dictionnaire)
+                data_nom_motherboard = mydb_conn.fetchone()
+                print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard), " motherboard ",
+                      data_nom_motherboard["motherboard_model"])
+
             # Afficher la valeur sélectionnée dans le champ du formulaire "motherboard_delete_wtf.html"
             form_delete.nom_motherboard_delete_wtf.data = data_nom_motherboard["motherboard_brand"]
+            form_delete.model_motherboard_delete_wtf.data = data_nom_motherboard["motherboard_model"]
 
             # Le bouton pour l'action "DELETE" dans le form. "motherboard_delete_wtf.html" est caché.
             btn_submit_del = False

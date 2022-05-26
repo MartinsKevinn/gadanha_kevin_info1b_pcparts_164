@@ -179,7 +179,7 @@ def cpu_delete_wtf():
             data_cpu_delete = session['data_cpu_delete']
             print("data_cpu_delete ", data_cpu_delete)
 
-            flash(f"Effacer le cpu de façon définitive de la BD !!!", "danger")
+            flash(f"Delete permanently the CPU !!!", "danger")
             # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
             # On affiche le bouton "Effacer manufacturer" qui va irrémédiablement EFFACER le manufacturer
             btn_submit_del = True
@@ -197,8 +197,8 @@ def cpu_delete_wtf():
                 mconn_bd.execute(str_sql_delete_fk_cpu_cpumanufacturer, valeur_delete_dictionnaire)
                 mconn_bd.execute(str_sql_delete_cpu, valeur_delete_dictionnaire)
 
-            flash(f"cpu définitivement effacé !!", "success")
-            print(f"cpu définitivement effacé !!")
+            flash(f"CPU permanently deleted !!", "success")
+            print(f"CPU permanently deleted !!")
 
             # afficher les données
             return redirect(url_for('cpu_cpumanufacturer_afficher', id_cpu_sel=0))

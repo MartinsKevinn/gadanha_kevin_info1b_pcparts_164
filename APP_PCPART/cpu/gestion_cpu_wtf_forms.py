@@ -16,15 +16,12 @@ class FormWTFAddCpu(FlaskForm):
         Dans le formulaire "cpumanufacturer_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_cpu_regexp = ""
-    nom_cpu_add_wtf = StringField("Nom du cpu ", validators=[Length(min=2, max=2000, message="min 2 max 20"),
-                                                               Regexp(nom_cpu_regexp,
-                                                                      message="Pas de chiffres, de caractères "
-                                                                              "spéciaux, "
-                                                                              "d'espace à double, de double "
-                                                                              "apostrophe, de double trait union")
-                                                               ])
-
+    nom_cpu_add_wtf = StringField("Nom du cpu ", widget=TextArea())
+    cpu_codename_wtf = StringField("Codename", widget=TextArea())
+    cpu_cores_wtf = StringField("Cores", widget=TextArea())
+    cpu_clock_wtf = StringField("Clock", widget=TextArea())
+    cpu_socket_wtf = StringField("Socket", widget=TextArea())
+    cpu_released_wtf = StringField("Release date", widget=TextArea())
     submit = SubmitField("Save cpu")
 
 

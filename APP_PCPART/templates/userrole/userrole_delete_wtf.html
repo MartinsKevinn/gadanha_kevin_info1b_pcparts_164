@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %} Effacer un ROLE (WTF) {% endblock %}
+{% block title %} Delete a ROLE (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Effacer un ROLE
+				Delete a ROLE
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
@@ -14,7 +14,7 @@
 					{% if data_user_associes %}
 						<h3>This role is associated with these users :</h3>
 					{% else %}
-						<h3>This role isn't associated with a user.</h3>
+						<h3>No user associated to this role.</h3>
 					{% endif %}
 					{% if data_user_associes %}
 						<thead>
@@ -29,7 +29,10 @@
 									User ID
 								</th>
 								<th>
-									User
+									User Firstname
+								</th>
+								<th>
+									User Lastname
 								</th>
 							</tr>
 						</thead>
@@ -47,6 +50,9 @@
 									</td>
 									<td>
 										{{ row.user_firstname }}
+									</td>
+									<td>
+										{{ row.user_lastname }}
 									</td>
 								</tr>
 							</tbody>

@@ -244,7 +244,7 @@ def config_ajouter_wtf():
                 }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_config = """INSERT INTO t_config (id_config,config_use_case) VALUES (NULL,%(value_config_use_case)s) """
+                strsql_insert_config = """INSERT INTO t_config (id_config,config_use_case,config_rating) VALUES (NULL,%(value_config_use_case)s,%(value_config_rating)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_config, valeurs_insertion_dictionnaire)
 
@@ -375,7 +375,7 @@ def config_delete_wtf():
                 data_user_attribue_config_delete = session['data_user_attribue_config_delete']
                 print("data_user_attribue_config_delete ", data_user_attribue_config_delete)
 
-                flash(f"Delete permanently configuration !!!", "danger")
+                flash(f"Delete permanently the configuration !!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
                 # On affiche le bouton "Effacer config" qui va irrémédiablement EFFACER la config
                 btn_submit_del = True
@@ -403,9 +403,9 @@ def config_delete_wtf():
             print(id_config_delete, type(id_config_delete))
 
             # Requête qui affiche tous les user_config qui ont la config que l'utilisateur veut effacer
-            str_sql_config_user_delete = """SELECT id_user_created_config, user_firstname, id_config, config_use_case FROM t_user_created_config 
-                                            INNER JOIN t_user ON t_user_created_config.fk_user = t_user.id_user
-                                            INNER JOIN t_config ON t_user_created_config.fk_config = t_config.id_config
+            str_sql_config_user_delete = """SELECT id_user, User_firstname, User_lastname FROM t_user_created_config 
+                                            LEFT JOIN t_user ON t_user_created_config.fk_user = t_user.id_user
+                                            LEFT JOIN t_config ON t_user_created_config.fk_config = t_config.id_config
                                             WHERE fk_config = %(value_id_config)s"""
 
             with DBconnection() as mydb_conn:
@@ -421,14 +421,18 @@ def config_delete_wtf():
                 str_sql_id_config = "SELECT id_config, config_use_case, config_rating FROM t_config WHERE id_config = %(value_id_config)s"
 
                 mydb_conn.execute(str_sql_id_config, valeur_select_dictionnaire)
-                # Une seule valeur est suffisante "fetchone()",
-                # vu qu'il n'y a qu'un seul champ "config use case" pour l'action DELETE
                 data_config_use_case = mydb_conn.fetchone()
                 print("data_config_use_case ", data_config_use_case, " type ", type(data_config_use_case), " config ",
                       data_config_use_case["config_use_case"])
 
+                mydb_conn.execute(str_sql_id_config, valeur_select_dictionnaire)
+                data_config_use_case = mydb_conn.fetchone()
+                print("data_config_use_case ", data_config_use_case, " type ", type(data_config_use_case), " config ",
+                      data_config_use_case["config_rating"])
+
             # Afficher la valeur sélectionnée dans le champ du formulaire "config_delete_wtf.html"
             form_delete.config_use_case_delete_wtf.data = data_config_use_case["config_use_case"]
+            form_delete.config_rating_delete_wtf.data = data_config_use_case["config_rating"]
 
             # Le bouton pour l'action "DELETE" dans le form. "config_delete_wtf.html" est caché.
             btn_submit_del = False

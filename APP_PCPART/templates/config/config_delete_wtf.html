@@ -12,7 +12,7 @@
 				{{ form_delete.hidden_tag() }}
 				<table class="table table-bordered table-sm">
 					{% if data_config_associes %}
-						<h3>This configuration is associate with these users :</h3>
+						<h3>This configuration is associated with these users :</h3>
 					{% else %}
 						<h3>No user associated to this configuration.</h3>
 					{% endif %}
@@ -20,7 +20,13 @@
 						<thead>
 							<tr>
 								<th>
-									USER(S)
+									User ID
+								</th>
+								<th>
+									User Firstname
+								</th>
+								<th>
+									User Lastname
 								</th>
 							</tr>
 						</thead>
@@ -28,7 +34,13 @@
 							<tbody>
 								<tr>
 									<td>
+										{{ row.id_user }}
+									</td>
+									<td>
 										{{ row.user_firstname }}
+									</td>
+									<td>
+										{{ row.user_lastname }}
 									</td>
 								</tr>
 							</tbody>
@@ -42,6 +54,13 @@
 						{{ form_delete.config_use_case_delete_wtf.label }}<br>
 						{{ form_delete.config_use_case_delete_wtf(size=32, readonly=true) }}<br>
 						{% for error in form_delete.config_use_case_delete_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_delete.config_rating_delete_wtf.label }}<br>
+						{{ form_delete.config_rating_delete_wtf(size=32, readonly=true) }}<br>
+						{% for error in form_delete.config_rating_delete_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>

@@ -4,10 +4,9 @@
     Gestion des formulaires avec WTF
 """
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField
-from wtforms import SubmitField
-from wtforms.validators import Length, InputRequired, DataRequired
-from wtforms.validators import Regexp
+from wtforms import *
+from wtforms.validators import *
+from wtforms.widgets import TextArea
 
 
 class FormWTFAjouterMotherboard(FlaskForm):
@@ -15,10 +14,9 @@ class FormWTFAjouterMotherboard(FlaskForm):
         Dans le formulaire "motherboard_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_motherboard_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    nom_motherboard_wtf = StringField("Motherboard Brand")
-    model_motherboard_wtf = StringField("Motherboard Model")
-    release_year_motherboard_wtf = DateField("Motherboard release year")
+    nom_motherboard_wtf = StringField("Motherboard Brand", widget=TextArea())
+    model_motherboard_wtf = StringField("Motherboard Model", widget=TextArea())
+    release_year_motherboard_wtf = DateField("Motherboard release year", widget=TextArea())
     submit = SubmitField("Save motherboard")
 
 
@@ -27,10 +25,9 @@ class FormWTFUpdateMotherboard(FlaskForm):
         Dans le formulaire "motherboard_update_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_motherboard_update_regexp = "^([A-Z]|[a-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ]*['\- ]?[A-Za-zÀ-ÖØ-öø-ÿ]+$"
-    nom_motherboard_update_wtf = StringField("Motherboard brand")
-    model_motherboard_update_wtf = StringField("Motherboard model")
-    release_year_motherboard_update_wtf = DateField("Motherboard release year")
+    nom_motherboard_update_wtf = StringField("Motherboard brand", widget=TextArea())
+    model_motherboard_update_wtf = StringField("Motherboard model", widget=TextArea())
+    release_year_motherboard_update_wtf = DateField("Motherboard release year", widget=TextArea())
     submit = SubmitField("Update motherboard")
 
 
@@ -43,8 +40,8 @@ class FormWTFDeleteMotherboard(FlaskForm):
         submit_btn_conf_del : Bouton de confirmation pour effacer une "motherboard".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_motherboard".
     """
-    nom_motherboard_delete_wtf = StringField("Delete this motherboard")
-    model_motherboard_delete_wtf = StringField("Delete this motherboard")
+    nom_motherboard_delete_wtf = StringField("Motherboard Brand")
+    model_motherboard_delete_wtf = StringField("Motherboard Model")
     submit_btn_del = SubmitField("Delete motherboard")
-    submit_btn_conf_del = SubmitField("Are you sure you want to delete ?")
+    submit_btn_conf_del = SubmitField("Are you sure you want to delete it ?")
     submit_btn_annuler = SubmitField("Cancel")
