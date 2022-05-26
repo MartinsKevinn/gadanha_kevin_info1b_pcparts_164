@@ -16,7 +16,7 @@ class FormWTFAjouterMotherboard(FlaskForm):
     """
     nom_motherboard_wtf = StringField("Motherboard Brand", widget=TextArea())
     model_motherboard_wtf = StringField("Motherboard Model", widget=TextArea())
-    release_year_motherboard_wtf = DateField("Motherboard release year", widget=TextArea())
+    release_year_motherboard_wtf = DateField("Motherboard release year")
     submit = SubmitField("Save motherboard")
 
 
@@ -27,7 +27,7 @@ class FormWTFUpdateMotherboard(FlaskForm):
     """
     nom_motherboard_update_wtf = StringField("Motherboard brand", widget=TextArea())
     model_motherboard_update_wtf = StringField("Motherboard model", widget=TextArea())
-    release_year_motherboard_update_wtf = DateField("Motherboard release year", widget=TextArea())
+    release_year_motherboard_update_wtf = DateField("Motherboard release year")
     submit = SubmitField("Update motherboard")
 
 

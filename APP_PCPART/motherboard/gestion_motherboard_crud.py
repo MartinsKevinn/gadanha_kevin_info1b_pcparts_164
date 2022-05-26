@@ -262,8 +262,8 @@ def motherboard_delete_wtf():
                     mconn_bd.execute(str_sql_delete_cpu_motherboard, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_idmotherboard, valeur_delete_dictionnaire)
 
-                flash(f"Motherboard définitivement effacé !!", "success")
-                print(f"Motherboard définitivement effacé !!")
+                flash(f"Motherboard permanently erased !!", "success")
+                print(f"Motherboard permanently erased !!")
 
                 # afficher les données
                 return redirect(url_for('motherboard_afficher', order_by="ASC", id_motherboard_sel=0))

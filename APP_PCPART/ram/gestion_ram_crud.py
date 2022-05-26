@@ -259,8 +259,8 @@ def ram_delete_wtf():
                     mconn_bd.execute(str_sql_delete_ramgen_ram, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_idram, valeur_delete_dictionnaire)
 
-                flash(f"Ram définitivement effacé !!", "success")
-                print(f"Ram définitivement effacé !!")
+                flash(f"Ram permanently erased !!", "success")
+                print(f"Ram permanently erased !!")
 
                 # afficher les données
                 return redirect(url_for('ram_afficher', order_by="ASC", id_ram_sel=0))
@@ -271,7 +271,7 @@ def ram_delete_wtf():
 
             # Requête qui affiche tous les ram_is_ramgen qui ont la ram que l'utilisateur veut effacer
             str_sql_ram_ramgen_delete = """SELECT id_ramgen, ram_generation, id_ram, ram_brand, ram_name, ram_capacity FROM t_ram_is_ramgen 
-                                            INNER JOIN t_ramgen ON t_ram_is_ramgen.fk_cpu = t_ramgen.id_ramgen
+                                            INNER JOIN t_ramgen ON t_ram_is_ramgen.fk_ramgen = t_ramgen.id_ramgen
                                             INNER JOIN t_ram ON t_ram_is_ramgen.fk_ram = t_ram.id_ram
                                             WHERE fk_ram = %(value_id_ram)s"""
 

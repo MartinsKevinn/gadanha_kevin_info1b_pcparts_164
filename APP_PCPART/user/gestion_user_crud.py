@@ -202,8 +202,8 @@ def user_delete_wtf():
                 mconn_bd.execute(str_sql_delete_fk_user_userrole, valeur_delete_dictionnaire)
                 mconn_bd.execute(str_sql_delete_user, valeur_delete_dictionnaire)
 
-            flash(f"User permanently deleted !!", "success")
-            print(f"User permanently deleted !!")
+            flash(f"User permanently erased !!", "success")
+            print(f"User permanently erased !!")
 
             # afficher les données
             return redirect(url_for('user_userrole_afficher', id_user_sel=0))

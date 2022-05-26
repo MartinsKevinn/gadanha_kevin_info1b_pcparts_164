@@ -197,8 +197,8 @@ def cpu_delete_wtf():
                 mconn_bd.execute(str_sql_delete_fk_cpu_cpumanufacturer, valeur_delete_dictionnaire)
                 mconn_bd.execute(str_sql_delete_cpu, valeur_delete_dictionnaire)
 
-            flash(f"CPU permanently deleted !!", "success")
-            print(f"CPU permanently deleted !!")
+            flash(f"CPU permanently erased !!", "success")
+            print(f"CPU permanently erased !!")
 
             # afficher les données
             return redirect(url_for('cpu_cpumanufacturer_afficher', id_cpu_sel=0))

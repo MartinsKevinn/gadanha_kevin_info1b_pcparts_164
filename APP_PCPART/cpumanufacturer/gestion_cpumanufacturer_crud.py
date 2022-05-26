@@ -250,8 +250,8 @@ def cpumanufacturer_delete_wtf():
                     mconn_bd.execute(str_sql_delete_cpu_cpumanufacturer, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_idcpumanufacturer, valeur_delete_dictionnaire)
 
-                flash(f"Manufacturer permanently deleted !!", "success")
-                print(f"Manufacturer permanently deleted !!")
+                flash(f"Manufacturer permanently erased !!", "success")
+                print(f"Manufacturer permanently erased !!")
 
                 # afficher les données
                 return redirect(url_for('cpumanufacturer_afficher', order_by="ASC", id_cpu_manufacturer_sel=0))

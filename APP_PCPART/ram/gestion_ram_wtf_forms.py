@@ -1,5 +1,5 @@
 """
-    Fichier : gestion_motherboard_wtf_forms.py
+    Fichier : gestion_ram_wtf_forms.py
     Auteur : OM 2021.03.22
     Gestion des formulaires avec WTF
 """
@@ -16,7 +16,7 @@ class FormWTFAjouterRam(FlaskForm):
     """
     brand_ram_wtf = StringField("Ram Brand", widget=TextArea())
     name_ram_wtf = StringField("Ram name", widget=TextArea())
-    capacity_ram_wtf = DateField("Ram capacity", widget=TextArea())
+    capacity_ram_wtf = StringField("Ram capacity", widget=TextArea())
     submit = SubmitField("Save ram")
 
 
@@ -27,7 +27,7 @@ class FormWTFUpdateRam(FlaskForm):
     """
     brand_ram_update_wtf = StringField("Ram brand", widget=TextArea())
     name_ram_update_wtf = StringField("Ram name", widget=TextArea())
-    capacity_ram_update_wtf = DateField("Ram capacity", widget=TextArea())
+    capacity_ram_update_wtf = StringField("Ram capacity", widget=TextArea())
     submit = SubmitField("Update ram")
 
 

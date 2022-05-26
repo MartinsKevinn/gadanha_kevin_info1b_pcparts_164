@@ -392,8 +392,8 @@ def config_delete_wtf():
                     mconn_bd.execute(str_sql_delete_user_config, valeur_delete_dictionnaire)
                     mconn_bd.execute(str_sql_delete_idconfig, valeur_delete_dictionnaire)
 
-                flash(f"Config permanently deleted !!", "success")
-                print(f"Config permanently deleted !!")
+                flash(f"Config permanently erased !!", "success")
+                print(f"Config permanently erased !!")
 
                 # afficher les données
                 return redirect(url_for('config_afficher', order_by="ASC", id_config_sel=0))
