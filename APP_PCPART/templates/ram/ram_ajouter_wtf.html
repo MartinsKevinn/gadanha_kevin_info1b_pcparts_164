@@ -1,34 +1,34 @@
 {% extends "base.html" %}
-{% block title %} Add a MOTHERBOARD (WTF) {% endblock %}
+{% block title %} Add a RAM (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Add a new MOTHERBOARD
+				Add a new RAM
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
 				{{ form.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form.nom_motherboard_wtf.label }}<br>
-						{{ form.nom_motherboard_wtf(size=32) }}<br>
-						{% for error in form.nom_motherboard_wtf.errors %}
+						{{ form.brand_ram_wtf.label }}<br>
+						{{ form.brand_ram_wtf(size=32) }}<br>
+						{% for error in form.brand_ram_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form.model_motherboard_wtf.label }}<br>
-						{{ form.model_motherboard_wtf(size=32) }}<br>
-						{% for error in form.model_motherboard_wtf.errors %}
+						{{ form.name_ram_wtf.label }}<br>
+						{{ form.name_ram_wtf(size=32) }}<br>
+						{% for error in form.name_ram_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form.release_year_motherboard_wtf.label }}<br>
-						{{ form.release_year_motherboard_wtf(size=32) }}<br>
-						{% for error in form.release_year_motherboard_wtf.errors %}
+						{{ form.capacity_ram_wtf.label }}<br>
+						{{ form.capacity_ram_wtf(size=32) }}<br>
+						{% for error in form.capacity_ram_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>

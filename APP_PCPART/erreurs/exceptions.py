@@ -227,6 +227,26 @@ class ExceptionMotherboardDeleteWtf(Base):
     pass
 
 
+class ExceptionRamAfficher(Base):
+    pass
+
+
+class ExceptionRamAfficherWtf(Base):
+    pass
+
+
+class ExceptionRamAjouterWtf(Base):
+    pass
+
+
+class ExceptionRamUpdateWtf(Base):
+    pass
+
+
+class ExceptionRamDeleteWtf(Base):
+    pass
+
+
 """
     Grâce à la méthode "flash" cela permet de "raise" (remonter) les erreurs "try...execpt" dans la page "home.html"
 """

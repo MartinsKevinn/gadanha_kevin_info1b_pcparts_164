@@ -9,7 +9,7 @@ from flask import *
 
 from APP_PCPART.database.database_tools import DBconnection
 from APP_PCPART.erreurs.exceptions import *
-from APP_PCPART.user.gestion_user_wtf_forms import FormWTFUpdateUser, FormWTFAddUser, FormWTFDeleteUser
+from APP_PCPART.user.gestion_user_wtf_forms import *
 
 
 """Ajouter un utilisateur grâce au formulaire "user_add_wtf.html"
@@ -50,8 +50,8 @@ def user_add_wtf():
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_user, valeurs_insertion_dictionnaire)
 
-                flash(f"Données insérées !!", "success")
-                print(f"Données insérées !!")
+                flash(f"Data inserted !!", "success")
+                print(f"Data inserted !!")
 
                 # Pour afficher et constater l'insertion du nouveau user (id_user_sel=0 => afficher tous les user)
                 return redirect(url_for('user_userrole_afficher', id_user_sel=0))

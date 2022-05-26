@@ -9,29 +9,29 @@ from wtforms.validators import *
 from wtforms.widgets import TextArea
 
 
-class FormWTFAjouterMotherboard(FlaskForm):
+class FormWTFAjouterRam(FlaskForm):
     """
         Dans le formulaire "motherboard_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_motherboard_wtf = StringField("Motherboard Brand", widget=TextArea())
-    model_motherboard_wtf = StringField("Motherboard Model", widget=TextArea())
-    release_year_motherboard_wtf = DateField("Motherboard release year", widget=TextArea())
-    submit = SubmitField("Save motherboard")
+    brand_ram_wtf = StringField("Ram Brand", widget=TextArea())
+    name_ram_wtf = StringField("Ram name", widget=TextArea())
+    capacity_ram_wtf = DateField("Ram capacity", widget=TextArea())
+    submit = SubmitField("Save ram")
 
 
-class FormWTFUpdateMotherboard(FlaskForm):
+class FormWTFUpdateRam(FlaskForm):
     """
         Dans le formulaire "motherboard_update_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_motherboard_update_wtf = StringField("Motherboard brand", widget=TextArea())
-    model_motherboard_update_wtf = StringField("Motherboard model", widget=TextArea())
-    release_year_motherboard_update_wtf = DateField("Motherboard release year", widget=TextArea())
-    submit = SubmitField("Update motherboard")
+    brand_ram_update_wtf = StringField("Ram brand", widget=TextArea())
+    name_ram_update_wtf = StringField("Ram name", widget=TextArea())
+    capacity_ram_update_wtf = DateField("Ram capacity", widget=TextArea())
+    submit = SubmitField("Update ram")
 
 
-class FormWTFDeleteMotherboard(FlaskForm):
+class FormWTFDeleteRam(FlaskForm):
     """
         Dans le formulaire "motherboard_delete_wtf.html"
 
@@ -40,8 +40,8 @@ class FormWTFDeleteMotherboard(FlaskForm):
         submit_btn_conf_del : Bouton de confirmation pour effacer une "motherboard".
         submit_btn_annuler : Bouton qui permet d'afficher la table "t_motherboard".
     """
-    nom_motherboard_delete_wtf = StringField("Motherboard Brand")
-    model_motherboard_delete_wtf = StringField("Motherboard Model")
-    submit_btn_del = SubmitField("Delete motherboard")
+    brand_ram_delete_wtf = StringField("Ram Brand")
+    name_ram_delete_wtf = StringField("Ram Name")
+    submit_btn_del = SubmitField("Delete ram")
     submit_btn_conf_del = SubmitField("Are you sure you want to delete it ?")
     submit_btn_annuler = SubmitField("Cancel")

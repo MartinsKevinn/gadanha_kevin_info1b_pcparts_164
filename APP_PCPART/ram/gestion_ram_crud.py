@@ -1,5 +1,5 @@
 """Gestion des "routes" FLASK et des données pour les ram.
-Fichier : gestion_motherboard_crud.py
+Fichier : gestion_ram_crud.py
 Auteur : OM 2021.03.16
 """
 from pathlib import Path
@@ -9,12 +9,9 @@ from flask import request
 from flask import session
 from flask import url_for
 
-from APP_PCPART import app
 from APP_PCPART.database.database_tools import DBconnection
 from APP_PCPART.erreurs.exceptions import *
-from APP_PCPART.ram.gestion_ram_wtf_forms import FormWTFAjouterRam
-from APP_PCPART.ram.gestion_ram_wtf_forms import FormWTFDeleteRam
-from APP_PCPART.ram.gestion_ram_wtf_forms import FormWTFUpdateRam
+from APP_PCPART.ram.gestion_ram_wtf_forms import *
 
 """
     Auteur : OM 2021.03.16
@@ -77,15 +74,15 @@ def ram_afficher(order_by, id_ram_sel):
 
 """
     Auteur : OM 2021.03.22
-    Définition d'une "route" /motherboard_ajouter
+    Définition d'une "route" /ram_ajouter
     
-    Test : ex : http://127.0.0.1:5005/motherboard_ajouter
+    Test : ex : http://127.0.0.1:5005/ram_ajouter
     
     Paramètres : sans
     
     But : Ajouter une brand pour une ram
     
-    Remarque :  Dans le champ "name_motherboard_html" du formulaire "ram/motherboard_ajouter.html",
+    Remarque :  Dans le champ "brand_ram_html" du formulaire "ram/ram_ajouter.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -95,42 +92,42 @@ def ram_afficher(order_by, id_ram_sel):
 """
 
 
-@app.route("/motherboard_ajouter", methods=['GET', 'POST'])
-def motherboard_ajouter_wtf():
+@app.route("/ram_ajouter", methods=['GET', 'POST'])
+def ram_ajouter_wtf():
     form = FormWTFAjouterRam()
     if request.method == "POST":
         try:
             if form.validate_on_submit():
-                name_motherboard = form.nom_motherboard_wtf.data
-                model_motherboard = form.model_motherboard_wtf.data
-                release_year_motherboard = form.release_year_motherboard_wtf.data
-                valeurs_insertion_dictionnaire = {"value_motherboard_brand": name_motherboard,
-                                                  "value_motherboard_model": model_motherboard,
-                                                  "value_motherboard_release": release_year_motherboard
+                brand_ram = form.brand_ram_wtf.data
+                name_ram = form.name_ram_wtf.data
+                capacity_ram = form.capacity_ram_wtf.data
+                valeurs_insertion_dictionnaire = {"value_ram_brand": brand_ram,
+                                                  "value_ram_name": name_ram,
+                                                  "value_ram_capacity": capacity_ram
                                                   }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_motherboard = """INSERT INTO t_ram (id_ram,ram_brand,ram_name,ram_capacity) VALUES (NULL,%(value_motherboard_brand)s,%(value_motherboard_model)s,%(value_motherboard_release)s """
+                strsql_insert_ram = """INSERT INTO t_ram (id_ram,ram_brand,ram_name,ram_capacity) VALUES (NULL,%(value_ram_brand)s,%(value_ram_name)s,%(value_ram_capacity)s """
                 with DBconnection() as mconn_bd:
-                    mconn_bd.execute(strsql_insert_motherboard, valeurs_insertion_dictionnaire)
+                    mconn_bd.execute(strsql_insert_ram, valeurs_insertion_dictionnaire)
 
-                flash(f"Données insérées !!", "success")
-                print(f"Données insérées !!")
+                flash(f"Data inserted !!", "success")
+                print(f"Data inserted !!")
 
                 # Pour afficher et constater l'insertion de la valeur, on affiche en ordre inverse. (DESC)
                 return redirect(url_for('ram_afficher', order_by='DESC', id_ram_sel=0))
 
-        except Exception as Exception_motherboard_ajouter_wtf:
-            raise ExceptionMotherboardAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
-                                            f"{motherboard_ajouter_wtf.__name__} ; "
-                                            f"{Exception_motherboard_ajouter_wtf}")
+        except Exception as Exception_ram_ajouter_wtf:
+            raise ExceptionRamAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
+                                         f"{ram_ajouter_wtf.__name__} ; "
+                                         f"{Exception_ram_ajouter_wtf}")
 
-    return render_template("ram/motherboard_ajouter_wtf.html", form=form)
+    return render_template("ram/ram_ajouter_wtf.html", form=form)
 
 
 """
     Auteur : OM 2021.03.29
-    Définition d'une "route" /motherboard_update
+    Définition d'une "route" /ram_update
     
     Test : ex cliquer sur le menu "ram" puis cliquer sur le bouton "EDIT" d'un "ram"
     
@@ -138,7 +135,7 @@ def motherboard_ajouter_wtf():
     
     But : Editer(update) un ram qui a été sélectionné dans le formulaire "ram_afficher.html"
     
-    Remarque :  Dans le champ "nom_ram_update_wtf" du formulaire "ram/ram_update_wtf.html",
+    Remarque :  Dans le champ "brand_ram_update_wtf" du formulaire "ram/ram_update_wtf.html",
                 le contrôle de la saisie s'effectue ici en Python.
                 On transforme la saisie en minuscules.
                 On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
@@ -148,10 +145,10 @@ def motherboard_ajouter_wtf():
 """
 
 
-@app.route("/motherboard_update", methods=['GET', 'POST'])
+@app.route("/ram_update", methods=['GET', 'POST'])
 def ram_update_wtf():
     # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_ram"
-    id_ram_update = request.values['id_motherboard_btn_edit_html']
+    id_ram_update = request.values['id_ram_btn_edit_html']
 
     # Objet formulaire pour l'UPDATE
     form_update = FormWTFUpdateRam()
@@ -160,21 +157,21 @@ def ram_update_wtf():
         if form_update.validate_on_submit():
             # Récupèrer la valeur du champ depuis "ram_update_wtf.html" après avoir cliqué sur "SUBMIT".
             # Puis la convertir en lettres minuscules.
-            motherboard_brand_update = form_update.nom_ram_update_wtf.data
-            model_motherboard_update = form_update.name_ram_update_wtf.data
-            release_year_motherboard_update = form_update.capacity_ram_update_wtf.data
+            ram_brand_update = form_update.brand_ram_update_wtf.data
+            name_ram_update = form_update.name_ram_update_wtf.data
+            capacity_ram_update = form_update.capacity_ram_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_ram": id_ram_update,
-                                          "value_motherboard_brand": motherboard_brand_update,
-                                          "value_motherboard_model": model_motherboard_update,
-                                          "value_motherboard_release_year": release_year_motherboard_update
+                                          "value_ram_brand": ram_brand_update,
+                                          "value_ram_name": name_ram_update,
+                                          "value_ram_capacity": capacity_ram_update
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_motherboard_brand = """UPDATE t_ram SET ram_brand = %(value_motherboard_brand)s, 
-            ram_name = %(value_motherboard_model)s, ram_capacity = %(value_motherboard_release_year)s WHERE id_ram = %(value_id_ram)s """
+            str_sql_update_ram_brand = """UPDATE t_ram SET ram_brand = %(value_ram_brand)s, 
+            ram_name = %(value_ram_name)s, ram_capacity = %(value_ram_capacity)s WHERE id_ram = %(value_id_ram)s """
             with DBconnection() as mconn_bd:
-                mconn_bd.execute(str_sql_update_motherboard_brand, valeur_update_dictionnaire)
+                mconn_bd.execute(str_sql_update_ram_brand, valeur_update_dictionnaire)
 
             flash(f"Data updated !!", "success")
             print(f"Data updated !!")
@@ -196,7 +193,7 @@ def ram_update_wtf():
                   data_nom_ram["ram_brand"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "ram_update_wtf.html"
-            form_update.nom_ram_update_wtf.data = data_nom_ram["ram_brand"]
+            form_update.brand_ram_update_wtf.data = data_nom_ram["ram_brand"]
             form_update.name_ram_update_wtf.data = data_nom_ram["ram_name"]
             form_update.capacity_ram_update_wtf.data = data_nom_ram["ram_capacity"]
 
@@ -218,7 +215,7 @@ def ram_update_wtf():
     
     But : Effacer(delete) une ram qui a été sélectionnée dans le formulaire "ram_afficher.html"
     
-    Remarque :  Dans le champ "nom_ram_delete_wtf" du formulaire "ram/ram_delete_wtf.html",
+    Remarque :  Dans le champ "brand_ram_delete_wtf" du formulaire "ram/ram_delete_wtf.html",
                 le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
 """
 
@@ -272,7 +269,7 @@ def ram_delete_wtf():
             valeur_select_dictionnaire = {"value_id_ram": id_ram_delete}
             print(id_ram_delete, type(id_ram_delete))
 
-            # Requête qui affiche tous les cpu_motherboard qui ont la ram que l'utilisateur veut effacer
+            # Requête qui affiche tous les ram_is_ramgen qui ont la ram que l'utilisateur veut effacer
             str_sql_ram_ramgen_delete = """SELECT id_ramgen, ram_generation, id_ram, ram_brand, ram_name, ram_capacity FROM t_ram_is_ramgen 
                                             INNER JOIN t_ramgen ON t_ram_is_ramgen.fk_cpu = t_ramgen.id_ramgen
                                             INNER JOIN t_ram ON t_ram_is_ramgen.fk_ram = t_ram.id_ram
@@ -301,18 +298,18 @@ def ram_delete_wtf():
                       data_nom_ram["ram_name"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "ram_delete_wtf.html"
-            form_delete.nom_ram_delete_wtf.data = data_nom_ram["ram_brand"]
-            form_delete.model_motherboard_delete_wtf.data = data_nom_ram["ram_name"]
+            form_delete.brand_ram_delete_wtf.data = data_nom_ram["ram_brand"]
+            form_delete.name_ram_delete_wtf.data = data_nom_ram["ram_name"]
 
             # Le bouton pour l'action "DELETE" dans le form. "ram_delete_wtf.html" est caché.
             btn_submit_del = False
 
     except Exception as Exception_ram_delete_wtf:
         raise ExceptionRamDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
-                                      f"{ram_delete_wtf.__name__} ; "
-                                      f"{Exception_ram_delete_wtf}")
+                                    f"{ram_delete_wtf.__name__} ; "
+                                    f"{Exception_ram_delete_wtf}")
 
     return render_template("ram/ram_delete_wtf.html",
                            form_delete=form_delete,
                            btn_submit_del=btn_submit_del,
-                           data_cpu_associes=data_ramgen_attribue_ram_delete)
+                           data_ramgen_associes=data_ramgen_attribue_ram_delete)

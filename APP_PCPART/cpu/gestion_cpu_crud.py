@@ -44,8 +44,8 @@ def cpu_add_wtf():
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_cpu, valeurs_insertion_dictionnaire)
 
-                flash(f"Données insérées !!", "success")
-                print(f"Données insérées !!")
+                flash(f"Data inserted !!", "success")
+                print(f"Data inserted !!")
 
                 # Pour afficher et constater l'insertion du nouveau cpu (id_cpu_sel=0 => afficher tous les cpu)
                 return redirect(url_for('cpu_cpumanufacturer_afficher', id_cpu_sel=0))

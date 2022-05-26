@@ -114,8 +114,8 @@ def motherboard_ajouter_wtf():
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_motherboard, valeurs_insertion_dictionnaire)
 
-                flash(f"Données insérées !!", "success")
-                print(f"Données insérées !!")
+                flash(f"Data inserted !!", "success")
+                print(f"Data inserted !!")
 
                 # Pour afficher et constater l'insertion de la valeur, on affiche en ordre inverse. (DESC)
                 return redirect(url_for('motherboard_afficher', order_by='DESC', id_motherboard_sel=0))
