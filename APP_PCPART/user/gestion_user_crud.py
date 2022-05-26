@@ -106,7 +106,7 @@ def user_update_wtf():
 
             str_sql_update_user = """UPDATE t_user SET user_firstname = %(value_user_firstname)s,
                                                         user_lastname = %(value_user_lastname)s,
-                                                        user_birthdate = %(value_user_birthdate)s
+                                                        user_birthdate = %(value_user_birthdate)s,
                                                         user_photo = %(value_user_photo)s
                                                         WHERE id_user = %(value_id_user)s"""
             with DBconnection() as mconn_bd:
@@ -202,8 +202,8 @@ def user_delete_wtf():
                 mconn_bd.execute(str_sql_delete_fk_user_userrole, valeur_delete_dictionnaire)
                 mconn_bd.execute(str_sql_delete_user, valeur_delete_dictionnaire)
 
-            flash(f"Utilisateur définitivement effacé !!", "success")
-            print(f"Utilisateur définitivement effacé !!")
+            flash(f"User permanently deleted !!", "success")
+            print(f"User permanently deleted !!")
 
             # afficher les données
             return redirect(url_for('user_userrole_afficher', id_user_sel=0))

@@ -1,0 +1,318 @@
+"""Gestion des "routes" FLASK et des données pour les ram.
+Fichier : gestion_motherboard_crud.py
+Auteur : OM 2021.03.16
+"""
+from pathlib import Path
+
+from flask import redirect
+from flask import request
+from flask import session
+from flask import url_for
+
+from APP_PCPART import app
+from APP_PCPART.database.database_tools import DBconnection
+from APP_PCPART.erreurs.exceptions import *
+from APP_PCPART.ram.gestion_ram_wtf_forms import FormWTFAjouterRam
+from APP_PCPART.ram.gestion_ram_wtf_forms import FormWTFDeleteRam
+from APP_PCPART.ram.gestion_ram_wtf_forms import FormWTFUpdateRam
+
+"""
+    Auteur : OM 2021.03.16
+    Définition d'une "route" /ram_afficher
+    
+    Test : ex : http://127.0.0.1:5005/ram_afficher
+    
+    Paramètres : order_by : ASC : Ascendant, DESC : Descendant
+                id_ram_sel = 0 >> tous les ram.
+                id_ram_sel = "n" affiche la ram dont l'id est "n"
+"""
+
+
+@app.route("/ram_afficher/<string:order_by>/<int:id_ram_sel>", methods=['GET', 'POST'])
+def ram_afficher(order_by, id_ram_sel):
+    if request.method == "GET":
+        try:
+            with DBconnection() as mc_afficher:
+                if order_by == "ASC" and id_ram_sel == 0:
+                    strsql_ram_afficher = """SELECT id_ram, ram_brand, ram_name, ram_capacity FROM t_ram ORDER BY id_ram ASC"""
+                    mc_afficher.execute(strsql_ram_afficher)
+                elif order_by == "ASC":
+                    # C'EST LA QUE VOUS ALLEZ DEVOIR PLACER VOTRE PROPRE LOGIQUE MySql
+                    # la commande MySql classique est "SELECT * FROM t_ram"
+                    # Pour "lever"(raise) une erreur s'il y a des erreurs sur les noms d'attributs dans la table
+                    # donc, je précise les champs à afficher
+                    # Constitution d'un dictionnaire pour associer l'id de la ram sélectionné avec un nom de variable
+                    valeur_id_ram_selected_dictionnaire = {"value_id_ram_selected": id_ram_sel}
+                    strsql_ram_afficher = """SELECT id_ram, ram_brand, ram_name, ram_capacity FROM t_ram WHERE id_ram = %(value_id_ram_selected)s"""
+
+                    mc_afficher.execute(strsql_ram_afficher, valeur_id_ram_selected_dictionnaire)
+                else:
+                    strsql_ram_afficher = """SELECT id_ram, ram_brand, ram_name, ram_capacity FROM t_ram ORDER BY id_ram DESC"""
+
+                    mc_afficher.execute(strsql_ram_afficher)
+
+                data_ram = mc_afficher.fetchall()
+
+                print("data_ram ", data_ram, " Type : ", type(data_ram))
+
+                # Différencier les messages si la table est vide.
+                if not data_ram and id_ram_sel == 0:
+                    flash("""La table "t_ram" est vide. !!""", "warning")
+                elif not data_ram and id_ram_sel > 0:
+                    # Si l'utilisateur change l'id_ram dans l'URL et que la ram n'existe pas,
+                    flash(f"La ram demandé n'existe pas !!", "warning")
+                else:
+                    # Dans tous les autres cas, c'est que la table "t_ram" est vide.
+                    # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
+                    flash(f"Data ram shown !!", "success")
+
+        except Exception as Exception_ram_afficher:
+            raise ExceptionRamAfficher(f"fichier : {Path(__file__).name}  ;  "
+                                          f"{ram_afficher.__name__} ; "
+                                          f"{Exception_ram_afficher}")
+
+    # Envoie la page "HTML" au serveur.
+    return render_template("ram/ram_afficher.html", data=data_ram)
+
+
+"""
+    Auteur : OM 2021.03.22
+    Définition d'une "route" /motherboard_ajouter
+    
+    Test : ex : http://127.0.0.1:5005/motherboard_ajouter
+    
+    Paramètres : sans
+    
+    But : Ajouter une brand pour une ram
+    
+    Remarque :  Dans le champ "name_motherboard_html" du formulaire "ram/motherboard_ajouter.html",
+                le contrôle de la saisie s'effectue ici en Python.
+                On transforme la saisie en minuscules.
+                On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
+                des valeurs avec des caractères qui ne sont pas des lettres.
+                Pour comprendre [A-Za-zÀ-ÖØ-öø-ÿ] il faut se reporter à la table ASCII https://www.ascii-code.com/
+                Accepte le trait d'union ou l'apostrophe, et l'espace entre deux mots, mais pas plus d'une occurence.
+"""
+
+
+@app.route("/motherboard_ajouter", methods=['GET', 'POST'])
+def motherboard_ajouter_wtf():
+    form = FormWTFAjouterRam()
+    if request.method == "POST":
+        try:
+            if form.validate_on_submit():
+                name_motherboard = form.nom_motherboard_wtf.data
+                model_motherboard = form.model_motherboard_wtf.data
+                release_year_motherboard = form.release_year_motherboard_wtf.data
+                valeurs_insertion_dictionnaire = {"value_motherboard_brand": name_motherboard,
+                                                  "value_motherboard_model": model_motherboard,
+                                                  "value_motherboard_release": release_year_motherboard
+                                                  }
+                print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
+
+                strsql_insert_motherboard = """INSERT INTO t_ram (id_ram,ram_brand,ram_name,ram_capacity) VALUES (NULL,%(value_motherboard_brand)s,%(value_motherboard_model)s,%(value_motherboard_release)s """
+                with DBconnection() as mconn_bd:
+                    mconn_bd.execute(strsql_insert_motherboard, valeurs_insertion_dictionnaire)
+
+                flash(f"Données insérées !!", "success")
+                print(f"Données insérées !!")
+
+                # Pour afficher et constater l'insertion de la valeur, on affiche en ordre inverse. (DESC)
+                return redirect(url_for('ram_afficher', order_by='DESC', id_ram_sel=0))
+
+        except Exception as Exception_motherboard_ajouter_wtf:
+            raise ExceptionMotherboardAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
+                                            f"{motherboard_ajouter_wtf.__name__} ; "
+                                            f"{Exception_motherboard_ajouter_wtf}")
+
+    return render_template("ram/motherboard_ajouter_wtf.html", form=form)
+
+
+"""
+    Auteur : OM 2021.03.29
+    Définition d'une "route" /motherboard_update
+    
+    Test : ex cliquer sur le menu "ram" puis cliquer sur le bouton "EDIT" d'un "ram"
+    
+    Paramètres : sans
+    
+    But : Editer(update) un ram qui a été sélectionné dans le formulaire "ram_afficher.html"
+    
+    Remarque :  Dans le champ "nom_ram_update_wtf" du formulaire "ram/ram_update_wtf.html",
+                le contrôle de la saisie s'effectue ici en Python.
+                On transforme la saisie en minuscules.
+                On ne doit pas accepter des valeurs vides, des valeurs avec des chiffres,
+                des valeurs avec des caractères qui ne sont pas des lettres.
+                Pour comprendre [A-Za-zÀ-ÖØ-öø-ÿ] il faut se reporter à la table ASCII https://www.ascii-code.com/
+                Accepte le trait d'union ou l'apostrophe, et l'espace entre deux mots, mais pas plus d'une occurence.
+"""
+
+
+@app.route("/motherboard_update", methods=['GET', 'POST'])
+def ram_update_wtf():
+    # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_ram"
+    id_ram_update = request.values['id_motherboard_btn_edit_html']
+
+    # Objet formulaire pour l'UPDATE
+    form_update = FormWTFUpdateRam()
+    try:
+        print(" on submit ", form_update.validate_on_submit())
+        if form_update.validate_on_submit():
+            # Récupèrer la valeur du champ depuis "ram_update_wtf.html" après avoir cliqué sur "SUBMIT".
+            # Puis la convertir en lettres minuscules.
+            motherboard_brand_update = form_update.nom_ram_update_wtf.data
+            model_motherboard_update = form_update.name_ram_update_wtf.data
+            release_year_motherboard_update = form_update.capacity_ram_update_wtf.data
+
+            valeur_update_dictionnaire = {"value_id_ram": id_ram_update,
+                                          "value_motherboard_brand": motherboard_brand_update,
+                                          "value_motherboard_model": model_motherboard_update,
+                                          "value_motherboard_release_year": release_year_motherboard_update
+                                          }
+            print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
+
+            str_sql_update_motherboard_brand = """UPDATE t_ram SET ram_brand = %(value_motherboard_brand)s, 
+            ram_name = %(value_motherboard_model)s, ram_capacity = %(value_motherboard_release_year)s WHERE id_ram = %(value_id_ram)s """
+            with DBconnection() as mconn_bd:
+                mconn_bd.execute(str_sql_update_motherboard_brand, valeur_update_dictionnaire)
+
+            flash(f"Data updated !!", "success")
+            print(f"Data updated !!")
+
+            # afficher et constater que la donnée est mise à jour.
+            # Affiche seulement la valeur modifiée, "ASC" et l'"id_ram_update"
+            return redirect(url_for('ram_afficher', order_by="ASC", id_ram_sel=id_ram_update))
+        elif request.method == "GET":
+            # Opération sur la BD pour récupérer "id_ram" et "ram_brand" de la "t_ram"
+            str_sql_id_ram = "SELECT id_ram, ram_brand, ram_name, ram_capacity FROM t_ram " \
+                               "WHERE id_ram = %(value_id_ram)s"
+
+            valeur_select_dictionnaire = {"value_id_ram": id_ram_update}
+            with DBconnection() as mybd_conn:
+                mybd_conn.execute(str_sql_id_ram, valeur_select_dictionnaire)
+            # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom ram" pour l'UPDATE
+            data_nom_ram = mybd_conn.fetchone()
+            print("data_nom_ram ", data_nom_ram, " type ", type(data_nom_ram), " ram_brand ",
+                  data_nom_ram["ram_brand"])
+
+            # Afficher la valeur sélectionnée dans les champs du formulaire "ram_update_wtf.html"
+            form_update.nom_ram_update_wtf.data = data_nom_ram["ram_brand"]
+            form_update.name_ram_update_wtf.data = data_nom_ram["ram_name"]
+            form_update.capacity_ram_update_wtf.data = data_nom_ram["ram_capacity"]
+
+    except Exception as Exception_ram_update_wtf:
+        raise ExceptionRamUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
+                                      f"{ram_update_wtf.__name__} ; "
+                                      f"{Exception_ram_update_wtf}")
+
+    return render_template("ram/ram_update_wtf.html", form_update=form_update)
+
+
+"""
+    Auteur : OM 2021.04.08
+    Définition d'une "route" /ram_delete
+    
+    Test : ex. cliquer sur le menu "ram" puis cliquer sur le bouton "DELETE" d'un "ram"
+    
+    Paramètres : sans
+    
+    But : Effacer(delete) une ram qui a été sélectionnée dans le formulaire "ram_afficher.html"
+    
+    Remarque :  Dans le champ "nom_ram_delete_wtf" du formulaire "ram/ram_delete_wtf.html",
+                le contrôle de la saisie est désactivée. On doit simplement cliquer sur "DELETE"
+"""
+
+
+@app.route("/ram_delete", methods=['GET', 'POST'])
+def ram_delete_wtf():
+    data_ramgen_attribue_ram_delete = None
+    btn_submit_del = None
+    # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_ram"
+    id_ram_delete = request.values['id_ram_btn_delete_html']
+
+    # Objet formulaire pour effacer la ram sélectionné.
+    form_delete = FormWTFDeleteRam()
+    try:
+        print(" on submit ", form_delete.validate_on_submit())
+        if request.method == "POST" and form_delete.validate_on_submit():
+
+            if form_delete.submit_btn_annuler.data:
+                return redirect(url_for("ram_afficher", order_by="ASC", id_ram_sel=0))
+
+            if form_delete.submit_btn_conf_del.data:
+                # Récupère les données afin d'afficher à nouveau
+                # le formulaire "ram/ram_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                data_ramgen_attribue_ram_delete = session['data_ramgen_attribue_ram_delete']
+                print("data_ramgen_attribue_ram_delete ", data_ramgen_attribue_ram_delete)
+
+                flash(f"Effacer la ram de façon définitive de la BD !!!", "danger")
+                # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
+                # On affiche le bouton "Effacer ram" qui va irrémédiablement EFFACER le ram
+                btn_submit_del = True
+
+            if form_delete.submit_btn_del.data:
+                valeur_delete_dictionnaire = {"value_id_ram": id_ram_delete}
+                print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
+
+                str_sql_delete_ramgen_ram = """DELETE FROM t_ram_is_ramgen WHERE fk_ram = %(value_id_ram)s"""
+                str_sql_delete_idram = """DELETE FROM t_ram WHERE id_ram = %(value_id_ram)s"""
+                # Manière brutale d'effacer d'abord la "fk_ram", même si elle n'existe pas dans la "t_ram_is_ramgen"
+                # Ensuite on peut effacer la ram vu qu'il n'est plus "lié" (INNODB) dans la "t_ram_is_ramgen"
+                with DBconnection() as mconn_bd:
+                    mconn_bd.execute(str_sql_delete_ramgen_ram, valeur_delete_dictionnaire)
+                    mconn_bd.execute(str_sql_delete_idram, valeur_delete_dictionnaire)
+
+                flash(f"Ram définitivement effacé !!", "success")
+                print(f"Ram définitivement effacé !!")
+
+                # afficher les données
+                return redirect(url_for('ram_afficher', order_by="ASC", id_ram_sel=0))
+
+        if request.method == "GET":
+            valeur_select_dictionnaire = {"value_id_ram": id_ram_delete}
+            print(id_ram_delete, type(id_ram_delete))
+
+            # Requête qui affiche tous les cpu_motherboard qui ont la ram que l'utilisateur veut effacer
+            str_sql_ram_ramgen_delete = """SELECT id_ramgen, ram_generation, id_ram, ram_brand, ram_name, ram_capacity FROM t_ram_is_ramgen 
+                                            INNER JOIN t_ramgen ON t_ram_is_ramgen.fk_cpu = t_ramgen.id_ramgen
+                                            INNER JOIN t_ram ON t_ram_is_ramgen.fk_ram = t_ram.id_ram
+                                            WHERE fk_ram = %(value_id_ram)s"""
+
+            with DBconnection() as mydb_conn:
+                mydb_conn.execute(str_sql_ram_ramgen_delete, valeur_select_dictionnaire)
+                data_ramgen_attribue_ram_delete = mydb_conn.fetchall()
+                print("data_ramgen_attribue_ram_delete...", data_ramgen_attribue_ram_delete)
+
+                # Nécessaire pour mémoriser les données afin d'afficher à nouveau
+                # le formulaire "ram/ram_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
+                session['data_ramgen_attribue_ram_delete'] = data_ramgen_attribue_ram_delete
+
+                # Opération sur la BD pour récupérer "id_ram" et "ram_brand" de la "t_ram"
+                str_sql_id_ram = "SELECT id_ram, ram_brand, ram_name, ram_capacity FROM t_ram WHERE id_ram = %(value_id_ram)s"
+
+                mydb_conn.execute(str_sql_id_ram, valeur_select_dictionnaire)
+                data_nom_ram = mydb_conn.fetchone()
+                print("data_nom_ram ", data_nom_ram, " type ", type(data_nom_ram), " ram ",
+                      data_nom_ram["ram_brand"])
+
+                mydb_conn.execute(str_sql_id_ram, valeur_select_dictionnaire)
+                data_nom_ram = mydb_conn.fetchone()
+                print("data_nom_ram ", data_nom_ram, " type ", type(data_nom_ram), " ram ",
+                      data_nom_ram["ram_name"])
+
+            # Afficher la valeur sélectionnée dans le champ du formulaire "ram_delete_wtf.html"
+            form_delete.nom_ram_delete_wtf.data = data_nom_ram["ram_brand"]
+            form_delete.model_motherboard_delete_wtf.data = data_nom_ram["ram_name"]
+
+            # Le bouton pour l'action "DELETE" dans le form. "ram_delete_wtf.html" est caché.
+            btn_submit_del = False
+
+    except Exception as Exception_ram_delete_wtf:
+        raise ExceptionRamDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
+                                      f"{ram_delete_wtf.__name__} ; "
+                                      f"{Exception_ram_delete_wtf}")
+
+    return render_template("ram/ram_delete_wtf.html",
+                           form_delete=form_delete,
+                           btn_submit_del=btn_submit_del,
+                           data_cpu_associes=data_ramgen_attribue_ram_delete)
