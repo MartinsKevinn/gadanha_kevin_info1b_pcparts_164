@@ -9,31 +9,31 @@
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form.hidden_tag() }}
+				{{ form_add_motherboard.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form.nom_motherboard_wtf.label }}<br>
-						{{ form.nom_motherboard_wtf(size=32) }}<br>
-						{% for error in form.nom_motherboard_wtf.errors %}
+						{{ form_add_motherboard.nom_motherboard_wtf.label }}<br>
+						{{ form_add_motherboard.nom_motherboard_wtf(size=32) }}<br>
+						{% for error in form_add_motherboard.nom_motherboard_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form.model_motherboard_wtf.label }}<br>
-						{{ form.model_motherboard_wtf(size=32) }}<br>
-						{% for error in form.model_motherboard_wtf.errors %}
+						{{ form_add_motherboard.model_motherboard_wtf.label }}<br>
+						{{ form_add_motherboard.model_motherboard_wtf(size=32) }}<br>
+						{% for error in form_add_motherboard.model_motherboard_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form.release_year_motherboard_wtf.label }}<br>
-						{{ form.release_year_motherboard_wtf(size=32) }}<br>
-						{% for error in form.release_year_motherboard_wtf.errors %}
+						{{ form_add_motherboard.release_year_motherboard_wtf.label }}<br>
+						{{ form_add_motherboard.release_year_motherboard_wtf(size=32) }}<br>
+						{% for error in form_add_motherboard.release_year_motherboard_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 				</div>
-				{{ form.submit(class="btn btn-primary") }}
+				{{ form_add_motherboard.submit(class="btn btn-primary") }}
 			</form>
 		</div>
 	</div>

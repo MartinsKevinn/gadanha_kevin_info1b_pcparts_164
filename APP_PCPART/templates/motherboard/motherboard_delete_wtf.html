@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Delete une MOTHERBOARD (WTF) {% endblock %}
+{% block title %} Delete a MOTHERBOARD (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
@@ -37,10 +37,10 @@
 										{{ row.id_cpu }}
 									</td>
 									<td>
-										{{ row.CPU_Name }}
+										{{ row.CPU_Name|default("None",True) }}
 									</td>
 									<td>
-										{{ row.CPU_Codename }}
+										{{ row.CPU_Codename|default("None",True) }}
 									</td>
 								</tr>
 							</tbody>

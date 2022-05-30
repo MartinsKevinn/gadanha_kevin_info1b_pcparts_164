@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %} Effacer un CPU (WTF) {% endblock %}
+{% block title %} Delete a CPU (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Effacer un CPU
+				Delete a CPU
 			</p>
 			<table class="table table-responsive-sm">
 				{% if data_cpu_del %}
@@ -15,19 +15,22 @@
 						CPU ID
 					</th>
 					<th class="">
-						Name
+						CPU Name
 					</th>
 					<th class="">
-						Codename
+						CPU Codename
 					</th>
 					<th class="">
-						Socket
+						CPU Cores
 					</th>
 					<th class="">
-						Cores
+						CPU Clock
 					</th>
 					<th class="">
-						Clock
+						CPU Socket
+					</th>
+					<th class="">
+						CPU Released
 					</th>
 				</tr>
 				</thead>
@@ -42,20 +45,20 @@
 						{{ row.CPU_Name }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Codename|default("", True) }}
+						{{ row.CPU_Codename|default("None", True) }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Socket|default("", True) }}
+						{{ row.CPU_Cores|default("None", True) }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Cores|default("", True) }}
+						{{ row.CPU_Clock|default("None", True) }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Clock|default("", True) }}
+						{{ row.CPU_Socket|default("None", True) }}
 					</th>
-
-				<tr>
-
+					<th class="align-middle">
+						{{ row.CPU_Released|default("None", True) }}
+					</th>
 				</tr>
 				</tr>
 				</tbody>

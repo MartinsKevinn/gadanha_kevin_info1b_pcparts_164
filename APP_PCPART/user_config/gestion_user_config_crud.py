@@ -99,7 +99,7 @@ def edit_config_user_selected():
             print("dans edit_config_user_selected ---> data_config_all", data_config_all)
 
             # Récupère la valeur de "id_user" du formulaire html "user_config_afficher.html"
-            # l'utilisateur clique sur le bouton "Modifier" et on récupère la valeur de "id_user"
+            # l'utilisateur clique sur le bouton "Edit" et on récupère la valeur de "id_user"
             # grâce à la variable "id_user_config_edit_html" dans le fichier "user_config_afficher.html"
             # href="{{ url_for('edit_config_user_selected', id_user_config_edit_html=row.id_user) }}"
             id_user_config_edit = request.values['id_user_config_edit_html']

@@ -14,26 +14,26 @@
             {% if data %}
 				<thead>
 					<tr>
-						<th class="" >
-						  Id
-						</th>
-						<th class="" >
-						  Name
-						</th>
-						<th class="" >
-						  Codename
-						</th>
-						<th class="" >
-						  Socket
-						</th>
-						<th class="" >
-						  Cores
-						</th>
-						<th class="" >
-						  Clock
+						<th class="align-middle">
+						  CPU ID
 						</th>
 						<th class="align-middle">
-						  Release date
+						  CPU Name
+						</th>
+						<th class="align-middle">
+						  CPU Codename
+						</th>
+						<th class="align-middle">
+						  CPU Socket
+						</th>
+						<th class="align-middle">
+						  CPU Cores
+						</th>
+						<th class="align-middle">
+						  CPU Clock
+						</th>
+						<th class="align-middle">
+						  CPU Release date
                         </th>
 						<th class="align-middle">
 
@@ -51,22 +51,22 @@
 						  {{ row.id_cpu }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Name|default("", True) }}
+						{{ row.CPU_Name|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Codename|default("", True) }}
+						{{ row.CPU_Codename|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Socket|default("", True) }}
+						{{ row.CPU_Socket|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Cores|default("", True) }}
+						{{ row.CPU_Cores|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Clock|default("", True) }}
+						{{ row.CPU_Clock|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Released|default("", True) }}
+						{{ row.CPU_Released|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
 						<a class="btn btn-warning" href="{{ url_for('cpu_update_wtf', id_cpu_btn_edit_html=row.id_cpu) }}" role="button">Edit</a>

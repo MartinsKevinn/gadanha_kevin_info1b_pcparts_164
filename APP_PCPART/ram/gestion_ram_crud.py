@@ -52,14 +52,14 @@ def ram_afficher(order_by, id_ram_sel):
 
                 print("data_ram ", data_ram, " Type : ", type(data_ram))
 
-                # Différencier les messages si la table est vide.
+                # Différencier les messages si la table is empty
                 if not data_ram and id_ram_sel == 0:
-                    flash("""La table "t_ram" est vide. !!""", "warning")
+                    flash("""Table "t_ram" is empty !!""", "warning")
                 elif not data_ram and id_ram_sel > 0:
                     # Si l'utilisateur change l'id_ram dans l'URL et que la ram n'existe pas,
                     flash(f"La ram demandé n'existe pas !!", "warning")
                 else:
-                    # Dans tous les autres cas, c'est que la table "t_ram" est vide.
+                    # Dans tous les autres cas, c'est que la table "t_ram" is empty
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
                     flash(f"Data ram shown !!", "success")
 
@@ -107,7 +107,7 @@ def ram_ajouter_wtf():
                                                   }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_ram = """INSERT INTO t_ram (id_ram,ram_brand,ram_name,ram_capacity) VALUES (NULL,%(value_ram_brand)s,%(value_ram_name)s,%(value_ram_capacity)s """
+                strsql_insert_ram = """INSERT INTO t_ram (id_ram,ram_brand,ram_name,ram_capacity) VALUES (NULL,%(value_ram_brand)s,%(value_ram_name)s,%(value_ram_capacity)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_ram, valeurs_insertion_dictionnaire)
 
@@ -242,7 +242,7 @@ def ram_delete_wtf():
                 data_ramgen_attribue_ram_delete = session['data_ramgen_attribue_ram_delete']
                 print("data_ramgen_attribue_ram_delete ", data_ramgen_attribue_ram_delete)
 
-                flash(f"Effacer la ram de façon définitive de la BD !!!", "danger")
+                flash(f"Permanently delete the ram kit!!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
                 # On affiche le bouton "Effacer ram" qui va irrémédiablement EFFACER le ram
                 btn_submit_del = True

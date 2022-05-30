@@ -12,9 +12,7 @@ from flask import url_for
 from APP_PCPART import app
 from APP_PCPART.database.database_tools import DBconnection
 from APP_PCPART.erreurs.exceptions import *
-from APP_PCPART.motherboard.gestion_motherboard_wtf_forms import FormWTFAjouterMotherboard
-from APP_PCPART.motherboard.gestion_motherboard_wtf_forms import FormWTFDeleteMotherboard
-from APP_PCPART.motherboard.gestion_motherboard_wtf_forms import FormWTFUpdateMotherboard
+from APP_PCPART.motherboard.gestion_motherboard_wtf_forms import *
 
 """
     Auteur : OM 2021.03.16
@@ -55,21 +53,21 @@ def motherboard_afficher(order_by, id_motherboard_sel):
 
                 print("data_motherboard ", data_motherboard, " Type : ", type(data_motherboard))
 
-                # Différencier les messages si la table est vide.
+                # Différencier les messages si la table is empty
                 if not data_motherboard and id_motherboard_sel == 0:
-                    flash("""La table "t_motherboard" est vide. !!""", "warning")
+                    flash("""Table "t_motherboard" is empty !!""", "warning")
                 elif not data_motherboard and id_motherboard_sel > 0:
                     # Si l'utilisateur change l'id_motherboard dans l'URL et que la motherboard n'existe pas,
-                    flash(f"La motherboard demandé n'existe pas !!", "warning")
+                    flash(f"The requested motherboard does not exist !!", "warning")
                 else:
-                    # Dans tous les autres cas, c'est que la table "t_motherboard" est vide.
+                    # Dans tous les autres cas, c'est que la table "t_motherboard" is empty
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
                     flash(f"Data motherboard shown !!", "success")
 
         except Exception as Exception_motherboard_afficher:
             raise ExceptionMotherboardAfficher(f"fichier : {Path(__file__).name}  ;  "
-                                          f"{motherboard_afficher.__name__} ; "
-                                          f"{Exception_motherboard_afficher}")
+                                               f"{motherboard_afficher.__name__} ; "
+                                               f"{Exception_motherboard_afficher}")
 
     # Envoie la page "HTML" au serveur.
     return render_template("motherboard/motherboard_afficher.html", data=data_motherboard)
@@ -97,20 +95,20 @@ def motherboard_afficher(order_by, id_motherboard_sel):
 
 @app.route("/motherboard_ajouter", methods=['GET', 'POST'])
 def motherboard_ajouter_wtf():
-    form = FormWTFAjouterMotherboard()
+    form_add_motherboard = FormWTFAjouterMotherboard()
     if request.method == "POST":
         try:
-            if form.validate_on_submit():
-                name_motherboard = form.nom_motherboard_wtf.data
-                model_motherboard = form.model_motherboard_wtf.data
-                release_year_motherboard = form.release_year_motherboard_wtf.data
+            if form_add_motherboard.validate_on_submit():
+                name_motherboard = form_add_motherboard.nom_motherboard_wtf.data
+                model_motherboard = form_add_motherboard.model_motherboard_wtf.data
+                release_year_motherboard = form_add_motherboard.release_year_motherboard_wtf.data
                 valeurs_insertion_dictionnaire = {"value_motherboard_brand": name_motherboard,
                                                   "value_motherboard_model": model_motherboard,
                                                   "value_motherboard_release": release_year_motherboard
                                                   }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_motherboard = """INSERT INTO t_motherboard (id_motherboard,motherboard_brand,motherboard_model,motherboard_release_year) VALUES (NULL,%(value_motherboard_brand)s,%(value_motherboard_model)s,%(value_motherboard_release)s """
+                strsql_insert_motherboard = """INSERT INTO t_motherboard (id_motherboard,motherboard_brand,motherboard_model,motherboard_release_year) VALUES (NULL,%(value_motherboard_brand)s,%(value_motherboard_model)s,%(value_motherboard_release)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_motherboard, valeurs_insertion_dictionnaire)
 
@@ -122,10 +120,10 @@ def motherboard_ajouter_wtf():
 
         except Exception as Exception_motherboard_ajouter_wtf:
             raise ExceptionMotherboardAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
-                                            f"{motherboard_ajouter_wtf.__name__} ; "
-                                            f"{Exception_motherboard_ajouter_wtf}")
+                                                 f"{motherboard_ajouter_wtf.__name__} ; "
+                                                 f"{Exception_motherboard_ajouter_wtf}")
 
-    return render_template("motherboard/motherboard_ajouter_wtf.html", form=form)
+    return render_template("motherboard/motherboard_ajouter_wtf.html", form_add_motherboard=form_add_motherboard)
 
 
 """
@@ -185,14 +183,15 @@ def motherboard_update_wtf():
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_motherboard" et "motherboard_brand" de la "t_motherboard"
             str_sql_id_motherboard = "SELECT id_motherboard, motherboard_brand, motherboard_model, motherboard_release_year FROM t_motherboard " \
-                               "WHERE id_motherboard = %(value_id_motherboard)s"
+                                     "WHERE id_motherboard = %(value_id_motherboard)s"
 
             valeur_select_dictionnaire = {"value_id_motherboard": id_motherboard_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_motherboard, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom motherboard" pour l'UPDATE
             data_nom_motherboard = mybd_conn.fetchone()
-            print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard), " motherboard_brand ",
+            print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard),
+                  " motherboard_brand ",
                   data_nom_motherboard["motherboard_brand"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "motherboard_update_wtf.html"
@@ -202,8 +201,8 @@ def motherboard_update_wtf():
 
     except Exception as Exception_motherboard_update_wtf:
         raise ExceptionMotherboardUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
-                                      f"{motherboard_update_wtf.__name__} ; "
-                                      f"{Exception_motherboard_update_wtf}")
+                                            f"{motherboard_update_wtf.__name__} ; "
+                                            f"{Exception_motherboard_update_wtf}")
 
     return render_template("motherboard/motherboard_update_wtf.html", form_update=form_update)
 
@@ -245,7 +244,7 @@ def motherboard_delete_wtf():
                 data_cpu_attribue_motherboard_delete = session['data_cpu_attribue_motherboard_delete']
                 print("data_cpu_attribue_motherboard_delete ", data_cpu_attribue_motherboard_delete)
 
-                flash(f"Effacer la motherboard de façon définitive de la BD !!!", "danger")
+                flash(f"Permanently delete the motherboard!!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
                 # On affiche le bouton "Effacer motherboard" qui va irrémédiablement EFFACER le motherboard
                 btn_submit_del = True
@@ -292,12 +291,14 @@ def motherboard_delete_wtf():
 
                 mydb_conn.execute(str_sql_id_motherboard, valeur_select_dictionnaire)
                 data_nom_motherboard = mydb_conn.fetchone()
-                print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard), " motherboard ",
+                print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard),
+                      " motherboard ",
                       data_nom_motherboard["motherboard_brand"])
 
                 mydb_conn.execute(str_sql_id_motherboard, valeur_select_dictionnaire)
                 data_nom_motherboard = mydb_conn.fetchone()
-                print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard), " motherboard ",
+                print("data_nom_motherboard ", data_nom_motherboard, " type ", type(data_nom_motherboard),
+                      " motherboard ",
                       data_nom_motherboard["motherboard_model"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "motherboard_delete_wtf.html"
@@ -309,8 +310,8 @@ def motherboard_delete_wtf():
 
     except Exception as Exception_motherboard_delete_wtf:
         raise ExceptionMotherboardDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
-                                      f"{motherboard_delete_wtf.__name__} ; "
-                                      f"{Exception_motherboard_delete_wtf}")
+                                            f"{motherboard_delete_wtf.__name__} ; "
+                                            f"{Exception_motherboard_delete_wtf}")
 
     return render_template("motherboard/motherboard_delete_wtf.html",
                            form_delete=form_delete,

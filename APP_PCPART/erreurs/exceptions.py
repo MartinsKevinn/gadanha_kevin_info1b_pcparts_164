@@ -231,10 +231,6 @@ class ExceptionRamAfficher(Base):
     pass
 
 
-class ExceptionRamAfficherWtf(Base):
-    pass
-
-
 class ExceptionRamAjouterWtf(Base):
     pass
 

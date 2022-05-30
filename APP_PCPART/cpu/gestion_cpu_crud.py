@@ -35,12 +35,23 @@ def cpu_add_wtf():
     if request.method == "POST":
         try:
             if form_add_cpu.validate_on_submit():
-                nom_cpu_add = form_add_cpu.nom_cpu_add_wtf.data
+                nom_cpu_add = form_add_cpu.name_cpu_add_wtf.data
+                codename_cpu_add = form_add_cpu.codename_cpu_add_wtf.data
+                cores_cpu_add = form_add_cpu.cores_cpu_add_wtf.data
+                clock_cpu_add = form_add_cpu.clock_cpu_add_wtf.data
+                socket_cpu_add = form_add_cpu.socket_cpu_add_wtf.data
+                released_cpu_add = form_add_cpu.released_cpu_add_wtf.data
 
-                valeurs_insertion_dictionnaire = {"value_cpu_name": nom_cpu_add}
+                valeurs_insertion_dictionnaire = {"value_cpu_name": nom_cpu_add,
+                                                  "value_cpu_codename": codename_cpu_add,
+                                                  "value_cpu_cores": cores_cpu_add,
+                                                  "value_cpu_clock": clock_cpu_add,
+                                                  "value_cpu_socket": socket_cpu_add,
+                                                  "value_cpu_released": released_cpu_add}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_cpu = """INSERT INTO t_cpu (id_cpu,CPU_Name) VALUES (NULL,%(value_cpu_name)s) """
+                strsql_insert_cpu = """INSERT INTO t_cpu (id_cpu,CPU_Name,CPU_Codename,CPU_Cores,CPU_Clock,CPU_Socket,CPU_Released) 
+                VALUES (NULL,%(value_cpu_name)s,%(value_cpu_codename)s,%(value_cpu_cores)s,%(value_cpu_clock)s,%(value_cpu_socket)s,%(value_cpu_released)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_cpu, valeurs_insertion_dictionnaire)
 
@@ -52,8 +63,8 @@ def cpu_add_wtf():
 
         except Exception as Exception_cpumanufacturer_ajouter_wtf:
             raise ExceptionCpumanufacturerAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
-                                            f"{cpu_add_wtf.__name__} ; "
-                                            f"{Exception_cpumanufacturer_ajouter_wtf}")
+                                                     f"{cpu_add_wtf.__name__} ; "
+                                                     f"{Exception_cpumanufacturer_ajouter_wtf}")
 
     return render_template("cpu/cpu_add_wtf.html", form_add_cpu=form_add_cpu)
 
@@ -91,6 +102,7 @@ def cpu_update_wtf():
             cpu_clock_update = form_update_cpu.cpu_clock_update_wtf.data
             cpu_socket_update = form_update_cpu.cpu_socket_update_wtf.data
             cpu_released_update = form_update_cpu.cpu_released_update_wtf.data
+
             valeur_update_dictionnaire = {"value_id_cpu": id_cpu_update,
                                           "value_cpu_name": nom_cpu_update,
                                           "value_cpu_codename": cpu_codename_update,
@@ -102,11 +114,12 @@ def cpu_update_wtf():
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
             str_sql_update_nom_cpu = """UPDATE t_cpu SET CPU_Name = %(value_cpu_name)s,
-                                                            CPU_Codename = %(value_cpu_codename)s,
-                                                            CPU_Cores = %(value_cpu_cores)s,
-                                                            CPU_Clock = %(value_cpu_clock)s,
-                                                            CPU_Socket = %(value_cpu_socket)s,
-                                                            WHERE id_cpu = %(value_id_cpu)s"""
+                                                         CPU_Codename = %(value_cpu_codename)s,
+                                                         CPU_Cores = %(value_cpu_cores)s,
+                                                         CPU_Clock = %(value_cpu_clock)s,
+                                                         CPU_Socket = %(value_cpu_socket)s,
+                                                         CPU_Released = %(value_cpu_released)s
+                                                         WHERE id_cpu = %(value_id_cpu)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_nom_cpu, valeur_update_dictionnaire)
 
@@ -118,7 +131,9 @@ def cpu_update_wtf():
             return redirect(url_for('cpu_cpumanufacturer_afficher', id_cpu_sel=id_cpu_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_cpu" et "CPU_Manufacturer" de la "t_cpumanufacturer"
-            str_sql_id_cpu = "SELECT id_cpu, CPU_Name, CPU_Codename, CPU_Cores, CPU_Clock, CPU_Socket FROM t_cpu WHERE id_cpu = %(value_id_cpu)s"
+
+            str_sql_id_cpu = "SELECT id_cpu, CPU_Name, CPU_Codename, CPU_Cores, CPU_Clock, CPU_Socket, CPU_Released FROM t_cpu WHERE id_cpu = %(value_id_cpu)s"
+
             valeur_select_dictionnaire = {"value_id_cpu": id_cpu_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_cpu, valeur_select_dictionnaire)
@@ -131,16 +146,16 @@ def cpu_update_wtf():
             form_update_cpu.nom_cpu_update_wtf.data = data_cpu["CPU_Name"]
             form_update_cpu.cpu_codename_update_wtf.data = data_cpu["CPU_Codename"]
             # Debug simple pour contrôler la valeur dans la console "run" de PyCharm
-            print(f" duree cpu  ", data_cpu["CPU_Codename"], "  type ", type(data_cpu["CPU_Codename"]))
+            print(f" cpu codename ", data_cpu["CPU_Codename"], "  type ", type(data_cpu["CPU_Codename"]))
             form_update_cpu.cpu_cores_update_wtf.data = data_cpu["CPU_Cores"]
             form_update_cpu.cpu_clock_update_wtf.data = data_cpu["CPU_Clock"]
             form_update_cpu.cpu_socket_update_wtf.data = data_cpu["CPU_Socket"]
-            form_update_cpu.cpu_released_wtf.data = data_cpu["CPU_Released"]
+            form_update_cpu.cpu_released_update_wtf.data = data_cpu["CPU_Released"]
 
     except Exception as Exception_cpu_update_wtf:
         raise ExceptionCpuUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
-                                     f"{cpu_update_wtf.__name__} ; "
-                                     f"{Exception_cpu_update_wtf}")
+                                    f"{cpu_update_wtf.__name__} ; "
+                                    f"{Exception_cpu_update_wtf}")
 
     return render_template("cpu/cpu_update_wtf.html", form_update_cpu=form_update_cpu)
 
@@ -223,8 +238,8 @@ def cpu_delete_wtf():
 
     except Exception as Exception_cpu_delete_wtf:
         raise ExceptionCpuDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
-                                     f"{cpu_delete_wtf.__name__} ; "
-                                     f"{Exception_cpu_delete_wtf}")
+                                    f"{cpu_delete_wtf.__name__} ; "
+                                    f"{Exception_cpu_delete_wtf}")
 
     return render_template("cpu/cpu_delete_wtf.html",
                            form_delete_cpu=form_delete_cpu,

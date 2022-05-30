@@ -55,14 +55,14 @@ def cpumanufacturer_afficher(order_by, id_cpu_manufacturer_sel):
 
                 print("data_cpumanufacturer ", data_cpumanufacturer, " Type : ", type(data_cpumanufacturer))
 
-                # Différencier les messages si la table est vide.
+                # Différencier les messages si la table is empty
                 if not data_cpumanufacturer and id_cpu_manufacturer_sel == 0:
-                    flash("""La table "t_cpumanufacturer" est vide. !!""", "warning")
+                    flash("""Table "t_cpumanufacturer" is empty !!""", "warning")
                 elif not data_cpumanufacturer and id_cpu_manufacturer_sel > 0:
                     # Si l'utilisateur change l'id_cpu_manufacturer dans l'URL et que le manufacturer n'existe pas,
                     flash(f"Le manufacturer demandé n'existe pas !!", "warning")
                 else:
-                    # Dans tous les autres cas, c'est que la table "t_cpumanufacturer" est vide.
+                    # Dans tous les autres cas, c'est que la table "t_cpumanufacturer" is empty
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
                     flash(f"Data CPU Manufacturers shown !!", "success")
 

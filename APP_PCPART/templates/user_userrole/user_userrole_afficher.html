@@ -6,9 +6,7 @@
 		<h1 class="text-center" style="text-decoration:underline">
 			Users & Userroles
 		</h1>
-		<th class="align-middle">
-			<a class="btn btn-primary" href="{{ url_for('user_add_wtf') }}" role="button">Add</a>
-		</th>
+		<a class="btn btn-primary" href="{{ url_for('user_add_wtf') }}" role="button">Add</a>
 		<pre></pre>
 		<table class="table table-responsive-sm">
             {% if data %}
@@ -18,16 +16,16 @@
 						  User ID
 						</th>
 						<th class="" >
-						  Firstname
+						  User Firstname
 						</th>
 						<th class="" >
-						  Lastname
+						  User Lastname
 						</th>
 						<th class="" >
-						  Birthdate
+						  User Birthdate
 						</th>
 						<th class="" >
-						  Photo
+						  User Photo
 						</th>
 					</tr>
 				</thead>
@@ -58,7 +56,6 @@
 					  </th>
 					<tr>
 						<td class="align-middle">
-							<p>Roles :<p/>
 							<a class="btn btn-warning" href="{{ url_for('edit_userrole_user_selected', id_user_userrole_edit_html=row.id_user ) }}" role="button">Edit</a>
 						</td>
 						<td class="align-middle" colspan="5">

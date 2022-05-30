@@ -4,10 +4,8 @@ Auteur : OM 2022.04.11
 
 """
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, DateField
-from wtforms import SubmitField
-from wtforms.validators import Length, InputRequired, NumberRange, DataRequired
-from wtforms.validators import Regexp
+from wtforms import *
+from wtforms.validators import *
 from wtforms.widgets import TextArea
 
 
@@ -16,12 +14,12 @@ class FormWTFAddCpu(FlaskForm):
         Dans le formulaire "cpumanufacturer_ajouter_wtf.html" on impose que le champ soit rempli.
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
-    nom_cpu_add_wtf = StringField("Nom du cpu ", widget=TextArea())
-    cpu_codename_wtf = StringField("Codename", widget=TextArea())
-    cpu_cores_wtf = StringField("Cores", widget=TextArea())
-    cpu_clock_wtf = StringField("Clock", widget=TextArea())
-    cpu_socket_wtf = StringField("Socket", widget=TextArea())
-    cpu_released_wtf = StringField("Release date", widget=TextArea())
+    name_cpu_add_wtf = StringField("CPU Name ", widget=TextArea())
+    codename_cpu_add_wtf = StringField("CPU Codename", widget=TextArea())
+    cores_cpu_add_wtf = StringField("CPU Cores", widget=TextArea())
+    clock_cpu_add_wtf = StringField("CPU Clock", widget=TextArea())
+    socket_cpu_add_wtf = StringField("CPU Socket", widget=TextArea())
+    released_cpu_add_wtf = DateField("CPU Release date")
     submit = SubmitField("Save cpu")
 
 
@@ -31,12 +29,12 @@ class FormWTFUpdateCpu(FlaskForm):
         Définition d'un "bouton" submit avec un libellé personnalisé.
     """
 
-    nom_cpu_update_wtf = StringField("Name", widget=TextArea())
-    cpu_codename_update_wtf = StringField("Codename", widget=TextArea())
-    cpu_cores_update_wtf = StringField("Cores", widget=TextArea())
-    cpu_clock_update_wtf = StringField("Clock", widget=TextArea())
-    cpu_socket_update_wtf = StringField("Socket", widget=TextArea())
-    cpu_released_update_wtf = StringField("Release date", widget=TextArea())
+    nom_cpu_update_wtf = StringField("CPU Name", widget=TextArea())
+    cpu_codename_update_wtf = StringField("CPU Codename", widget=TextArea())
+    cpu_cores_update_wtf = StringField("CPU Cores", widget=TextArea())
+    cpu_clock_update_wtf = StringField("CPU Clock", widget=TextArea())
+    cpu_socket_update_wtf = StringField("CPU Socket", widget=TextArea())
+    cpu_released_update_wtf = DateField("CPU Release date")
 
     submit = SubmitField("Update cpu")
 

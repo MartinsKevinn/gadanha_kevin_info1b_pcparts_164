@@ -12,13 +12,47 @@
 				{{ form_add_cpu.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form_add_cpu.nom_cpu_add_wtf.label }}<br>
-						{{ form_add_cpu.nom_cpu_add_wtf(size=32) }}<br>
-						{% for error in form_add_cpu.nom_cpu_add_wtf.errors %}
+						{{ form_add_cpu.name_cpu_add_wtf.label }}<br>
+						{{ form_add_cpu.name_cpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_cpu.name_cpu_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
-					Voilà c'est juste pour vous montrer l'ossature du projet je n'ai pas tout fait...
+					<p>
+						{{ form_add_cpu.codename_cpu_add_wtf.label }}<br>
+						{{ form_add_cpu.codename_cpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_cpu.codename_cpu_add_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_add_cpu.cores_cpu_add_wtf.label }}<br>
+						{{ form_add_cpu.cores_cpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_cpu.cores_cpu_add_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_add_cpu.clock_cpu_add_wtf.label }}<br>
+						{{ form_add_cpu.clock_cpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_cpu.clock_cpu_add_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_add_cpu.socket_cpu_add_wtf.label }}<br>
+						{{ form_add_cpu.socket_cpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_cpu.socket_cpu_add_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_add_cpu.released_cpu_add_wtf.label }}<br>
+						{{ form_add_cpu.released_cpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_cpu.released_cpu_add_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
 				</div>
 				{{ form_add_cpu.submit(class="btn btn-primary") }}
 			</form>

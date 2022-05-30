@@ -139,14 +139,14 @@ def config_afficher(order_by, id_config_sel):
 
                 print("data_config ", data_config, " Type : ", type(data_config))
 
-                # Différencier les messages si la table est vide.
+                # Différencier les messages si la table is empty
                 if not data_config and id_config_sel == 0:
-                    flash("""La table "t_config" est vide. !!""", "warning")
+                    flash("""Table "t_config" is empty !!""", "warning")
                 elif not data_config and id_config_sel > 0:
                     # Si l'utilisateur change l'id_config dans l'URL et que le config n'existe pas,
                     flash(f"La config demandé n'existe pas !!", "warning")
                 else:
-                    # Dans tous les autres cas, c'est que la table "t_config" est vide.
+                    # Dans tous les autres cas, c'est que la table "t_config" is empty
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
                     flash(f"Data configs shown !!", "success")
 
@@ -404,8 +404,8 @@ def config_delete_wtf():
 
             # Requête qui affiche tous les user_config qui ont la config que l'utilisateur veut effacer
             str_sql_config_user_delete = """SELECT id_user, User_firstname, User_lastname FROM t_user_created_config 
-                                            LEFT JOIN t_user ON t_user_created_config.fk_user = t_user.id_user
-                                            LEFT JOIN t_config ON t_user_created_config.fk_config = t_config.id_config
+                                            INNER JOIN t_user ON t_user_created_config.fk_user = t_user.id_user
+                                            INNER JOIN t_config ON t_user_created_config.fk_config = t_config.id_config
                                             WHERE fk_config = %(value_id_config)s"""
 
             with DBconnection() as mydb_conn:

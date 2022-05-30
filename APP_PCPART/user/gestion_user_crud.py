@@ -58,8 +58,8 @@ def user_add_wtf():
 
         except Exception as Exception_userrole_ajouter_wtf:
             raise ExceptionUserroleAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
-                                            f"{user_add_wtf.__name__} ; "
-                                            f"{Exception_userrole_ajouter_wtf}")
+                                              f"{user_add_wtf.__name__} ; "
+                                              f"{Exception_userrole_ajouter_wtf}")
 
     return render_template("user/user_add_wtf.html", form_add_user=form_add_user)
 
@@ -121,9 +121,6 @@ def user_update_wtf():
         elif request.method == "GET":
             # Opération sur la BD pour récupérer les données de la "t_user"
 
-            # str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate, user_photo FROM t_user WHERE id_user = %(value_id_user)s, user_firstname = %(value_user_firstname)s, user_lastname = %(value_user_lastname)s, user_birthdate = %(value_user_birthdate)s, user_photo = %(value_user_photo)s"
-
-            # str_sql_id_user = "SELECT id_user FROM t_user WHERE id_user = %(value_id_user)s"
             str_sql_id_user = "SELECT id_user, user_firstname, user_lastname, user_birthdate, user_photo FROM t_user WHERE id_user = %(value_id_user)s"
 
             valeur_select_dictionnaire = {"value_id_user": id_user_update}
@@ -184,7 +181,7 @@ def user_delete_wtf():
             data_user_delete = session['data_user_delete']
             print("data_user_delete ", data_user_delete)
 
-            flash(f"Effacer l'utilisateur de façon définitive de la base de données !!", "danger")
+            flash(f"Permanently delete the user!!!", "danger")
             # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
             # On affiche le bouton "Effacer role" qui va irrémédiablement EFFACER le role
             btn_submit_del = True

@@ -102,7 +102,7 @@ def edit_cpumanufacturer_cpu_selected():
             print("dans edit_cpumanufacturer_cpu_selected ---> data_cpumanufacturer_all", data_cpumanufacturer_all)
 
             # Récupère la valeur de "id_cpu" du formulaire html "cpu_cpumanufacturer_afficher.html"
-            # l'utilisateur clique sur le bouton "Modifier" et on récupère la valeur de "id_cpu"
+            # l'utilisateur clique sur le bouton "Edit" et on récupère la valeur de "id_cpu"
             # grâce à la variable "id_cpu_cpumanufacturer_edit_html" dans le fichier "cpu_cpumanufacturer_afficher.html"
             # href="{{ url_for('edit_cpumanufacturer_cpu_selected', id_cpu_cpumanufacturer_edit_html=row.id_cpu) }}"
             id_cpu_cpumanufacturer_edit = request.values['id_cpu_cpumanufacturer_edit_html']

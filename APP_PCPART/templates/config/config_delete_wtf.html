@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %} Effacer une CONFIG (WTF) {% endblock %}
+{% block title %} Delete a CONFIG (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Effacer une CONFIG
+				Delete a CONFIG
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
@@ -37,10 +37,10 @@
 										{{ row.id_user }}
 									</td>
 									<td>
-										{{ row.user_firstname }}
+										{{ row.User_firstname }}
 									</td>
 									<td>
-										{{ row.user_lastname }}
+										{{ row.User_lastname }}
 									</td>
 								</tr>
 							</tbody>

@@ -53,14 +53,14 @@ def userrole_afficher(order_by, id_userrole_sel):
 
                 print("data_userrole ", data_userrole, " Type : ", type(data_userrole))
 
-                # Différencier les messages si la table est vide.
+                # Différencier les messages si la table is empty
                 if not data_userrole and id_userrole_sel == 0:
-                    flash("""La table "t_role" est vide. !!""", "warning")
+                    flash("""Table "t_role" is empty !!""", "warning")
                 elif not data_userrole and id_userrole_sel > 0:
                     # Si l'utilisateur change l'id_userrole dans l'URL et que le userrole n'existe pas,
-                    flash(f"Le role demandé n'existe pas !!", "warning")
+                    flash(f"The requested role does not exist !!", "warning")
                 else:
-                    # Dans tous les autres cas, c'est que la table "t_userrole" est vide.
+                    # Dans tous les autres cas, c'est que la table "t_userrole" is empty
                     # OM 2020.04.09 La ligne ci-dessous permet de donner un sentiment rassurant aux utilisateurs.
                     flash(f"Data roles shown !!", "success")
 
@@ -231,7 +231,7 @@ def userrole_delete_wtf():
                 data_user_attribue_userrole_delete = session['data_user_attribue_userrole_delete']
                 print("data_user_attribue_userrole_delete ", data_user_attribue_userrole_delete)
 
-                flash(f"Effacer le role de façon définitive de la BD !!!", "danger")
+                flash(f"Permanently delete the role!!!", "danger")
                 # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
                 # On affiche le bouton "Effacer role" qui va irrémédiablement EFFACER le role
                 btn_submit_del = True

@@ -32,7 +32,7 @@ def cpu_motherboard_afficher(id_cpu_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_motherboard_cpu_afficher_data = """SELECT id_cpu, CPU_Name, CPU_Codename, CPU_Cores, CPU_Clock, CPU_Socket,
+                strsql_motherboard_cpu_afficher_data = """SELECT id_cpu, CPU_Name, CPU_Codename, CPU_Cores, CPU_Clock, CPU_Socket, CPU_Released,
                                                             GROUP_CONCAT(motherboard_brand, motherboard_model) as MotherboardCPU FROM t_cpu_compatible_motherboard
                                                             RIGHT JOIN t_cpu ON t_cpu.id_cpu = t_cpu_compatible_motherboard.fk_cpu
                                                             LEFT JOIN t_motherboard ON t_motherboard.id_motherboard = t_cpu_compatible_motherboard.fk_motherboard
@@ -56,7 +56,7 @@ def cpu_motherboard_afficher(id_cpu_sel):
 
                 # Différencier les messages.
                 if not data_motherboard_cpu_afficher and id_cpu_sel == 0:
-                    flash("""La table "t_cpu" est vide. !""", "warning")
+                    flash("""Table "t_cpu" is empty !""", "warning")
                 elif not data_motherboard_cpu_afficher and id_cpu_sel > 0:
                     # Si l'utilisateur change l'id_cpu dans l'URL et qu'il ne correspond à aucun CPU
                     flash(f"Le CPU {id_cpu_sel} demandé n'existe pas !!", "warning")
@@ -99,7 +99,7 @@ def edit_cpu_compatible_motherboard_selected():
             print("dans edit_cpu_compatible_motherboard_selected ---> data_motherboard_all", data_motherboard_all)
 
             # Récupère la valeur de "id_cpu" du formulaire html "cpu_motherboard_afficher.html"
-            # l'utilisateur clique sur le bouton "Modifier" et on récupère la valeur de "id_cpu"
+            # l'utilisateur clique sur le bouton "Edit" et on récupère la valeur de "id_cpu"
             # grâce à la variable "id_cpu_motherboard_edit_html" dans le fichier "cpu_motherboard_afficher.html"
             # href="{{ url_for('edit_cpu_compatible_motherboard_selected', id_cpu_motherboard_edit_html=row.id_cpu) }}"
             id_cpu_motherboard_edit = request.values['id_cpu_motherboard_edit_html']
