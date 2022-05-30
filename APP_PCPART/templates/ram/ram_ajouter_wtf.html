@@ -32,6 +32,13 @@
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
+					<p>
+						{{ form.timings_ram_wtf.label }}<br>
+						{{ form.timings_ram_wtf(size=32) }}<br>
+						{% for error in form.timings_ram_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
 				</div>
 				{{ form.submit(class="btn btn-primary") }}
 			</form>

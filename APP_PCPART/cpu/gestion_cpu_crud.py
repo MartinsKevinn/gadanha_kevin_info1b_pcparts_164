@@ -28,6 +28,51 @@ Remarque :  Dans le champ "nom_cpu_update_wtf" du formulaire "cpu/cpu_update_wtf
 """
 
 
+@app.route("/cpu_afficher/<int:id_cpu_sel>", methods=['GET', 'POST'])
+def cpu_afficher(id_cpu_sel):
+    print(" cpu_afficher id_cpu_sel ", id_cpu_sel)
+    if request.method == "GET":
+        try:
+            with DBconnection() as mc_afficher:
+                strsql_cpu_afficher_data = """SELECT id_cpu, CPU_Name, CPU_Codename, CPU_Cores, CPU_Clock, CPU_Socket, CPU_Released FROM t_cpu GROUP BY id_cpu"""
+                if id_cpu_sel == 0:
+                    # le paramètre 0 permet d'afficher tous les cpu
+                    # Sinon le paramètre représente la valeur de l'id du cpu
+                    mc_afficher.execute(strsql_cpu_afficher_data)
+                else:
+                    # Constitution d'un dictionnaire pour associer l'id du cpu sélectionné avec un nom de variable
+                    valeur_id_cpu_selected_dictionnaire = {"value_id_cpu_selected": id_cpu_sel}
+                    # En MySql l'instruction HAVING fonctionne comme un WHERE... mais doit être associée à un GROUP BY
+                    # L'opérateur += permet de concaténer une nouvelle valeur à la valeur de gauche préalablement définie.
+                    strsql_cpu_afficher_data += """ HAVING id_cpu= %(value_id_cpu_selected)s"""
+
+                    mc_afficher.execute(strsql_cpu_afficher_data, valeur_id_cpu_selected_dictionnaire)
+
+                # Récupère les données de la requête.
+                data_cpu_afficher = mc_afficher.fetchall()
+                print("data_cpu ", data_cpu_afficher, " Type : ",
+                      type(data_cpu_afficher))
+
+                # Différencier les messages.
+                if not data_cpu_afficher and id_cpu_sel == 0:
+                    flash("""Table "t_cpu" is empty !""", "warning")
+                elif not data_cpu_afficher and id_cpu_sel > 0:
+                    # Si l'utilisateur change l'id_cpu dans l'URL et qu'il ne correspond à aucun cpu
+                    flash(f"Searched CPU {id_cpu_sel} doesn't exist !!", "warning")
+                else:
+                    flash(f"Data CPUs shown !!", "success")
+
+        except Exception as Exception_cpu_afficher:
+            raise ExceptionCpuAfficher(
+                f"fichier : {Path(__file__).name}  ;  {cpu_afficher.__name__} ;"
+                f"{Exception_cpu_afficher}")
+
+    print("cpu_afficher  ", data_cpu_afficher)
+    # Envoie la page "HTML" au serveur.
+    return render_template("cpu/cpu_afficher.html",
+                           data=data_cpu_afficher)
+
+
 @app.route("/cpu_add", methods=['GET', 'POST'])
 def cpu_add_wtf():
     # Objet formulaire pour AJOUTER un cpu

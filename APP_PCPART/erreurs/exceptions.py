@@ -243,6 +243,14 @@ class ExceptionRamDeleteWtf(Base):
     pass
 
 
+class ExceptionCpuAfficher(Base):
+    pass
+
+
+class ExceptionRamDeleteWtf(Base):
+    pass
+
+
 """
     Grâce à la méthode "flash" cela permet de "raise" (remonter) les erreurs "try...execpt" dans la page "home.html"
 """

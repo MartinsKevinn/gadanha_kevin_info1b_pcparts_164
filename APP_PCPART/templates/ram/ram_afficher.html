@@ -29,9 +29,12 @@
 							Ram Capacity
                         </th>
                         <th class="align-middle">
-
+							Ram Timings
                         </th>
                         <th class="align-middle">
+
+                        </th>
+						<th class="align-middle">
 
                         </th>
                     </tr>
@@ -52,6 +55,9 @@
 						</td>
 						<td class="align-middle">
 							{{ row.ram_capacity|default("None", True) }}
+						</td>
+						<td class="align-middle">
+							{{ row.ram_timings|default("None", True) }}
 						</td>
 						<td class="text-center" class="align-middle">
 							<a class="btn btn-warning" href="{{ url_for('ram_update_wtf', id_ram_btn_edit_html=row.id_ram) }}" role="button">Edit</a>
