@@ -82,21 +82,23 @@ def cpu_add_wtf():
             if form_add_cpu.validate_on_submit():
                 nom_cpu_add = form_add_cpu.name_cpu_add_wtf.data
                 codename_cpu_add = form_add_cpu.codename_cpu_add_wtf.data
+                socket_cpu_add = form_add_cpu.socket_cpu_add_wtf.data
                 cores_cpu_add = form_add_cpu.cores_cpu_add_wtf.data
                 clock_cpu_add = form_add_cpu.clock_cpu_add_wtf.data
-                socket_cpu_add = form_add_cpu.socket_cpu_add_wtf.data
+                tdp_cpu_add = form_add_cpu.tdp_cpu_add_wtf.data
                 released_cpu_add = form_add_cpu.released_cpu_add_wtf.data
 
                 valeurs_insertion_dictionnaire = {"value_cpu_name": nom_cpu_add,
                                                   "value_cpu_codename": codename_cpu_add,
+                                                  "value_cpu_socket": socket_cpu_add,
                                                   "value_cpu_cores": cores_cpu_add,
                                                   "value_cpu_clock": clock_cpu_add,
-                                                  "value_cpu_socket": socket_cpu_add,
+                                                  "value_cpu_tdp": tdp_cpu_add,
                                                   "value_cpu_released": released_cpu_add}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_cpu = """INSERT INTO t_cpu (id_cpu,CPU_Name,CPU_Codename,CPU_Cores,CPU_Clock,CPU_Socket,CPU_Released) 
-                VALUES (NULL,%(value_cpu_name)s,%(value_cpu_codename)s,%(value_cpu_cores)s,%(value_cpu_clock)s,%(value_cpu_socket)s,%(value_cpu_released)s) """
+                strsql_insert_cpu = """INSERT INTO t_cpu (id_cpu,CPU_Name,CPU_Codename,CPU_Socket,CPU_Cores,CPU_Clock,CPU_TDP,CPU_Released) 
+                VALUES (NULL,%(value_cpu_name)s,%(value_cpu_codename)s,%(value_cpu_tdp)s,%(value_cpu_cores)s,%(value_cpu_clock)s,%(value_cpu_tdp)s,%(value_cpu_released)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_cpu, valeurs_insertion_dictionnaire)
 
@@ -192,9 +194,10 @@ def cpu_update_wtf():
             form_update_cpu.cpu_codename_update_wtf.data = data_cpu["CPU_Codename"]
             # Debug simple pour contrôler la valeur dans la console "run" de PyCharm
             print(f" cpu codename ", data_cpu["CPU_Codename"], "  type ", type(data_cpu["CPU_Codename"]))
+            form_update_cpu.cpu_socket_update_wtf.data = data_cpu["CPU_Socket"]
             form_update_cpu.cpu_cores_update_wtf.data = data_cpu["CPU_Cores"]
             form_update_cpu.cpu_clock_update_wtf.data = data_cpu["CPU_Clock"]
-            form_update_cpu.cpu_socket_update_wtf.data = data_cpu["CPU_Socket"]
+            form_update_cpu.cpu_tdp_update_wtf.data = data_cpu["CPU_TDP"]
             form_update_cpu.cpu_released_update_wtf.data = data_cpu["CPU_Released"]
 
     except Exception as Exception_cpu_update_wtf:

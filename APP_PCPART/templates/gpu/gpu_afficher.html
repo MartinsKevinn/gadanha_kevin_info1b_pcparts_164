@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% block title %} Afficher CPU {% endblock %}
+{% block title %} Show GPU {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="col-md-12">
 		<h1 class="text-center" style="text-decoration:underline">
-				Ram kits
+				GPUs
 		</h1>
 		<pre></pre>
 		<td class="text-center" class="align-middle">
-			<a class="btn btn-primary" href="{{ url_for('cpu_add_wtf') }}" role="button">Add</a>
+			<a class="btn btn-primary" href="{{ url_for('gpu_add_wtf') }}" role="button">Add</a>
 		</td>
 		<pre></pre>
 		<table class="table table-bordered table-sm">
@@ -16,28 +16,34 @@
 				<thead>
 					<tr>
 						<th class="" >
-						  CPU ID
+						  GPU ID
 						</th>
 						<th class="" >
-						  CPU Name
+						  GPU Brand
 						</th>
 						<th class="" >
-						  CPU Codename
+						  GPU Name
 						</th>
 						<th class="" >
-						  CPU Socket
+						  GPU Codename
 						</th>
 						<th class="" >
-						  CPU Cores
+						  GPU Bus
 						</th>
 						<th class="" >
-						  CPU Clock
+						  GPU Memory
 						</th>
 						<th class="" >
-						  CPU Socket
+						  GPU Clock
 						</th>
 						<th class="" >
-						  CPU Release Date
+						  Memory Clock
+						</th>
+						<th class="" >
+						  GPU TDP
+						</th>
+						<th class="" >
+						  GPU Release Date
 						</th>
 						<th class="" >
 
@@ -52,34 +58,40 @@
 			<tbody>
 				<tr>
 					  <td class="align-middle">
-						  {{ row.id_cpu }}
+						  {{ row.id_gpu }}
 					  </td>
 					  <td class="align-middle">
-						{{ row.CPU_Name|default("None", True) }}
+						{{ row.GPU_Brand|default("None", True) }}
 					  </td>
 					  <td class="align-middle">
-						{{ row.CPU_Codename|default("None", True) }}
+						{{ row.GPU_Name|default("None", True) }}
 					  </td>
 					  <td class="align-middle">
-						{{ row.CPU_Socket|default("None", True) }}
+						{{ row.GPU_Codename|default("None", True) }}
 					  </td>
 					  <td class="align-middle">
-						{{ row.CPU_Cores|default("None", True) }}
+						{{ row.GPU_Bus|default("None", True) }}
 					  </td>
 					  <td class="align-middle">
-						{{ row.CPU_Clock|default("None", True) }}
+						{{ row.GPU_Memory|default("None", True) }}
 					  </td>
 					  <td class="align-middle">
-						{{ row.CPU_Socket|default("None", True) }}
+						{{ row.GPU_Clock|default("None", True) }}
 					  </td>
 					  <td class="align-middle">
-						{{ row.CPU_Released|default("None", True) }}
+						{{ row.Memory_Clock|default("None", True) }}
 					  </td>
 					  <td class="align-middle">
-						<a class="btn btn-warning" href="{{ url_for('cpu_update_wtf', id_cpu_btn_edit_html=row.id_cpu) }}" role="button">Edit</a>
+						{{ row.GPU_TDP|default("None", True) }}
 					  </td>
 					  <td class="align-middle">
-						<a class="btn btn-danger" href="{{ url_for('cpu_delete_wtf', id_cpu_btn_delete_html=row.id_cpu) }}" role="button">Delete</a>
+						{{ row.GPU_Released|default("None", True) }}
+					  </td>
+					  <td class="align-middle">
+						<a class="btn btn-warning" href="{{ url_for('gpu_update_wtf', id_gpu_btn_edit_html=row.id_gpu) }}" role="button">Edit</a>
+					  </td>
+					  <td class="align-middle">
+						<a class="btn btn-danger" href="{{ url_for('gpu_delete_wtf', id_gpu_btn_delete_html=row.id_gpu) }}" role="button">Delete</a>
 					  </td>
 				</tr>
 			</tbody>
@@ -87,7 +99,7 @@
 				<tbody>
 					<tr>
 						<td>
-							No cpu.
+							No GPU.
 						</td>
 					</tr>
 				</tbody>

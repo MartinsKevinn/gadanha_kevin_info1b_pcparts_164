@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% block title %} Show CPUs {% endblock %}
+{% block title %} Show GPUs {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="col-md-12">
 		<h1 class="text-center" style="text-decoration:underline">
-			CPUs & Manufacturers
+			GPUs & Manufacturers
 		</h1>
 		<th class="align-middle">
-			<a class="btn btn-primary" href="{{ url_for('cpu_add_wtf') }}" role="button">Add</a>
+			<a class="btn btn-primary" href="{{ url_for('gpu_add_wtf') }}" role="button">Add</a>
 		</th>
 		<pre></pre>
 		<table class="table table-responsive-sm">
@@ -15,25 +15,34 @@
 				<thead>
 					<tr>
 						<th class="align-middle">
-						  CPU ID
+						  GPU ID
 						</th>
 						<th class="align-middle">
-						  CPU Name
+						  GPU Brand
 						</th>
 						<th class="align-middle">
-						  CPU Codename
+						  GPU Name
 						</th>
 						<th class="align-middle">
-						  CPU Socket
+						  GPU Codename
 						</th>
 						<th class="align-middle">
-						  CPU Cores
+						  GPU Bus
 						</th>
 						<th class="align-middle">
-						  CPU Clock
+						  GPU Memory
 						</th>
 						<th class="align-middle">
-						  CPU Release date
+						  GPU Clock
+						</th>
+						<th class="align-middle">
+						  Memory Clock
+						</th>
+						<th class="align-middle">
+						  GPU TDP
+						</th>
+						<th class="align-middle">
+						  GPU Release date
                         </th>
 						<th class="align-middle">
 
@@ -48,38 +57,47 @@
 			<tbody>
 				<tr>
 					  <th class="align-middle">
-						  {{ row.id_cpu }}
+						  {{ row.id_gpu }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Name|default("None", True) }}
+						{{ row.GPU_Brand|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Codename|default("None", True) }}
+						{{ row.GPU_Name|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Socket|default("None", True) }}
+						{{ row.GPU_Codename|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Cores|default("None", True) }}
+						{{ row.GPU_Bus|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Clock|default("None", True) }}
+						{{ row.GPU_Memory|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						{{ row.CPU_Released|default("None", True) }}
+						{{ row.GPU_Clock|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						<a class="btn btn-warning" href="{{ url_for('cpu_update_wtf', id_cpu_btn_edit_html=row.id_cpu) }}" role="button">Edit</a>
+						{{ row.Memory_Clock|default("None", True) }}
 					  </th>
 					  <th class="align-middle">
-						<a class="btn btn-danger" href="{{ url_for('cpu_delete_wtf', id_cpu_btn_delete_html=row.id_cpu ) }}" role="button">Delete</a>
+						{{ row.GPU_TDP|default("None", True) }}
+					  </th>
+					  <th class="align-middle">
+						{{ row.GPU_Released|default("None", True) }}
+					  </th>
+					  <th class="align-middle">
+						<a class="btn btn-warning" href="{{ url_for('gpu_update_wtf', id_gpu_btn_edit_html=row.id_gpu) }}" role="button">Edit</a>
+					  </th>
+					  <th class="align-middle">
+						<a class="btn btn-danger" href="{{ url_for('gpu_delete_wtf', id_gpu_btn_delete_html=row.id_gpu ) }}" role="button">Delete</a>
 					  </th>
 					<tr>
 						<td class="align-middle">
-							<a class="btn btn-warning" href="{{ url_for('edit_cpumanufacturer_cpu_selected', id_cpu_cpumanufacturer_edit_html=row.id_cpu) }}" role="button">Edit</a>
+							<a class="btn btn-warning" href="{{ url_for('edit_gpumanufacturer_gpu_selected', id_gpu_gpumanufacturer_edit_html=row.id_gpu) }}" role="button">Edit</a>
 						</td>
 						<td class="align-middle" colspan="5">
-							{{ row.CpumanufacturerCpu|default("NO MANUFACTURER", True) }}
+							{{ row.GpumanufacturerGpu|default("NO MANUFACTURER", True) }}
 						</td>
 					</tr>
 				</tr>
@@ -88,7 +106,7 @@
 				<tbody>
 					<tr>
 						<td>
-							No CPU.
+							No GPU.
 						</td>
 					</tr>
 				</tbody>

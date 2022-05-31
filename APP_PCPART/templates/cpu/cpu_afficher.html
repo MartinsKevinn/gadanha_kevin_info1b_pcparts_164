@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %} Afficher CPU {% endblock %}
+{% block title %} Show CPUs {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="col-md-12">
 		<h1 class="text-center" style="text-decoration:underline">
-				Ram kits
+				CPUs
 		</h1>
 		<pre></pre>
 		<td class="text-center" class="align-middle">
@@ -34,7 +34,7 @@
 						  CPU Clock
 						</th>
 						<th class="" >
-						  CPU Socket
+						  CPU TDP
 						</th>
 						<th class="" >
 						  CPU Release Date
@@ -70,7 +70,7 @@
 						{{ row.CPU_Clock|default("None", True) }}
 					  </td>
 					  <td class="align-middle">
-						{{ row.CPU_Socket|default("None", True) }}
+						{{ row.CPU_TDP|default("None", True) }}
 					  </td>
 					  <td class="align-middle">
 						{{ row.CPU_Released|default("None", True) }}

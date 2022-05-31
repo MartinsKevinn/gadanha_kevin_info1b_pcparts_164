@@ -11,7 +11,7 @@ from flask import url_for
 
 from APP_PCPART.database.database_tools import DBconnection
 from APP_PCPART.erreurs.exceptions import *
-from APP_PCPART.gpu.gestion_gpu_wtf_forms import FormWTFUpdateCpu, FormWTFAddCpu, FormWTFDeleteCpu
+from APP_PCPART.gpu.gestion_gpu_wtf_forms import FormWTFUpdateGpu, FormWTFAddGpu, FormWTFDeleteGpu
 
 """Ajouter un gpu grâce au formulaire "user_add_wtf.html"
 Auteur : OM 2022.04.11
@@ -34,7 +34,7 @@ def gpu_afficher(id_gpu_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_gpu_afficher_data = """SELECT id_gpu, CPU_Name, CPU_Codename, CPU_Cores, CPU_Clock, CPU_Socket, CPU_Released FROM t_gpu GROUP BY id_gpu"""
+                strsql_gpu_afficher_data = """SELECT id_gpu, GPU_Brand, GPU_Name, GPU_Codename, GPU_Bus, GPU_Memory, GPU_Clock, Memory_Clock, GPU_TDP, GPU_Released FROM t_gpu GROUP BY id_gpu"""
                 if id_gpu_sel == 0:
                     # le paramètre 0 permet d'afficher tous les gpu
                     # Sinon le paramètre représente la valeur de l'id du gpu
@@ -58,12 +58,12 @@ def gpu_afficher(id_gpu_sel):
                     flash("""Table "t_gpu" is empty !""", "warning")
                 elif not data_gpu_afficher and id_gpu_sel > 0:
                     # Si l'utilisateur change l'id_gpu dans l'URL et qu'il ne correspond à aucun gpu
-                    flash(f"Searched CPU {id_gpu_sel} doesn't exist !!", "warning")
+                    flash(f"Searched GPU {id_gpu_sel} doesn't exist !!", "warning")
                 else:
-                    flash(f"Data CPUs shown !!", "success")
+                    flash(f"Data GPUs shown !!", "success")
 
         except Exception as Exception_gpu_afficher:
-            raise ExceptionCpuAfficher(
+            raise ExceptionGpuAfficher(
                 f"fichier : {Path(__file__).name}  ;  {gpu_afficher.__name__} ;"
                 f"{Exception_gpu_afficher}")
 
@@ -76,27 +76,33 @@ def gpu_afficher(id_gpu_sel):
 @app.route("/gpu_add", methods=['GET', 'POST'])
 def gpu_add_wtf():
     # Objet formulaire pour AJOUTER un gpu
-    form_add_gpu = FormWTFAddCpu()
+    form_add_gpu = FormWTFAddGpu()
     if request.method == "POST":
         try:
             if form_add_gpu.validate_on_submit():
+                brand_gpu_add = form_add_gpu.brand_gpu_add_wtf.data
                 nom_gpu_add = form_add_gpu.name_gpu_add_wtf.data
                 codename_gpu_add = form_add_gpu.codename_gpu_add_wtf.data
-                cores_gpu_add = form_add_gpu.cores_gpu_add_wtf.data
+                bus_gpu_add = form_add_gpu.bus_gpu_add_wtf.data
+                memory_gpu_add = form_add_gpu.memory_gpu_add_wtf.data
                 clock_gpu_add = form_add_gpu.clock_gpu_add_wtf.data
-                socket_gpu_add = form_add_gpu.socket_gpu_add_wtf.data
+                clock_memory_gpu_add = form_add_gpu.clock_memory_gpu_add_wtf.data
+                tdp_gpu_add = form_add_gpu.tdp_gpu_add_wtf.data
                 released_gpu_add = form_add_gpu.released_gpu_add_wtf.data
 
-                valeurs_insertion_dictionnaire = {"value_gpu_name": nom_gpu_add,
+                valeurs_insertion_dictionnaire = {"value_gpu_brand": brand_gpu_add,
+                                                  "value_gpu_name": nom_gpu_add,
                                                   "value_gpu_codename": codename_gpu_add,
-                                                  "value_gpu_cores": cores_gpu_add,
+                                                  "value_gpu_bus": bus_gpu_add,
+                                                  "value_gpu_memory": memory_gpu_add,
                                                   "value_gpu_clock": clock_gpu_add,
-                                                  "value_gpu_socket": socket_gpu_add,
+                                                  "value_gpu_memory_clock": clock_memory_gpu_add,
+                                                  "value_gpu_tdp": tdp_gpu_add,
                                                   "value_gpu_released": released_gpu_add}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_gpu = """INSERT INTO t_gpu (id_gpu,CPU_Name,CPU_Codename,CPU_Cores,CPU_Clock,CPU_Socket,CPU_Released) 
-                VALUES (NULL,%(value_gpu_name)s,%(value_gpu_codename)s,%(value_gpu_cores)s,%(value_gpu_clock)s,%(value_gpu_socket)s,%(value_gpu_released)s) """
+                strsql_insert_gpu = """INSERT INTO t_gpu (id_gpu,GPU_Brand,GPU_Name,GPU_Codename,GPU_Bus,GPU_Memory,GPU_Clock,Memory_Clock,GPU_TDP,GPU_Released) 
+                VALUES (NULL,%(value_gpu_brand)s,%(value_gpu_name)s,%(value_gpu_codename)s,%(value_gpu_bus)s,%(value_gpu_memory)s,%(value_gpu_clock)s,%(value_gpu_memory_clock)s,%(value_gpu_tdp)s,%(value_gpu_released)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_gpu, valeurs_insertion_dictionnaire)
 
@@ -107,7 +113,7 @@ def gpu_add_wtf():
                 return redirect(url_for('gpu_gpumanufacturer_afficher', id_gpu_sel=0))
 
         except Exception as Exception_gpumanufacturer_ajouter_wtf:
-            raise ExceptionCpumanufacturerAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
+            raise ExceptionGpumanufacturerAjouterWtf(f"fichier : {Path(__file__).name}  ;  "
                                                      f"{gpu_add_wtf.__name__} ; "
                                                      f"{Exception_gpumanufacturer_ajouter_wtf}")
 
@@ -136,34 +142,43 @@ def gpu_update_wtf():
     id_gpu_update = request.values['id_gpu_btn_edit_html']
 
     # Objet formulaire pour l'UPDATE
-    form_update_gpu = FormWTFUpdateCpu()
+    form_update_gpu = FormWTFUpdateGpu()
     try:
         print(" on submit ", form_update_gpu.validate_on_submit())
         if form_update_gpu.validate_on_submit():
             # Récupèrer la valeur du champ depuis "gpumanufacturer_update_wtf.html" après avoir cliqué sur "SUBMIT".
+            brand_gpu_update = form_update_gpu.brand_gpu_update_wtf.data
             nom_gpu_update = form_update_gpu.nom_gpu_update_wtf.data
             gpu_codename_update = form_update_gpu.gpu_codename_update_wtf.data
-            gpu_cores_update = form_update_gpu.gpu_cores_update_wtf.data
+            gpu_bus_update = form_update_gpu.gpu_bus_update_wtf.data
+            gpu_memory_update = form_update_gpu.gpu_memory_update_wtf.data
             gpu_clock_update = form_update_gpu.gpu_clock_update_wtf.data
-            gpu_socket_update = form_update_gpu.gpu_socket_update_wtf.data
+            gpu_memory_clock_update = form_update_gpu.gpu_memory_clock_update_wtf.data
+            gpu_tdp_update = form_update_gpu.gpu_tdp_update_wtf.data
             gpu_released_update = form_update_gpu.gpu_released_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_gpu": id_gpu_update,
+                                          "value_gpu_brand": brand_gpu_update,
                                           "value_gpu_name": nom_gpu_update,
                                           "value_gpu_codename": gpu_codename_update,
-                                          "value_gpu_cores": gpu_cores_update,
+                                          "value_gpu_bus": gpu_bus_update,
+                                          "value_gpu_memory": gpu_memory_update,
                                           "value_gpu_clock": gpu_clock_update,
-                                          "value_gpu_socket": gpu_socket_update,
+                                          "value_gpu_memory_clock": gpu_memory_clock_update,
+                                          "value_gpu_tdp": gpu_tdp_update,
                                           "value_gpu_released": gpu_released_update
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_nom_gpu = """UPDATE t_gpu SET CPU_Name = %(value_gpu_name)s,
-                                                         CPU_Codename = %(value_gpu_codename)s,
-                                                         CPU_Cores = %(value_gpu_cores)s,
-                                                         CPU_Clock = %(value_gpu_clock)s,
-                                                         CPU_Socket = %(value_gpu_socket)s,
-                                                         CPU_Released = %(value_gpu_released)s
+            str_sql_update_nom_gpu = """UPDATE t_gpu SET GPU_Brand = %(value_gpu_brand)s,
+                                                         GPU_Name = %(value_gpu_name)s,
+                                                         GPU_Codename = %(value_gpu_codename)s,
+                                                         GPU_Bus = %(value_gpu_bus)s,
+                                                         GPU_Memory = %(value_gpu_memory)s,
+                                                         GPU_Clock = %(value_gpu_clock)s,
+                                                         Memory_Clock = %(value_gpu_memory_clock)s,
+                                                         GPU_TDP = %(value_gpu_tdp)s,
+                                                         GPU_Released = %(value_gpu_released)s
                                                          WHERE id_gpu = %(value_id_gpu)s"""
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_nom_gpu, valeur_update_dictionnaire)
@@ -175,9 +190,9 @@ def gpu_update_wtf():
             # Afficher seulement le gpu modifié, "ASC" et l'"id_gpu_update"
             return redirect(url_for('gpu_gpumanufacturer_afficher', id_gpu_sel=id_gpu_update))
         elif request.method == "GET":
-            # Opération sur la BD pour récupérer "id_gpu" et "CPU_Manufacturer" de la "t_gpumanufacturer"
+            # Opération sur la BD pour récupérer "id_gpu" et "GPU_Manufacturer" de la "t_gpumanufacturer"
 
-            str_sql_id_gpu = "SELECT id_gpu, CPU_Name, CPU_Codename, CPU_Cores, CPU_Clock, CPU_Socket, CPU_Released FROM t_gpu WHERE id_gpu = %(value_id_gpu)s"
+            str_sql_id_gpu = "SELECT id_gpu, GPU_Brand, GPU_Name, GPU_Codename, GPU_Bus, GPU_Memory, GPU_Clock, Memory_Clock, GPU_TDP, GPU_Released FROM t_gpu WHERE id_gpu = %(value_id_gpu)s"
 
             valeur_select_dictionnaire = {"value_id_gpu": id_gpu_update}
             with DBconnection() as mybd_conn:
@@ -185,20 +200,23 @@ def gpu_update_wtf():
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom manufacturer" pour l'UPDATE
             data_gpu = mybd_conn.fetchone()
             print("data_gpu ", data_gpu, " type ", type(data_gpu), " gpumanufacturer ",
-                  data_gpu["CPU_Name"])
+                  data_gpu["GPU_Name"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "gpu_update_wtf.html"
-            form_update_gpu.nom_gpu_update_wtf.data = data_gpu["CPU_Name"]
-            form_update_gpu.gpu_codename_update_wtf.data = data_gpu["CPU_Codename"]
+            form_update_gpu.brand_gpu_update_wtf.data = data_gpu["GPU_Brand"]
+            form_update_gpu.nom_gpu_update_wtf.data = data_gpu["GPU_Name"]
+            form_update_gpu.gpu_codename_update_wtf.data = data_gpu["GPU_Codename"]
             # Debug simple pour contrôler la valeur dans la console "run" de PyCharm
-            print(f" gpu codename ", data_gpu["CPU_Codename"], "  type ", type(data_gpu["CPU_Codename"]))
-            form_update_gpu.gpu_cores_update_wtf.data = data_gpu["CPU_Cores"]
-            form_update_gpu.gpu_clock_update_wtf.data = data_gpu["CPU_Clock"]
-            form_update_gpu.gpu_socket_update_wtf.data = data_gpu["CPU_Socket"]
-            form_update_gpu.gpu_released_update_wtf.data = data_gpu["CPU_Released"]
+            print(f" gpu codename ", data_gpu["GPU_Codename"], "  type ", type(data_gpu["GPU_Codename"]))
+            form_update_gpu.gpu_bus_update_wtf.data = data_gpu["GPU_Bus"]
+            form_update_gpu.gpu_memory_update_wtf.data = data_gpu["GPU_Memory"]
+            form_update_gpu.gpu_clock_update_wtf.data = data_gpu["GPU_Clock"]
+            form_update_gpu.gpu_memory_clock_update_wtf.data = data_gpu["Memory_Clock"]
+            form_update_gpu.gpu_tdp_update_wtf.data = data_gpu["GPU_TDP"]
+            form_update_gpu.gpu_released_update_wtf.data = data_gpu["GPU_Released"]
 
     except Exception as Exception_gpu_update_wtf:
-        raise ExceptionCpuUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
+        raise ExceptionGpuUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
                                     f"{gpu_update_wtf.__name__} ; "
                                     f"{Exception_gpu_update_wtf}")
 
@@ -213,7 +231,7 @@ Test : ex. cliquer sur le menu "gpu" puis cliquer sur le bouton "DELETE" d'un "g
     
 Paramètres : sans
 
-Remarque :  Dans le champ "CPU_Name_delete_wtf" du formulaire "gpu/gpu_delete_wtf.html"
+Remarque :  Dans le champ "GPU_Name_delete_wtf" du formulaire "gpu/gpu_delete_wtf.html"
             On doit simplement cliquer sur "DELETE"
 """
 
@@ -227,7 +245,7 @@ def gpu_delete_wtf():
     id_gpu_delete = request.values['id_gpu_btn_delete_html']
 
     # Objet formulaire pour effacer le gpu sélectionné.
-    form_delete_gpu = FormWTFDeleteCpu()
+    form_delete_gpu = FormWTFDeleteGpu()
     try:
         # Si on clique sur "ANNULER", afficher tous les gpu.
         if form_delete_gpu.submit_btn_annuler.data:
@@ -239,7 +257,7 @@ def gpu_delete_wtf():
             data_gpu_delete = session['data_gpu_delete']
             print("data_gpu_delete ", data_gpu_delete)
 
-            flash(f"Delete permanently the CPU !!!", "danger")
+            flash(f"Delete permanently the GPU !!!", "danger")
             # L'utilisateur vient de cliquer sur le bouton de confirmation pour effacer...
             # On affiche le bouton "Effacer manufacturer" qui va irrémédiablement EFFACER le manufacturer
             btn_submit_del = True
@@ -257,8 +275,8 @@ def gpu_delete_wtf():
                 mconn_bd.execute(str_sql_delete_fk_gpu_gpumanufacturer, valeur_delete_dictionnaire)
                 mconn_bd.execute(str_sql_delete_gpu, valeur_delete_dictionnaire)
 
-            flash(f"CPU permanently erased !!", "success")
-            print(f"CPU permanently erased !!")
+            flash(f"GPU permanently erased !!", "success")
+            print(f"GPU permanently erased !!")
 
             # afficher les données
             return redirect(url_for('gpu_gpumanufacturer_afficher', id_gpu_sel=0))
@@ -282,7 +300,7 @@ def gpu_delete_wtf():
             btn_submit_del = False
 
     except Exception as Exception_gpu_delete_wtf:
-        raise ExceptionCpuDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
+        raise ExceptionGpuDeleteWtf(f"fichier : {Path(__file__).name}  ;  "
                                     f"{gpu_delete_wtf.__name__} ; "
                                     f"{Exception_gpu_delete_wtf}")
 

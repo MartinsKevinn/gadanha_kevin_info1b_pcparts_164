@@ -1,63 +1,81 @@
 {% extends "base.html" %}
-{% block title %} Delete a CPU (WTF) {% endblock %}
+{% block title %} Delete a GPU (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Delete a CPU
+				Delete a GPU
 			</p>
 			<table class="table table-responsive-sm">
-				{% if data_cpu_del %}
+				{% if data_gpu_del %}
 				<thead>
 				<tr>
 					<th class="">
-						CPU ID
+						GPU ID
 					</th>
 					<th class="">
-						CPU Name
+						GPU Brand
 					</th>
 					<th class="">
-						CPU Codename
+						GPU Name
 					</th>
 					<th class="">
-						CPU Cores
+						GPU Codename
 					</th>
 					<th class="">
-						CPU Clock
+						GPU Bus
 					</th>
 					<th class="">
-						CPU Socket
+						GPU Memory
 					</th>
 					<th class="">
-						CPU Released
+						GPU Clock
+					</th>
+					<th class="">
+						Memory Clock
+					</th>
+					<th class="">
+						GPU TDP
+					</th>
+					<th class="">
+						GPU Released
 					</th>
 				</tr>
 				</thead>
 				{% endif %}
-				{% for row in data_cpu_del %}
+				{% for row in data_gpu_del %}
 				<tbody>
 				<tr>
 					<th class="align-middle">
-						{{ row.id_cpu }}
+						{{ row.id_gpu }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Name }}
+						{{ row.GPU_Brand }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Codename|default("None", True) }}
+						{{ row.GPU_Name }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Cores|default("None", True) }}
+						{{ row.GPU_Codename|default("None", True) }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Clock|default("None", True) }}
+						{{ row.GPU_Bus|default("None", True) }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Socket|default("None", True) }}
+						{{ row.GPU_Memory|default("None", True) }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Released|default("None", True) }}
+						{{ row.GPU_Clock|default("None", True) }}
+					</th>
+					<th class="align-middle">
+						{{ row.Memory_Clock|default("None", True) }}
+					</th>
+					<th class="align-middle">
+						{{ row.GPU_TDP|default("None", True) }}
+					</th>
+					<th class="align-middle">
+						{{ row.GPU_Released|default("None", True) }}
 					</th>
 				</tr>
 				</tr>
@@ -74,14 +92,14 @@
 
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form_delete_cpu.hidden_tag() }}
-				{{ form_delete_cpu.submit_btn_conf_del_cpu(class="btn btn-info") }}
+				{{ form_delete_gpu.hidden_tag() }}
+				{{ form_delete_gpu.submit_btn_conf_del_gpu(class="btn btn-info") }}
 
 				{% if btn_submit_del %}
-					{{ form_delete_cpu.submit_btn_del_cpu(class="btn btn-danger") }}
+					{{ form_delete_gpu.submit_btn_del_gpu(class="btn btn-danger") }}
 				{% endif %}
 
-				{{ form_delete_cpu.submit_btn_annuler(class="btn btn-primary") }}
+				{{ form_delete_gpu.submit_btn_annuler(class="btn btn-primary") }}
 			</form>
 		</div>
 	</div>

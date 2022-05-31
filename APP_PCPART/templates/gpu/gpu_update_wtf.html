@@ -1,60 +1,81 @@
 {% extends "base.html" %}
-{% block title %} Edit CPU (WTF) {% endblock %}
+{% block title %} Edit GPU (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Edit CPU
+				Edit GPU
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form_update_cpu.hidden_tag() }}
+				{{ form_update_gpu.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form_update_cpu.nom_cpu_update_wtf.label }}<br>
-						{{ form_update_cpu.nom_cpu_update_wtf(size=32) }}<br>
-						{% for error in form_update_cpu.nom_cpu_update_wtf.errors %}
+						{{ form_update_gpu.brand_gpu_update_wtf.label }}<br>
+						{{ form_update_gpu.brand_gpu_update_wtf(size=32) }}<br>
+						{% for error in form_update_gpu.brand_gpu_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form_update_cpu.cpu_codename_update_wtf.label }}<br>
-						{{ form_update_cpu.cpu_codename_update_wtf(size=32) }}<br>
-						{% for error in form_update_cpu.cpu_codename_update_wtf.errors %}
+						{{ form_update_gpu.nom_gpu_update_wtf.label }}<br>
+						{{ form_update_gpu.nom_gpu_update_wtf(size=32) }}<br>
+						{% for error in form_update_gpu.nom_gpu_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form_update_cpu.cpu_cores_update_wtf.label }}<br>
-						{{ form_update_cpu.cpu_cores_update_wtf(size=32) }}<br>
-						{% for error in form_update_cpu.cpu_cores_update_wtf.errors %}
+						{{ form_update_gpu.gpu_codename_update_wtf.label }}<br>
+						{{ form_update_gpu.gpu_codename_update_wtf(size=32) }}<br>
+						{% for error in form_update_gpu.gpu_codename_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form_update_cpu.cpu_clock_update_wtf.label }}<br>
-						{{ form_update_cpu.cpu_clock_update_wtf(size=32) }}<br>
-						{% for error in form_update_cpu.cpu_clock_update_wtf.errors %}
+						{{ form_update_gpu.gpu_bus_update_wtf.label }}<br>
+						{{ form_update_gpu.gpu_bus_update_wtf(size=32) }}<br>
+						{% for error in form_update_gpu.gpu_bus_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form_update_cpu.cpu_socket_update_wtf.label }}<br>
-						{{ form_update_cpu.cpu_socket_update_wtf(size=32) }}<br>
-						{% for error in form_update_cpu.cpu_socket_update_wtf.errors %}
+						{{ form_update_gpu.gpu_memory_update_wtf.label }}<br>
+						{{ form_update_gpu.gpu_memory_update_wtf(size=32) }}<br>
+						{% for error in form_update_gpu.gpu_memory_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form_update_cpu.cpu_released_update_wtf.label }}<br>
-						{{ form_update_cpu.cpu_released_update_wtf(size=32) }}<br>
-						{% for error in form_update_cpu.cpu_released_update_wtf.errors %}
+						{{ form_update_gpu.gpu_clock_update_wtf.label }}<br>
+						{{ form_update_gpu.gpu_clock_update_wtf(size=32) }}<br>
+						{% for error in form_update_gpu.gpu_clock_update_wtf.errors %}
+						<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_update_gpu.gpu_memory_clock_update_wtf.label }}<br>
+						{{ form_update_gpu.gpu_memory_clock_update_wtf(size=32) }}<br>
+						{% for error in form_update_gpu.gpu_memory_clock_update_wtf.errors %}
+						<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_update_gpu.gpu_tdp_update_wtf.label }}<br>
+						{{ form_update_gpu.gpu_tdp_update_wtf(size=32) }}<br>
+						{% for error in form_update_gpu.gpu_tdp_update_wtf.errors %}
+						<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_update_gpu.gpu_released_update_wtf.label }}<br>
+						{{ form_update_gpu.gpu_released_update_wtf(size=32) }}<br>
+						{% for error in form_update_gpu.gpu_released_update_wtf.errors %}
 						<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 				</div>
-				{{ form_update_cpu.submit(class="btn btn-primary") }}
+				{{ form_update_gpu.submit(class="btn btn-primary") }}
 			</form>
 		</div>
 	</div>

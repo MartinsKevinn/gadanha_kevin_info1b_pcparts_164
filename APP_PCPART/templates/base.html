@@ -56,10 +56,6 @@
 						<!--		Afficher la liste des userrole dans l'ordre (ASC) et tous les userrole (0)-->
 						<a class="nav-link" href="{{ url_for('config_afficher', order_by='ASC', id_config_sel=0) }}">Configs</a>
 					</li>
-					<li class="nav-item">
-						<!--		Afficher la liste des userrole dans l'ordre (ASC) et tous les userrole (0)-->
-						<a class="nav-link" href="{{ url_for('cpumanufacturer_afficher', order_by='ASC', id_cpu_manufacturer_sel=0) }}">CPU Manufacturers</a>
-					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navdropdowncomponents" role="button"
 						   data-bs-toggle="dropdown" aria-expanded="false">
@@ -69,6 +65,7 @@
 							<li><a class="nav-link" href="{{ url_for('motherboard_afficher', order_by='ASC', id_motherboard_sel=0) }}">Motherboards</a></li>
 							<li><a class="nav-link" href="{{ url_for('ram_afficher', order_by='ASC', id_ram_sel=0) }}">Ram kits</a></li>
 							<li><a class="nav-link" href="{{ url_for('cpu_afficher', order_by='ASC', id_cpu_sel=0) }}">CPUs</a></li>
+							<li><a class="nav-link" href="{{ url_for('gpu_afficher', order_by='ASC', id_gpu_sel=0) }}">GPUs</a></li>
 						</ul>
 					</li>
 					<li class="nav-item dropdown">
@@ -87,8 +84,19 @@
 							CPU/...
 						</a>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="nav-link" href="{{ url_for('cpumanufacturer_afficher', order_by='ASC', id_cpu_manufacturer_sel=0) }}">CPU Manufacturers</a></li>
 							<li><a class="nav-link" href="{{ url_for('cpu_cpumanufacturer_afficher', id_cpu_sel=0) }}">CPU/Manufacturer</a></li>
 							<li><a class="nav-link" href="{{ url_for('cpu_motherboard_afficher', id_cpu_sel=0) }}">CPU/Motherboard</a></li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navdropdowngpu" role="button"
+						   data-bs-toggle="dropdown" aria-expanded="false">
+							GPU/...
+						</a>
+						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="nav-link" href="{{ url_for('gpumanufacturer_afficher', order_by='ASC', id_gpu_manufacturer_sel=0) }}">GPU Manufacturers</a></li>
+							<li><a class="nav-link" href="{{ url_for('gpu_gpumanufacturer_afficher', id_gpu_sel=0) }}">GPU/Manufacturer</a></li>
 						</ul>
 					</li>
 

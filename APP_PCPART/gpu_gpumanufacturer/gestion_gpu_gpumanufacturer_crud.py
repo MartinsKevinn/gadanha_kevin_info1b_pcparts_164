@@ -32,10 +32,10 @@ def gpu_gpumanufacturer_afficher(id_gpu_sel):
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_gpumanufacturer_gpu_afficher_data = """SELECT id_gpu, gpu_Name, gpu_Codename, gpu_Cores, gpu_Clock, gpu_Socket, gpu_Released,
-                                                            GROUP_CONCAT(gpu_Manufacturer) as gpumanufacturergpu FROM t_gpumanufacturer_produce_gpu
+                strsql_gpumanufacturer_gpu_afficher_data = """SELECT id_gpu, GPU_Brand, GPU_Name, GPU_Codename, GPU_Bus, GPU_Memory, GPU_Clock, Memory_Clock, GPU_TDP, GPU_Released,
+                                                            GROUP_CONCAT(GPU_Manufacturer) as GpumanufacturerGpu FROM t_gpumanufacturer_produce_gpu
                                                             RIGHT JOIN t_gpu ON t_gpu.id_gpu = t_gpumanufacturer_produce_gpu.fk_gpu
-                                                            LEFT JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpu_manufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
+                                                            LEFT JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpumanufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
                                                             GROUP BY id_gpu"""
                 if id_gpu_sel == 0:
                     # le paramètre 0 permet d'afficher tous les gpu
@@ -96,7 +96,7 @@ def edit_gpumanufacturer_gpu_selected():
     if request.method == "GET":
         try:
             with DBconnection() as mc_afficher:
-                strsql_id_gpu_manufacturer_afficher = """SELECT id_gpu_manufacturer, gpu_Manufacturer FROM t_gpumanufacturer ORDER BY id_gpu_manufacturer ASC"""
+                strsql_id_gpu_manufacturer_afficher = """SELECT id_gpumanufacturer, GPU_Manufacturer FROM t_gpumanufacturer ORDER BY id_gpumanufacturer ASC"""
                 mc_afficher.execute(strsql_id_gpu_manufacturer_afficher)
             data_gpumanufacturer_all = mc_afficher.fetchall()
             print("dans edit_gpumanufacturer_gpu_selected ---> data_gpumanufacturer_all", data_gpumanufacturer_all)
@@ -130,7 +130,7 @@ def edit_gpumanufacturer_gpu_selected():
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
             # les gpumanufacturer qui ne sont pas encore sélectionnés.
-            lst_data_gpumanufacturer_gpu_non_attribues = [item['id_gpu_manufacturer'] for item in
+            lst_data_gpumanufacturer_gpu_non_attribues = [item['id_gpumanufacturer'] for item in
                                                           data_gpumanufacturer_gpu_non_attribues]
             session['session_lst_data_gpumanufacturer_gpu_non_attribues'] = lst_data_gpumanufacturer_gpu_non_attribues
             print("lst_data_gpumanufacturer_gpu_non_attribues  ", lst_data_gpumanufacturer_gpu_non_attribues,
@@ -138,7 +138,7 @@ def edit_gpumanufacturer_gpu_selected():
 
             # Dans le composant "tags-selector-tagselect" on doit connaître
             # les gpumanufacturer qui sont déjà sélectionnés.
-            lst_data_gpumanufacturer_gpu_old_attribues = [item['id_gpu_manufacturer'] for item in
+            lst_data_gpumanufacturer_gpu_old_attribues = [item['id_gpumanufacturer'] for item in
                                                           data_gpumanufacturer_gpu_attribues]
             session['session_lst_data_gpumanufacturer_gpu_old_attribues'] = lst_data_gpumanufacturer_gpu_old_attribues
             print("lst_data_gpumanufacturer_gpu_old_attribues  ", lst_data_gpumanufacturer_gpu_old_attribues,
@@ -151,9 +151,9 @@ def edit_gpumanufacturer_gpu_selected():
             print(" data_gpumanufacturer_gpu_attribues ", data_gpumanufacturer_gpu_attribues, "type ",
                   type(data_gpumanufacturer_gpu_attribues))
 
-            # Extrait les valeurs contenues dans la table "t_gpumanufacturer", colonne "gpu_Manufacturer"
-            # Le composant javascript "tagify" pour afficher les tags n'a pas besoin de l'id_gpu_manufacturer
-            lst_data_gpumanufacturer_gpu_non_attribues = [item['gpu_Manufacturer'] for item in
+            # Extrait les valeurs contenues dans la table "t_gpumanufacturer", colonne "GPU_Manufacturer"
+            # Le composant javascript "tagify" pour afficher les tags n'a pas besoin de l'id_gpumanufacturer
+            lst_data_gpumanufacturer_gpu_non_attribues = [item['GPU_Manufacturer'] for item in
                                                           data_gpumanufacturer_gpu_non_attribues]
             print("lst_all_gpumanufacturer gf_edit_gpumanufacturer_gpu_selected ",
                   lst_data_gpumanufacturer_gpu_non_attribues,
@@ -219,22 +219,22 @@ def update_gpumanufacturer_gpu_selected():
 
             # Pour apprécier la facilité de la vie en Python... "les ensembles en Python"
             # https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles
-            # OM 2021.05.02 Une liste de "id_gpu_manufacturer" qui doivent être effacés de la table intermédiaire "t_gpumanufacturer_produce_gpu".
+            # OM 2021.05.02 Une liste de "id_gpumanufacturer" qui doivent être effacés de la table intermédiaire "t_gpumanufacturer_produce_gpu".
             lst_diff_gpumanufacturer_delete_b = list(set(old_lst_data_gpumanufacturer_gpu_attribues) -
                                                      set(new_lst_int_gpumanufacturer_gpu_old))
             print("lst_diff_gpumanufacturer_delete_b ", lst_diff_gpumanufacturer_delete_b)
 
-            # Une liste de "id_gpu_manufacturer" qui doivent être ajoutés à la "t_gpumanufacturer_produce_gpu"
+            # Une liste de "id_gpumanufacturer" qui doivent être ajoutés à la "t_gpumanufacturer_produce_gpu"
             lst_diff_gpumanufacturer_insert_a = list(
                 set(new_lst_int_gpumanufacturer_gpu_old) - set(old_lst_data_gpumanufacturer_gpu_attribues))
             print("lst_diff_gpumanufacturer_insert_a ", lst_diff_gpumanufacturer_insert_a)
 
             # SQL pour insérer une nouvelle association entre
-            # "fk_gpu"/"id_gpu" et "fk_gpumanufacturer"/"id_gpu_manufacturer" dans la "t_gpumanufacturer_produce_gpu"
+            # "fk_gpu"/"id_gpu" et "fk_gpumanufacturer"/"id_gpumanufacturer" dans la "t_gpumanufacturer_produce_gpu"
             strsql_insert_gpumanufacturer_gpu = """INSERT INTO t_gpumanufacturer_produce_gpu (id_gpumanufacturer_produce_gpu, fk_gpumanufacturer, fk_gpu)
                                                     VALUES (NULL, %(value_fk_gpumanufacturer)s, %(value_fk_gpu)s)"""
 
-            # SQL pour effacer une (des) association(s) existantes entre "id_gpu" et "id_gpu_manufacturer" dans la "t_gpumanufacturer_produce_gpu"
+            # SQL pour effacer une (des) association(s) existantes entre "id_gpu" et "id_gpumanufacturer" dans la "t_gpumanufacturer_produce_gpu"
             strsql_delete_gpumanufacturer_gpu = """DELETE FROM t_gpumanufacturer_produce_gpu WHERE fk_gpumanufacturer = %(value_fk_gpumanufacturer)s AND fk_gpu = %(value_fk_gpu)s"""
 
             with DBconnection() as mconn_bd:
@@ -288,19 +288,19 @@ def gpumanufacturer_gpu_afficher_data(valeur_id_gpu_selected_dict):
     print("valeur_id_gpu_selected_dict...", valeur_id_gpu_selected_dict)
     try:
 
-        strsql_gpu_selected = """SELECT id_gpu, gpu_Name, gpu_Codename, gpu_Cores, gpu_Clock, gpu_Socket, GROUP_CONCAT(id_gpu_manufacturer) as gpumanufacturergpu FROM t_gpumanufacturer_produce_gpu
+        strsql_gpu_selected = """SELECT id_gpu, GPU_Brand, GPU_Name, GPU_Codename, GPU_Bus, GPU_Memory, GPU_Clock, Memory_Clock, GPU_TDP, GPU_Released, GROUP_CONCAT(id_gpumanufacturer) as GpumanufacturerGpu FROM t_gpumanufacturer_produce_gpu
                                         INNER JOIN t_gpu ON t_gpu.id_gpu = t_gpumanufacturer_produce_gpu.fk_gpu
-                                        INNER JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpu_manufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
+                                        INNER JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpumanufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
                                         WHERE id_gpu = %(value_id_gpu_selected)s"""
 
-        strsql_gpumanufacturer_gpu_non_attribues = """SELECT id_gpu_manufacturer, gpu_Manufacturer FROM t_gpumanufacturer WHERE id_gpu_manufacturer not in(SELECT id_gpu_manufacturer as idgpumanufacturergpu FROM t_gpumanufacturer_produce_gpu
+        strsql_gpumanufacturer_gpu_non_attribues = """SELECT id_gpumanufacturer, GPU_Manufacturer FROM t_gpumanufacturer WHERE id_gpumanufacturer not in(SELECT id_gpumanufacturer as idgpumanufacturergpu FROM t_gpumanufacturer_produce_gpu
                                                     INNER JOIN t_gpu ON t_gpu.id_gpu = t_gpumanufacturer_produce_gpu.fk_gpu
-                                                    INNER JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpu_manufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
+                                                    INNER JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpumanufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
                                                     WHERE id_gpu = %(value_id_gpu_selected)s)"""
 
-        strsql_gpumanufacturer_gpu_attribues = """SELECT id_gpu, id_gpu_manufacturer, gpu_Manufacturer FROM t_gpumanufacturer_produce_gpu
+        strsql_gpumanufacturer_gpu_attribues = """SELECT id_gpu, id_gpumanufacturer, GPU_Manufacturer FROM t_gpumanufacturer_produce_gpu
                                             INNER JOIN t_gpu ON t_gpu.id_gpu = t_gpumanufacturer_produce_gpu.fk_gpu
-                                            INNER JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpu_manufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
+                                            INNER JOIN t_gpumanufacturer ON t_gpumanufacturer.id_gpumanufacturer = t_gpumanufacturer_produce_gpu.fk_gpumanufacturer
                                             WHERE id_gpu = %(value_id_gpu_selected)s"""
 
         # Du fait de l'utilisation des "context managers" on accède au curseur grâce au "with".

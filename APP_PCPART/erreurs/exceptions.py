@@ -247,7 +247,51 @@ class ExceptionCpuAfficher(Base):
     pass
 
 
-class ExceptionRamDeleteWtf(Base):
+class ExceptionGpuAfficher(Base):
+    pass
+
+
+class ExceptionGpumanufacturerAjouterWtf(Base):
+    pass
+
+
+class ExceptionGpuUpdateWtf(Base):
+    pass
+
+
+class ExceptionGpuDeleteWtf(Base):
+    pass
+
+
+class ExceptiongpumanufacturergpuAfficherData(Base):
+    pass
+
+
+class ExceptionUpdategpumanufacturergpuSelected(Base):
+    pass
+
+
+class ExceptionEditgpumanufacturergpuSelected(Base):
+    pass
+
+
+class ExceptiongpugpumanufacturerAfficher(Base):
+    pass
+
+
+class ExceptiongpumanufacturerDeleteWtf(Base):
+    pass
+
+
+class ExceptiongpumanufacturerUpdateWtf(Base):
+    pass
+
+
+class ExceptiongpumanufacturerAjouterWtf(Base):
+    pass
+
+
+class ExceptiongpumanufacturerAfficher(Base):
     pass
 
 

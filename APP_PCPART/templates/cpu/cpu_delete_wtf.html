@@ -21,13 +21,16 @@
 						CPU Codename
 					</th>
 					<th class="">
+						CPU Socket
+					</th>
+					<th class="">
 						CPU Cores
 					</th>
 					<th class="">
 						CPU Clock
 					</th>
 					<th class="">
-						CPU Socket
+						CPU TDP
 					</th>
 					<th class="">
 						CPU Released
@@ -48,13 +51,16 @@
 						{{ row.CPU_Codename|default("None", True) }}
 					</th>
 					<th class="align-middle">
+						{{ row.CPU_Socket|default("None", True) }}
+					</th>
+					<th class="align-middle">
 						{{ row.CPU_Cores|default("None", True) }}
 					</th>
 					<th class="align-middle">
 						{{ row.CPU_Clock|default("None", True) }}
 					</th>
 					<th class="align-middle">
-						{{ row.CPU_Socket|default("None", True) }}
+						{{ row.CPU_TDP|default("None", True) }}
 					</th>
 					<th class="align-middle">
 						{{ row.CPU_Released|default("None", True) }}

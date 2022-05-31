@@ -1,60 +1,81 @@
 {% extends "base.html" %}
-{% block title %} Add a CPU (WTF) {% endblock %}
+{% block title %} Add a GPU (WTF) {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<p>
-				Add a new CPU
+				Add a new GPU
 			</p>
 			<form action="" method="POST" novalidate>
 				<!-- Protection contre les attaques Cross-Site Request Forgery (CSRF) -->
-				{{ form_add_cpu.hidden_tag() }}
+				{{ form_add_gpu.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form_add_cpu.name_cpu_add_wtf.label }}<br>
-						{{ form_add_cpu.name_cpu_add_wtf(size=32) }}<br>
-						{% for error in form_add_cpu.name_cpu_add_wtf.errors %}
+						{{ form_add_gpu.brand_gpu_add_wtf.label }}<br>
+						{{ form_add_gpu.brand_gpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_gpu.brand_gpu_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form_add_cpu.codename_cpu_add_wtf.label }}<br>
-						{{ form_add_cpu.codename_cpu_add_wtf(size=32) }}<br>
-						{% for error in form_add_cpu.codename_cpu_add_wtf.errors %}
+						{{ form_add_gpu.name_gpu_add_wtf.label }}<br>
+						{{ form_add_gpu.name_gpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_gpu.name_gpu_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form_add_cpu.cores_cpu_add_wtf.label }}<br>
-						{{ form_add_cpu.cores_cpu_add_wtf(size=32) }}<br>
-						{% for error in form_add_cpu.cores_cpu_add_wtf.errors %}
+						{{ form_add_gpu.codename_gpu_add_wtf.label }}<br>
+						{{ form_add_gpu.codename_gpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_gpu.codename_gpu_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form_add_cpu.clock_cpu_add_wtf.label }}<br>
-						{{ form_add_cpu.clock_cpu_add_wtf(size=32) }}<br>
-						{% for error in form_add_cpu.clock_cpu_add_wtf.errors %}
+						{{ form_add_gpu.bus_gpu_add_wtf.label }}<br>
+						{{ form_add_gpu.bus_gpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_gpu.bus_gpu_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form_add_cpu.socket_cpu_add_wtf.label }}<br>
-						{{ form_add_cpu.socket_cpu_add_wtf(size=32) }}<br>
-						{% for error in form_add_cpu.socket_cpu_add_wtf.errors %}
+						{{ form_add_gpu.memory_gpu_add_wtf.label }}<br>
+						{{ form_add_gpu.memory_gpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_gpu.memory_gpu_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 					<p>
-						{{ form_add_cpu.released_cpu_add_wtf.label }}<br>
-						{{ form_add_cpu.released_cpu_add_wtf(size=32) }}<br>
-						{% for error in form_add_cpu.released_cpu_add_wtf.errors %}
+						{{ form_add_gpu.clock_gpu_add_wtf.label }}<br>
+						{{ form_add_gpu.clock_gpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_gpu.clock_gpu_add_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_add_gpu.clock_memory_gpu_add_wtf.label }}<br>
+						{{ form_add_gpu.clock_memory_gpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_gpu.clock_memory_gpu_add_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_add_gpu.tdp_gpu_add_wtf.label }}<br>
+						{{ form_add_gpu.tdp_gpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_gpu.tdp_gpu_add_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
+					<p>
+						{{ form_add_gpu.released_gpu_add_wtf.label }}<br>
+						{{ form_add_gpu.released_gpu_add_wtf(size=32) }}<br>
+						{% for error in form_add_gpu.released_gpu_add_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
 				</div>
-				{{ form_add_cpu.submit(class="btn btn-primary") }}
+				{{ form_add_gpu.submit(class="btn btn-primary") }}
 			</form>
 		</div>
 	</div>

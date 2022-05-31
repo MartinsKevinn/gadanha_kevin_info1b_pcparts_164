@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Afficher MOTHERBOARD compatible CPU {% endblock %}
+{% block title %} Show Manufacturer compatible CPU {% endblock %}
 {% block head %}
     <!--
         OM 2020.05.04
@@ -74,17 +74,17 @@
 						<td class="align-middle">
 							{{ row.CPU_Codename|default(None, True) }}
 						</td>
-						<td class="align-middle">
+                        <td class="align-middle">
 							{{ row.CPU_Socket|default(None, True) }}
 						</td>
-						<td class="align-middle">
+                        <td class="align-middle">
 							{{ row.CPU_Cores|default(None, True) }}
 						</td>
-						<td class="align-middle">
-                            {{ row.CPU_Clock|default(None, True) }}
+                        <td class="align-middle">
+							{{ row.CPU_Clock|default(None, True) }}
 						</td>
                         <td class="align-middle">
-                            {{ row.CPU_Released|default(None, True) }}
+							{{ row.CPU_Release|default(None, True) }}
 						</td>
 					</tr>
 				</tbody>
@@ -92,7 +92,7 @@
 				<tbody>
 					<tr>
 						<td>
-							No user.
+							No CPU.
 						</td>
 					</tr>
 				</tbody>

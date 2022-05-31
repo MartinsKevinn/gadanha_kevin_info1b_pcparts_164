@@ -16,9 +16,10 @@ class FormWTFAddCpu(FlaskForm):
     """
     name_cpu_add_wtf = StringField("CPU Name ", widget=TextArea())
     codename_cpu_add_wtf = StringField("CPU Codename", widget=TextArea())
+    socket_cpu_add_wtf = StringField("CPU Socket", widget=TextArea())
     cores_cpu_add_wtf = StringField("CPU Cores", widget=TextArea())
     clock_cpu_add_wtf = StringField("CPU Clock", widget=TextArea())
-    socket_cpu_add_wtf = StringField("CPU Socket", widget=TextArea())
+    tdp_cpu_add_wtf = StringField("CPU TDP", widget=TextArea())
     released_cpu_add_wtf = DateField("CPU Release date")
     submit = SubmitField("Save cpu")
 
@@ -31,9 +32,10 @@ class FormWTFUpdateCpu(FlaskForm):
 
     nom_cpu_update_wtf = StringField("CPU Name", widget=TextArea())
     cpu_codename_update_wtf = StringField("CPU Codename", widget=TextArea())
+    cpu_socket_update_wtf = StringField("CPU Socket", widget=TextArea())
     cpu_cores_update_wtf = StringField("CPU Cores", widget=TextArea())
     cpu_clock_update_wtf = StringField("CPU Clock", widget=TextArea())
-    cpu_socket_update_wtf = StringField("CPU Socket", widget=TextArea())
+    cpu_tdp_update_wtf = StringField("CPU TDP", widget=TextArea())
     cpu_released_update_wtf = DateField("CPU Release date")
 
     submit = SubmitField("Update cpu")

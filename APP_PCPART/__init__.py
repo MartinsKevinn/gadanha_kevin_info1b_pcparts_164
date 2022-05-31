@@ -42,15 +42,13 @@ try:
     from APP_PCPART.essais_wtf_forms import gestion_essai_wtf
     from APP_PCPART.essais_wtf_forms import gestion_wtf_forms_demo_select
     from APP_PCPART.demos_om_164 import routes_demos
+    from APP_PCPART.erreurs import msg_avertissements
 
     # User
     from APP_PCPART.user import gestion_user_crud
     from APP_PCPART.user import gestion_user_wtf_forms
-
-    # Userrole
     from APP_PCPART.userrole import gestion_userrole_crud
     from APP_PCPART.user_userrole import gestion_user_userrole_crud
-    from APP_PCPART.erreurs import msg_avertissements
 
     # CPU
     from APP_PCPART.cpu_cpumanufacturer import gestion_cpu_cpumanufacturer_crud
@@ -68,6 +66,12 @@ try:
 
     # Ram
     from APP_PCPART.ram import gestion_ram_crud
+
+    # GPU
+    from APP_PCPART.gpu_gpumanufacturer import gestion_gpu_gpumanufacturer_crud
+    from APP_PCPART.gpumanufacturer import gestion_gpumanufacturer_crud
+    from APP_PCPART.gpu import gestion_gpu_crud
+    from APP_PCPART.gpu import gestion_gpu_wtf_forms
 
 except Exception as Exception_init_app_pcpart_164:
     print(f"4567756434 Une erreur est survenue {type(Exception_init_app_pcpart_164)} dans"

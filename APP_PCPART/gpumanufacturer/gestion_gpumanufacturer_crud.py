@@ -32,7 +32,7 @@ def gpumanufacturer_afficher(order_by, id_gpu_manufacturer_sel):
         try:
             with DBconnection() as mc_afficher:
                 if order_by == "ASC" and id_gpu_manufacturer_sel == 0:
-                    strsql_id_gpu_manufacturer_afficher = """SELECT id_gpu_manufacturer, gpu_Manufacturer FROM t_gpumanufacturer ORDER BY id_gpu_manufacturer ASC"""
+                    strsql_id_gpu_manufacturer_afficher = """SELECT id_gpumanufacturer, GPU_Manufacturer FROM t_gpumanufacturer ORDER BY id_gpumanufacturer ASC"""
                     mc_afficher.execute(strsql_id_gpu_manufacturer_afficher)
                 elif order_by == "ASC":
                     # C'EST LA QUE VOUS ALLEZ DEVOIR PLACER VOTRE PROPRE LOGIQUE MySql
@@ -42,12 +42,12 @@ def gpumanufacturer_afficher(order_by, id_gpu_manufacturer_sel):
                     # Constitution d'un dictionnaire pour associer l'id du manufacturer sélectionné avec un nom de variable
                     valeur_id_gpu_manufacturer_selected_dictionnaire = {
                         "value_id_gpu_manufacturer_selected": id_gpu_manufacturer_sel}
-                    strsql_id_gpu_manufacturer_afficher = """SELECT id_gpu_manufacturer, gpu_Manufacturer  FROM t_gpumanufacturer WHERE id_gpu_manufacturer = %(value_id_gpu_manufacturer_selected)s"""
+                    strsql_id_gpu_manufacturer_afficher = """SELECT id_gpumanufacturer, GPU_Manufacturer  FROM t_gpumanufacturer WHERE id_gpumanufacturer = %(value_id_gpu_manufacturer_selected)s"""
 
                     mc_afficher.execute(strsql_id_gpu_manufacturer_afficher,
                                         valeur_id_gpu_manufacturer_selected_dictionnaire)
                 else:
-                    strsql_id_gpu_manufacturer_afficher = """SELECT id_gpu_manufacturer, gpu_Manufacturer FROM t_gpumanufacturer ORDER BY id_gpu_manufacturer DESC"""
+                    strsql_id_gpu_manufacturer_afficher = """SELECT id_gpumanufacturer, GPU_Manufacturer FROM t_gpumanufacturer ORDER BY id_gpumanufacturer DESC"""
 
                     mc_afficher.execute(strsql_id_gpu_manufacturer_afficher)
 
@@ -59,7 +59,7 @@ def gpumanufacturer_afficher(order_by, id_gpu_manufacturer_sel):
                 if not data_gpumanufacturer and id_gpu_manufacturer_sel == 0:
                     flash("""Table "t_gpumanufacturer" is empty !!""", "warning")
                 elif not data_gpumanufacturer and id_gpu_manufacturer_sel > 0:
-                    # Si l'utilisateur change l'id_gpu_manufacturer dans l'URL et que le manufacturer n'existe pas,
+                    # Si l'utilisateur change l'id_gpumanufacturer dans l'URL et que le manufacturer n'existe pas,
                     flash(f"Le manufacturer demandé n'existe pas !!", "warning")
                 else:
                     # Dans tous les autres cas, c'est que la table "t_gpumanufacturer" is empty
@@ -105,7 +105,7 @@ def gpumanufacturer_ajouter_wtf():
                 valeurs_insertion_dictionnaire = {"value_gpu_Manufacturer": name_gpumanufacturer}
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_gpumanufacturer = """INSERT INTO t_gpumanufacturer (id_gpu_manufacturer,gpu_Manufacturer) VALUES (NULL,%(value_gpu_Manufacturer)s) """
+                strsql_insert_gpumanufacturer = """INSERT INTO t_gpumanufacturer (id_gpumanufacturer,GPU_Manufacturer) VALUES (NULL,%(value_gpu_Manufacturer)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_gpumanufacturer, valeurs_insertion_dictionnaire)
 
@@ -145,7 +145,7 @@ def gpumanufacturer_ajouter_wtf():
 
 @app.route("/gpumanufacturer_update", methods=['GET', 'POST'])
 def gpumanufacturer_update_wtf():
-    # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_gpu_manufacturer"
+    # L'utilisateur vient de cliquer sur le bouton "EDIT". Récupère la valeur de "id_gpumanufacturer"
     id_gpu_manufacturer_update = request.values['id_gpu_manufacturer_btn_edit_html']
 
     # Objet formulaire pour l'UPDATE
@@ -162,7 +162,7 @@ def gpumanufacturer_update_wtf():
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
-            str_sql_update_gpu_Manufacturer = """UPDATE t_gpumanufacturer SET gpu_Manufacturer = %(value_name_gpumanufacturer)s WHERE id_gpu_manufacturer = %(value_id_gpu_manufacturer)s """
+            str_sql_update_gpu_Manufacturer = """UPDATE t_gpumanufacturer SET GPU_Manufacturer = %(value_name_gpumanufacturer)s WHERE id_gpumanufacturer = %(value_id_gpu_manufacturer)s """
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_gpu_Manufacturer, valeur_update_dictionnaire)
 
@@ -174,19 +174,19 @@ def gpumanufacturer_update_wtf():
             return redirect(
                 url_for('gpumanufacturer_afficher', order_by="ASC", id_gpu_manufacturer_sel=id_gpu_manufacturer_update))
         elif request.method == "GET":
-            # Opération sur la BD pour récupérer "id_gpu_manufacturer" et "gpu_Manufacturer" de la "t_gpumanufacturer"
-            str_sql_id_gpu_manufacturer = "SELECT id_gpu_manufacturer, gpu_Manufacturer FROM t_gpumanufacturer " \
-                               "WHERE id_gpu_manufacturer = %(value_id_gpu_manufacturer)s"
+            # Opération sur la BD pour récupérer "id_gpumanufacturer" et "GPU_Manufacturer" de la "t_gpumanufacturer"
+            str_sql_id_gpu_manufacturer = "SELECT id_gpumanufacturer, GPU_Manufacturer FROM t_gpumanufacturer " \
+                               "WHERE id_gpumanufacturer = %(value_id_gpu_manufacturer)s"
             valeur_select_dictionnaire = {"value_id_gpu_manufacturer": id_gpu_manufacturer_update}
             with DBconnection() as mybd_conn:
                 mybd_conn.execute(str_sql_id_gpu_manufacturer, valeur_select_dictionnaire)
             # Une seule valeur est suffisante "fetchone()", vu qu'il n'y a qu'un seul champ "nom manufacturer" pour l'UPDATE
             data_nom_gpumanufacturer = mybd_conn.fetchone()
             print("data_nom_gpumanufacturer ", data_nom_gpumanufacturer, " type ", type(data_nom_gpumanufacturer), " manufacturer ",
-                  data_nom_gpumanufacturer["gpu_Manufacturer"])
+                  data_nom_gpumanufacturer["GPU_Manufacturer"])
 
             # Afficher la valeur sélectionnée dans les champs du formulaire "gpumanufacturer_update_wtf.html"
-            form_update.nom_gpumanufacturer_update_wtf.data = data_nom_gpumanufacturer["gpu_Manufacturer"]
+            form_update.nom_gpumanufacturer_update_wtf.data = data_nom_gpumanufacturer["GPU_Manufacturer"]
 
     except Exception as Exception_gpumanufacturer_update_wtf:
         raise ExceptiongpumanufacturerUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
@@ -215,7 +215,7 @@ def gpumanufacturer_update_wtf():
 def gpumanufacturer_delete_wtf():
     data_gpu_attribue_gpumanufacturer_delete = None
     btn_submit_del = None
-    # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_gpu_manufacturer"
+    # L'utilisateur vient de cliquer sur le bouton "DELETE". Récupère la valeur de "id_gpumanufacturer"
     id_gpu_manufacturer_delete = request.values['id_gpu_manufacturer_btn_delete_html']
 
     # Objet formulaire pour effacer le manufacturer sélectionné.
@@ -243,7 +243,7 @@ def gpumanufacturer_delete_wtf():
                 print("valeur_delete_dictionnaire ", valeur_delete_dictionnaire)
 
                 str_sql_delete_gpu_gpumanufacturer = """DELETE FROM t_gpumanufacturer_produce_gpu WHERE fk_gpumanufacturer = %(value_id_gpu_manufacturer)s"""
-                str_sql_delete_idgpumanufacturer = """DELETE FROM t_gpumanufacturer WHERE id_gpu_manufacturer = %(value_id_gpu_manufacturer)s"""
+                str_sql_delete_idgpumanufacturer = """DELETE FROM t_gpumanufacturer WHERE id_gpumanufacturer = %(value_id_gpu_manufacturer)s"""
                 # Manière brutale d'effacer d'abord la "fk_gpumanufacturer", même si elle n'existe pas dans la "t_gpumanufacturer_produce_gpu"
                 # Ensuite on peut effacer le manufacturer vu qu'il n'est plus "lié" (INNODB) dans la "t_gpumanufacturer_produce_gpu"
                 with DBconnection() as mconn_bd:
@@ -261,9 +261,9 @@ def gpumanufacturer_delete_wtf():
             print(id_gpu_manufacturer_delete, type(id_gpu_manufacturer_delete))
 
             # Requête qui affiche tous les gpu_gpumanufacturer qui ont le manufacturer que l'utilisateur veut effacer
-            str_sql_gpumanufacturer_gpu_delete = """SELECT id_gpu, gpu_Name, id_gpu_manufacturer, gpu_Manufacturer FROM t_gpumanufacturer_produce_gpu 
+            str_sql_gpumanufacturer_gpu_delete = """SELECT id_gpu, gpu_Name, id_gpumanufacturer, GPU_Manufacturer FROM t_gpumanufacturer_produce_gpu 
                                             INNER JOIN t_gpu ON t_gpumanufacturer_produce_gpu.fk_gpu = t_gpu.id_gpu
-                                            INNER JOIN t_gpumanufacturer ON t_gpumanufacturer_produce_gpu.fk_gpumanufacturer = t_gpumanufacturer.id_gpu_manufacturer
+                                            INNER JOIN t_gpumanufacturer ON t_gpumanufacturer_produce_gpu.fk_gpumanufacturer = t_gpumanufacturer.id_gpumanufacturer
                                             WHERE fk_gpumanufacturer = %(value_id_gpu_manufacturer)s"""
 
             with DBconnection() as mydb_conn:
@@ -275,18 +275,18 @@ def gpumanufacturer_delete_wtf():
                 # le formulaire "gpumanufacturer/gpumanufacturer_delete_wtf.html" lorsque le bouton "Etes-vous sur d'effacer ?" est cliqué.
                 session['data_gpu_attribue_gpumanufacturer_delete'] = data_gpu_attribue_gpumanufacturer_delete
 
-                # Opération sur la BD pour récupérer "id_gpu_manufacturer" et "gpu_Manufacturer" de la "t_gpumanufacturer"
-                str_sql_id_gpu_manufacturer = "SELECT id_gpu_manufacturer, gpu_Manufacturer FROM t_gpumanufacturer WHERE id_gpu_manufacturer = %(value_id_gpu_manufacturer)s"
+                # Opération sur la BD pour récupérer "id_gpumanufacturer" et "GPU_Manufacturer" de la "t_gpumanufacturer"
+                str_sql_id_gpu_manufacturer = "SELECT id_gpumanufacturer, GPU_Manufacturer FROM t_gpumanufacturer WHERE id_gpumanufacturer = %(value_id_gpu_manufacturer)s"
 
                 mydb_conn.execute(str_sql_id_gpu_manufacturer, valeur_select_dictionnaire)
                 # Une seule valeur est suffisante "fetchone()",
                 # vu qu'il n'y a qu'un seul champ "nom manufacturer" pour l'action DELETE
                 data_nom_gpumanufacturer = mydb_conn.fetchone()
                 print("data_nom_gpumanufacturer ", data_nom_gpumanufacturer, " type ", type(data_nom_gpumanufacturer), " manufacturer ",
-                      data_nom_gpumanufacturer["gpu_Manufacturer"])
+                      data_nom_gpumanufacturer["GPU_Manufacturer"])
 
             # Afficher la valeur sélectionnée dans le champ du formulaire "gpumanufacturer_delete_wtf.html"
-            form_delete.nom_gpumanufacturer_delete_wtf.data = data_nom_gpumanufacturer["gpu_Manufacturer"]
+            form_delete.nom_gpumanufacturer_delete_wtf.data = data_nom_gpumanufacturer["GPU_Manufacturer"]
 
             # Le bouton pour l'action "DELETE" dans le form. "gpumanufacturer_delete_wtf.html" est caché.
             btn_submit_del = False
