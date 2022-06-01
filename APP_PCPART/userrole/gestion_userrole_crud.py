@@ -183,7 +183,7 @@ def userrole_update_wtf():
             print("data_nom_userrole ", data_nom_userrole, " type ", type(data_nom_userrole), " userrole ",
                   data_nom_userrole["userrole"])
 
-            # Afficher la valeur sélectionnée dans les champs du formulaire "userrole_update_wtf.html"
+            # Show la valeur sélectionnée dans les champs du formulaire "userrole_update_wtf.html"
             form_update.nom_userrole_update_wtf.data = data_nom_userrole["userrole"]
 
     except Exception as Exception_userrole_update_wtf:
@@ -283,7 +283,7 @@ def userrole_delete_wtf():
                 print("data_nom_userrole ", data_nom_userrole, " type ", type(data_nom_userrole), " role ",
                       data_nom_userrole["userrole"])
 
-            # Afficher la valeur sélectionnée dans le champ du formulaire "userrole_delete_wtf.html"
+            # Show la valeur sélectionnée dans le champ du formulaire "userrole_delete_wtf.html"
             form_delete_userrole.nom_userrole_delete_wtf.data = data_nom_userrole["userrole"]
 
             # Le bouton pour l'action "DELETE" dans le form. "userrole_delete_wtf.html" est caché.

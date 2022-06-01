@@ -18,7 +18,7 @@ from APP_PCPART.erreurs.exceptions import *
     Auteur : OM 2021.05.01
     Définition d'une "route" /user_userrole_afficher
     
-    But : Afficher les users avec les roles associés pour chaque user.
+    But : Show les users avec les roles associés pour chaque user.
     
     Paramètres : id_userrole_sel = 0 >> tous les users.
                  id_userrole_sel = "n" affiche le user dont l'id est "n"

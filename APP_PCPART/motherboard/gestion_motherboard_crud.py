@@ -194,7 +194,7 @@ def motherboard_update_wtf():
                   " motherboard_brand ",
                   data_nom_motherboard["motherboard_brand"])
 
-            # Afficher la valeur sélectionnée dans les champs du formulaire "motherboard_update_wtf.html"
+            # Show la valeur sélectionnée dans les champs du formulaire "motherboard_update_wtf.html"
             form_update.nom_motherboard_update_wtf.data = data_nom_motherboard["motherboard_brand"]
             form_update.model_motherboard_update_wtf.data = data_nom_motherboard["motherboard_model"]
             form_update.release_year_motherboard_update_wtf.data = data_nom_motherboard["motherboard_release_year"]
@@ -301,7 +301,7 @@ def motherboard_delete_wtf():
                       " motherboard ",
                       data_nom_motherboard["motherboard_model"])
 
-            # Afficher la valeur sélectionnée dans le champ du formulaire "motherboard_delete_wtf.html"
+            # Show la valeur sélectionnée dans le champ du formulaire "motherboard_delete_wtf.html"
             form_delete.nom_motherboard_delete_wtf.data = data_nom_motherboard["motherboard_brand"]
             form_delete.model_motherboard_delete_wtf.data = data_nom_motherboard["motherboard_model"]
 

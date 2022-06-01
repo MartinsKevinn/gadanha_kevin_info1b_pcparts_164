@@ -18,7 +18,7 @@ from APP_PCPART.erreurs.exceptions import *
     Auteur : OM 2021.05.01
     Définition d'une "route" /cpu_motherboard_afficher
     
-    But : Afficher les CPUs avec les motherboard associés pour chaque CPU.
+    But : Show les CPUs avec les motherboard associés pour chaque CPU.
     
     Paramètres : id_motherboard_sel = 0 >> tous les CPU.
                  id_motherboard_sel = "n" affiche le CPU dont l'id est "n"

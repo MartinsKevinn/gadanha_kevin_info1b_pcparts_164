@@ -42,7 +42,7 @@ def personnes_taille_dict():
     print(msg_erreurs.items())
     # Affiche les clés
     print(msg_erreurs.keys())
-    # Afficher les valeurs
+    # Show les valeurs
     print(msg_erreurs.values())
 
     # Affiche la valeur "message" du dictionnaire d'erreur "DATABASE/msg_erreurs.py"

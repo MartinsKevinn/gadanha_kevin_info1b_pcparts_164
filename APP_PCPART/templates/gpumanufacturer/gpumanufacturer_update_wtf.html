@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Edit MANUFACTURER (WTF) {% endblock %}
+{% block title %} Edit MANUFACTURER {% endblock %}
 {% block body %}
 <div class="container">
 	<div class="row">
@@ -12,9 +12,9 @@
 				{{ form_update.hidden_tag() }}
 				<div class="form-group">
 					<p>
-						{{ form_update.nom_cpumanufacturer_update_wtf.label }}<br>
-						{{ form_update.nom_cpumanufacturer_update_wtf(size=32) }}<br>
-						{% for error in form_update.nom_cpumanufacturer_update_wtf.errors %}
+						{{ form_update.nom_gpumanufacturer_update_wtf.label }}<br>
+						{{ form_update.nom_gpumanufacturer_update_wtf(size=32) }}<br>
+						{% for error in form_update.nom_gpumanufacturer_update_wtf.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>

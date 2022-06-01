@@ -174,7 +174,7 @@ def cpu_update_wtf():
             print(f"Data updated !!")
 
             # afficher et constater que la donnée est mise à jour.
-            # Afficher seulement le cpu modifié, "ASC" et l'"id_cpu_update"
+            # Show seulement le cpu modifié, "ASC" et l'"id_cpu_update"
             return redirect(url_for('cpu_cpumanufacturer_afficher', id_cpu_sel=id_cpu_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_cpu" et "CPU_Manufacturer" de la "t_cpumanufacturer"
@@ -189,7 +189,7 @@ def cpu_update_wtf():
             print("data_cpu ", data_cpu, " type ", type(data_cpu), " cpumanufacturer ",
                   data_cpu["CPU_Name"])
 
-            # Afficher la valeur sélectionnée dans le champ du formulaire "cpu_update_wtf.html"
+            # Show la valeur sélectionnée dans le champ du formulaire "cpu_update_wtf.html"
             form_update_cpu.nom_cpu_update_wtf.data = data_cpu["CPU_Name"]
             form_update_cpu.cpu_codename_update_wtf.data = data_cpu["CPU_Codename"]
             # Debug simple pour contrôler la valeur dans la console "run" de PyCharm

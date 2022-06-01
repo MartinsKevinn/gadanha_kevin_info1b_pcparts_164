@@ -18,7 +18,7 @@ from APP_PCPART.erreurs.exceptions import *
     Auteur : OM 2021.05.01
     Définition d'une "route" /cpu_cpumanufacturer_afficher
     
-    But : Afficher les cpu avec les cpumanufacturer associés pour chaque cpu.
+    But : Show les cpu avec les cpumanufacturer associés pour chaque cpu.
     
     Paramètres : id_cpu_manufacturer_sel = 0 >> tous les cpu.
                  id_cpu_manufacturer_sel = "n" affiche le cpu dont l'id est "n"

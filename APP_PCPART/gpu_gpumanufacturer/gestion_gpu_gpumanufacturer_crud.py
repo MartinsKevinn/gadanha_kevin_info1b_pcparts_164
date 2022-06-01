@@ -18,7 +18,7 @@ from APP_PCPART.erreurs.exceptions import *
     Auteur : OM 2021.05.01
     Définition d'une "route" /gpu_gpumanufacturer_afficher
     
-    But : Afficher les gpu avec les gpumanufacturer associés pour chaque gpu.
+    But : Show les gpu avec les gpumanufacturer associés pour chaque gpu.
     
     Paramètres : id_gpu_manufacturer_sel = 0 >> tous les gpu.
                  id_gpu_manufacturer_sel = "n" affiche le gpu dont l'id est "n"

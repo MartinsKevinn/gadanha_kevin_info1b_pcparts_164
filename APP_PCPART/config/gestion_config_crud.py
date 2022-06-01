@@ -326,7 +326,7 @@ def config_update_wtf():
             print("data_config_use_case ", data_config_use_case, " type ", type(data_config_use_case), " use case ",
                   data_config_use_case["config_use_case"])
 
-            # Afficher la valeur sélectionnée dans les champs du formulaire "config_update_wtf.html"
+            # Show la valeur sélectionnée dans les champs du formulaire "config_update_wtf.html"
             form_update.config_use_case_update_wtf.data = data_config_use_case["config_use_case"]
             form_update.config_rating_update_wtf.data = data_config_use_case["config_rating"]
 
@@ -430,7 +430,7 @@ def config_delete_wtf():
                 print("data_config_use_case ", data_config_use_case, " type ", type(data_config_use_case), " config ",
                       data_config_use_case["config_rating"])
 
-            # Afficher la valeur sélectionnée dans le champ du formulaire "config_delete_wtf.html"
+            # Show la valeur sélectionnée dans le champ du formulaire "config_delete_wtf.html"
             form_delete.config_use_case_delete_wtf.data = data_config_use_case["config_use_case"]
             form_delete.config_rating_delete_wtf.data = data_config_use_case["config_rating"]
 

@@ -196,7 +196,7 @@ def ram_update_wtf():
             print("data_nom_ram ", data_nom_ram, " type ", type(data_nom_ram), " ram_brand ",
                   data_nom_ram["ram_brand"])
 
-            # Afficher la valeur sélectionnée dans les champs du formulaire "ram_update_wtf.html"
+            # Show la valeur sélectionnée dans les champs du formulaire "ram_update_wtf.html"
             form_update.brand_ram_update_wtf.data = data_nom_ram["ram_brand"]
             form_update.name_ram_update_wtf.data = data_nom_ram["ram_name"]
             form_update.capacity_ram_update_wtf.data = data_nom_ram["ram_capacity"]
@@ -302,7 +302,7 @@ def ram_delete_wtf():
                 print("data_nom_ram ", data_nom_ram, " type ", type(data_nom_ram), " ram ",
                       data_nom_ram["ram_name"])
 
-            # Afficher la valeur sélectionnée dans le champ du formulaire "ram_delete_wtf.html"
+            # Show la valeur sélectionnée dans le champ du formulaire "ram_delete_wtf.html"
             form_delete.brand_ram_delete_wtf.data = data_nom_ram["ram_brand"]
             form_delete.name_ram_delete_wtf.data = data_nom_ram["ram_name"]
 

@@ -185,7 +185,7 @@ def cpumanufacturer_update_wtf():
             print("data_nom_cpumanufacturer ", data_nom_cpumanufacturer, " type ", type(data_nom_cpumanufacturer), " manufacturer ",
                   data_nom_cpumanufacturer["CPU_Manufacturer"])
 
-            # Afficher la valeur sélectionnée dans les champs du formulaire "cpumanufacturer_update_wtf.html"
+            # Show la valeur sélectionnée dans les champs du formulaire "cpumanufacturer_update_wtf.html"
             form_update.nom_cpumanufacturer_update_wtf.data = data_nom_cpumanufacturer["CPU_Manufacturer"]
 
     except Exception as Exception_cpumanufacturer_update_wtf:
@@ -285,7 +285,7 @@ def cpumanufacturer_delete_wtf():
                 print("data_nom_cpumanufacturer ", data_nom_cpumanufacturer, " type ", type(data_nom_cpumanufacturer), " manufacturer ",
                       data_nom_cpumanufacturer["CPU_Manufacturer"])
 
-            # Afficher la valeur sélectionnée dans le champ du formulaire "cpumanufacturer_delete_wtf.html"
+            # Show la valeur sélectionnée dans le champ du formulaire "cpumanufacturer_delete_wtf.html"
             form_delete.nom_cpumanufacturer_delete_wtf.data = data_nom_cpumanufacturer["CPU_Manufacturer"]
 
             # Le bouton pour l'action "DELETE" dans le form. "cpumanufacturer_delete_wtf.html" est caché.

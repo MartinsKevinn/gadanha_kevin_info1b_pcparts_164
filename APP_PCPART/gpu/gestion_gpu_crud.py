@@ -187,7 +187,7 @@ def gpu_update_wtf():
             print(f"Data updated !!")
 
             # afficher et constater que la donnée est mise à jour.
-            # Afficher seulement le gpu modifié, "ASC" et l'"id_gpu_update"
+            # Show seulement le gpu modifié, "ASC" et l'"id_gpu_update"
             return redirect(url_for('gpu_gpumanufacturer_afficher', id_gpu_sel=id_gpu_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_gpu" et "GPU_Manufacturer" de la "t_gpumanufacturer"
@@ -202,7 +202,7 @@ def gpu_update_wtf():
             print("data_gpu ", data_gpu, " type ", type(data_gpu), " gpumanufacturer ",
                   data_gpu["GPU_Name"])
 
-            # Afficher la valeur sélectionnée dans le champ du formulaire "gpu_update_wtf.html"
+            # Show la valeur sélectionnée dans le champ du formulaire "gpu_update_wtf.html"
             form_update_gpu.brand_gpu_update_wtf.data = data_gpu["GPU_Brand"]
             form_update_gpu.nom_gpu_update_wtf.data = data_gpu["GPU_Name"]
             form_update_gpu.gpu_codename_update_wtf.data = data_gpu["GPU_Codename"]

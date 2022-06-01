@@ -116,7 +116,7 @@ def user_update_wtf():
             print(f"Data updated !!")
 
             # afficher et constater que la donnée est mise à jour.
-            # Afficher seulement le user modifié, "ASC" et l'"id_user_update"
+            # Show seulement le user modifié, "ASC" et l'"id_user_update"
             return redirect(url_for('user_userrole_afficher', id_user_sel=id_user_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer les données de la "t_user"
@@ -131,7 +131,7 @@ def user_update_wtf():
             print("data_user ", data_user, " type ", type(data_user), " userrole ",
                   data_user["id_user"])
 
-            # Afficher la valeur sélectionnée dans le champ du formulaire "user_update_wtf.html"
+            # Show la valeur sélectionnée dans le champ du formulaire "user_update_wtf.html"
             form_update_user.user_firstname_update_wtf.data = data_user["user_firstname"]
             form_update_user.user_lastname_update_wtf.data = data_user["user_lastname"]
             # Debug simple pour contrôler la valeur dans la console "run" de PyCharm
