@@ -71,7 +71,7 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navdropdownuser" role="button"
 						   data-bs-toggle="dropdown" aria-expanded="false">
-							User/...
+							Users/...
 						</a>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 							<li><a class="nav-link" href="{{ url_for('user_config_afficher', id_user_sel=0) }}">Users/Config</a></li>
@@ -81,7 +81,7 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navdropdowncpu" role="button"
 						   data-bs-toggle="dropdown" aria-expanded="false">
-							CPU/...
+							CPUs/...
 						</a>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 							<li><a class="nav-link" href="{{ url_for('cpumanufacturer_afficher', order_by='ASC', id_cpu_manufacturer_sel=0) }}">CPU Manufacturers</a></li>
@@ -92,14 +92,14 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navdropdowngpu" role="button"
 						   data-bs-toggle="dropdown" aria-expanded="false">
-							GPU/...
+							GPUs/...
 						</a>
 						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 							<li><a class="nav-link" href="{{ url_for('gpumanufacturer_afficher', order_by='ASC', id_gpu_manufacturer_sel=0) }}">GPU Manufacturers</a></li>
 							<li><a class="nav-link" href="{{ url_for('gpu_gpumanufacturer_afficher', id_gpu_sel=0) }}">GPU/Manufacturer</a></li>
 						</ul>
 					</li>
-
+					<!--
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('personnes_taille_dict') }}">Démo "TAILLE"</a>
 					</li>
@@ -117,7 +117,7 @@
 							<li><a class="dropdown-item" href="{{ url_for('demo_select_wtf') }}">Essai DROPDOWN</a></li>
 						</ul>
 					</li>
-
+				-->
 				</ul>
 			</div>
 		</div>
