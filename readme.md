@@ -1,4 +1,5 @@
-Marche à suivre pour la mise en service du serveur avec la base de données et la page web !
+# Marche à suivre pour la mise en service du serveur avec la base de données et la page web !
+---
 1. Il faut installer un serveur MySql :
    * UWAMP : sur le site de "UWAMP", lire "Prerequisites IMPORTANT!!" (vous devez installer une des distributions Visual C++, j'ai choisi la plus récente)
    * UWAMP : installer la version "EXE" (Choisir : Télécharger Exe/Install) est préférable à la version "PORTABLE"
@@ -17,18 +18,25 @@ Marche à suivre pour la mise en service du serveur avec la base de données et 
    * Ouvrir "PyCharm" pour la première fois pour le configurer. Cliquez sur le bouton "Open"
    * Sélectionnez 
 
-4. Démarrer le serveur MySql (uwamp ou xamp ou mamp, etc)
+4. Démarrez le serveur MySql
 5. Dans "PyCharm", importer la BD à partir du fichier DUMP
     * Ouvrir le fichier "database/1_ImportationDumpSql.py"
     * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)
     * En cas d'erreurs : ouvrir le fichier ".env" à la racine du projet, contrôler les indications de connexion pour la
       bd.
+
 6. Test simple de la connexion à la BD
     * Ouvrir le fichier "database/2_test_connection_bd.py"
     * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)
-7. Démarrer le microframework FLASK
+
+7. Démarrez le microframework FLASK
     * Dans le répertoire racine du projet, ouvrir le fichier "run_mon_app.py"
     * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)
+
+
+
+
+
 
 
 # Module 164 2022.04.13
