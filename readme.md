@@ -1,3 +1,36 @@
+Marche à suivre pour la mise en service du serveur avec la base de données et la page web !
+1. Il faut installer un serveur MySql :
+   1.1. UWAMP : sur le site de "UWAMP", lire "Prerequisites IMPORTANT!!" (vous devez installer une des distributions Visual C++, j'ai choisi la plus récente)
+   1.2. UWAMP : installer la version "EXE" (Choisir : Télécharger Exe/Install) est préférable à la version "PORTABLE"
+   1.3. UWAMP : accepter les 2 alertes de sécurité d'accès aux réseaux (apache et MySql)
+   1.4. MAC : MAMP ou https://www.codeur.com/tuto/creation-de-site-internet/version-mysql/
+   1.5. Contrôler que tout fonctionne bien. Ouvrir "UWAMP". Cliquer sur le bouton "PhpMyAdmin". Utilisateur : root Mot de passe : root
+
+2. Il faut installer Python :
+   2.1. ATTENTION : Cocher la case pour que le "PATH" intègre le programme Python
+   2.2. Une fois la "case à cocher" du PATH cochée, il faut choisir d'installer
+   2.3. Un peu avant la fin du processus d'intallation, cliquer sur "disabled length limit" et cliquer sur "CLOSE"
+   2.4. Le test de Python se fait après avec le programme "PyCharm"
+
+3. Il faut installer "PyCharm" (community edition) :
+   3.1. Lors de l'installation, il faut cocher toutes les options ASSOCIATIONS, ADD PATH, etc
+   3.2. Ouvrir "PyCharm" pour la première fois pour le configurer. Cliquez sur le bouton "Open"
+   3.3. Sélectionnez 
+
+* Démarrer le serveur MySql (uwamp ou xamp ou mamp, etc)
+* Dans "PyCharm", importer la BD à partir du fichier DUMP
+    * Ouvrir le fichier "database/1_ImportationDumpSql.py"
+    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)
+    * En cas d'erreurs : ouvrir le fichier ".env" à la racine du projet, contrôler les indications de connexion pour la
+      bd.
+* Test simple de la connexion à la BD
+    * Ouvrir le fichier "database/2_test_connection_bd.py"
+    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)
+* Démarrer le microframework FLASK
+    * Dans le répertoire racine du projet, ouvrir le fichier "run_mon_app.py"
+    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)
+
+
 # Module 164 2022.04.13
 
 
