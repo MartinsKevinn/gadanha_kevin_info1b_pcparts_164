@@ -35,7 +35,7 @@
     * Ouvrir le fichier "database/1_ImportationDumpSql.py".
     * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10).
     * En cas d'erreurs : ouvrir le fichier ".env" à la racine du projet, contrôler les indications de connexion pour la bd.
-      * Par exemple le compte utilisateur si vous avez modifié son nom ou mot de passe.
+      * Par exemple le compte utilisateur si vous avez modifié son nom ou mot de passe.  
       
 8. Démarrez le microframework FLASK
     * Dans le répertoire racine du projet sur PyCharm, cliquez avec le bouton droit sur le fichier "run_mon_app.py" et choisir "run 'run_mon_app'" avec le petit triangle vert à côté.

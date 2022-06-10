@@ -115,7 +115,7 @@ INSERT INTO `t_case_is_format` (`id_case_is_format`, `fk_case`, `fk_format`, `da
 CREATE TABLE `t_config` (
   `id_config` int(11) NOT NULL,
   `config_use_case` set('Gaming','Work','Home') DEFAULT NULL,
-  `config_rating` enum('5','4','3','2','1') DEFAULT NULL
+  `config_rating` enum('5/5','4/5','3/5','2/5','1/5') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -123,9 +123,9 @@ CREATE TABLE `t_config` (
 --
 
 INSERT INTO `t_config` (`id_config`, `config_use_case`, `config_rating`) VALUES
-(1, 'Gaming', '4'),
-(2, 'Gaming,Work', '5'),
-(3, 'Gaming', NULL);
+(1, 'Gaming', '3/5'),
+(2, 'Work', '1/5'),
+(3, 'Gaming', '5/5');
 
 -- --------------------------------------------------------
 
@@ -365,8 +365,6 @@ CREATE TABLE `t_cpu` (
 INSERT INTO `t_cpu` (`id_cpu`, `CPU_Name`, `CPU_Codename`, `CPU_Cores`, `CPU_Clock`, `CPU_Socket`, `CPU_Process`, `CPU_L3_Cache`, `CPU_TDP`, `CPU_Released`) VALUES
 (5, 'Celeron G6900', 'Alder Lake-S', '2', '3.4 GHz', '1700', 10, 4, 46, '2022-01-04'),
 (6, 'Celeron G6900E', 'Alder Lake-S', '2', '3 GHz', '1700', 10, 4, 46, '2022-01-04'),
-(28, 'Celeron G6900T', 'Alder Lake-S', '2', '2.8 GHz', '1700', 10, 4, 35, '2022-01-04'),
-(29, 'Celeron G6900TE', 'Alder Lake-S', '2', '2.4 GHz', '1700', 10, 4, 35, '2022-01-04'),
 (30, 'Core i3_12100', 'Alder Lake-S', '4 / 8', '3.3-4.3 GHz', '1700', 10, 12, 60, '2022-01-31'),
 (31, 'Core i3_12100E', 'Alder Lake-S', '4 / 8', '3.2-4.2 GHz', '1700', 10, 12, 60, '2022-01-31'),
 (32, 'Core i3_12100F', 'Alder Lake-S', '4 / 8', '3.3-4.3 GHz', '1700', 10, 12, 58, '2022-01-31'),
@@ -572,7 +570,10 @@ INSERT INTO `t_cpumanufacturer_produce_cpu` (`id_cpumanufacturer_produce_cpu`, `
 (5, 2, 236, '2022-03-18 10:26:15'),
 (6, 2, 239, '2022-03-18 10:26:45'),
 (7, 2, 184, '2022-03-18 10:28:13'),
-(8, 2, 183, '2022-03-18 10:28:42');
+(8, 2, 183, '2022-03-18 10:28:42'),
+(9, 1, 75, '2022-05-25 05:51:44'),
+(10, 2, 242, '2022-05-27 14:51:55'),
+(11, 2, 241, '2022-05-27 14:52:12');
 
 -- --------------------------------------------------------
 
@@ -586,6 +587,18 @@ CREATE TABLE `t_cpu_compatible_motherboard` (
   `fk_motherboard` int(11) NOT NULL,
   `date_cpu_compatible_motherboard` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_cpu_compatible_motherboard`
+--
+
+INSERT INTO `t_cpu_compatible_motherboard` (`id_cpu_compatible_motherboard`, `fk_cpu`, `fk_motherboard`, `date_cpu_compatible_motherboard`) VALUES
+(1, 239, 7, '2022-05-14 13:33:25'),
+(2, 239, 6, '2022-05-14 13:34:01'),
+(3, 236, 6, '2022-05-14 13:35:16'),
+(4, 236, 1, '2022-05-14 13:42:10'),
+(5, 236, 2, '2022-05-14 13:42:10'),
+(6, 236, 3, '2022-05-14 13:42:10');
 
 -- --------------------------------------------------------
 
@@ -653,10 +666,10 @@ INSERT INTO `t_gpu` (`id_gpu`, `GPU_Brand`, `GPU_Name`, `GPU_Codename`, `GPU_Bus
 (2, 'AMD', 'Radeon RX 6800', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 1700, 2000, 3840, 240, 96, 250, '2020-10-28'),
 (3, 'AMD', 'Radeon RX 6800 XT', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 1825, 2000, 4608, 288, 128, 300, '2020-10-28'),
 (4, 'AMD', 'Radeon RX 6900 XT', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 1825, 2000, 5120, 320, 128, 300, '2020-10-28'),
-(5, 'ASRock', 'ASRock RX 6900 XT Phantom Gaming D OC', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 1925, 2000, 5120, 320, 128, 350, '2020-10-28'),
-(6, 'GIGABYTE', 'GIGABYTE AORUS RX 6900 XT MASTER', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 1950, 2000, 5120, 320, 128, 300, '2020-10-28'),
-(7, 'MSI', 'MSI RX 6900 XT GAMING Z TRIO', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 2050, 2430, 5120, 320, 128, 300, '2020-10-28'),
-(8, 'PowerColor', 'PowerColor Red Devil RX 6900 XT', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 1925, 2000, 5120, 320, 128, 300, '2020-10-28');
+(5, 'ASRock', 'RX 6900 XT Phantom Gaming D OC', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 1925, 2000, 5120, 320, 128, 350, '2020-10-28'),
+(6, 'GIGABYTE', 'AORUS RX 6900 XT MASTER', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 1950, 2000, 5120, 320, 128, 300, '2020-10-28'),
+(7, 'MSI', 'RX 6900 XT GAMING Z TRIO', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 2050, 2430, 5120, 320, 128, 300, '2020-10-28'),
+(8, 'PowerColor', 'Red Devil RX 6900 XT', 'Navi 21', 'PCIe 4.0 x16', '16GB GDDR6, 256 bit', 1925, 2000, 5120, 320, 128, 300, '2020-10-28');
 
 -- --------------------------------------------------------
 
@@ -738,23 +751,22 @@ CREATE TABLE `t_motherboard` (
   `motherboard_brand` varchar(20) DEFAULT NULL,
   `motherboard_model` varchar(50) DEFAULT NULL,
   `motherboard_socket` varchar(20) DEFAULT NULL,
-  `motherboard_chipset` varchar(20) DEFAULT NULL,
-  `motherboard_release_year` year(4) DEFAULT NULL
+  `motherboard_release_year` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `t_motherboard`
 --
 
-INSERT INTO `t_motherboard` (`id_motherboard`, `motherboard_brand`, `motherboard_model`, `motherboard_socket`, `motherboard_chipset`, `motherboard_release_year`) VALUES
-(1, 'Gigabyte ', 'B450 Aorus Elite', '1x AM4', 'AMD B450', 2018),
-(2, 'Asrock ', 'B450 Steel Legend', '1x AM4', 'AMD B450', 2019),
-(3, 'Asus ', 'ROG Strix X570-E Gaming', '1x AM4', 'AMD X570', 2019),
-(4, 'Gigabyte	', 'B550 Aorus Master', '1x AM4', 'AMD B550', 2020),
-(5, 'Asrock', 'B550 Taichi', '1x AM4', 'AMD B550', 2020),
-(6, 'MSI', 'MEG X570 Godlike', '1x AM4', 'AMD X570', 2019),
-(7, 'MSI', 'MEG X570 Creation', '1x AM4', 'AMD X570', 2019),
-(8, 'Asrock ', 'X570 Aqua', '1x AM4', 'AMD X570', 2019);
+INSERT INTO `t_motherboard` (`id_motherboard`, `motherboard_brand`, `motherboard_model`, `motherboard_socket`, `motherboard_release_year`) VALUES
+(1, 'Gigabyte ', 'B450 Aorus Elite', '1x AM4', '2018-01-01'),
+(2, 'Asrock ', 'B450 Steel Legend', '1x AM4', '2019-01-01'),
+(3, 'Asus ', 'ROG Strix X570-E Gaming', '1x AM4', '2019-01-01'),
+(4, 'Gigabyte	', 'B550 Aorus Master', '1x AM4', '2020-01-01'),
+(5, 'Asrock', 'B550 Taichi', '1x AM4', '2020-01-01'),
+(6, 'MSI', 'MEG X570 Godlike', '1x AM4', '2019-01-01'),
+(7, 'MSI', 'MEG X570 Creation', '1x AM4', '2019-01-01'),
+(8, 'Asrock ', 'X570 Aqua', '1x AM4', '2019-01-01');
 
 -- --------------------------------------------------------
 
@@ -803,7 +815,7 @@ CREATE TABLE `t_ram` (
 --
 
 INSERT INTO `t_ram` (`id_ram`, `ram_brand`, `ram_name`, `ram_capacity`, `ram_data_rate`, `ram_timings`) VALUES
-(1, 'G.Skill', 'Trident Z5 RGB', '32GB (2 x 16GB)', 'DDR5-6000 (XMP)', '36-36-36-76'),
+(1, 'G.Skill', 'Trident Z RGB', '32GB (2 x 16GB)', 'DDR5-6000 (XMP)', '36-36-36-76'),
 (2, 'TeamGroup', 'T-Force Xtreem ARGB', '16GB (2 x 8GB)', 'DDR4-3600 (XMP)', '14-15-15-35 '),
 (3, 'Patriot', 'Viper Steel', '16GB (2 x 8GB)', 'DDR4-4400 (XMP)', '19-19-19-39'),
 (4, 'Patriot', 'Viper RGB', '16GB (2 x 8GB)', 'DDR4-3600 (XMP)', '16-18-18-36'),
@@ -851,7 +863,8 @@ INSERT INTO `t_ram_is_ramgen` (`id_ram_is_ramgen`, `fk_ram`, `fk_ramgen`, `date_
 (2, 2, 2, '2022-03-14 19:04:06'),
 (3, 3, 2, '2022-03-14 19:04:19'),
 (4, 4, 2, '2022-03-14 19:04:30'),
-(5, 5, 2, '2022-03-14 19:04:41');
+(5, 5, 2, '2022-03-14 19:04:41'),
+(6, 1, 2, '2022-05-26 16:21:58');
 
 -- --------------------------------------------------------
 
@@ -950,16 +963,20 @@ CREATE TABLE `t_user` (
   `id_user` int(11) NOT NULL,
   `User_firstname` varchar(50) DEFAULT NULL,
   `User_lastname` varchar(50) DEFAULT NULL,
-  `User_birthdate` date DEFAULT NULL
+  `User_birthdate` date DEFAULT NULL,
+  `User_photo` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `t_user`
 --
 
-INSERT INTO `t_user` (`id_user`, `User_firstname`, `User_lastname`, `User_birthdate`) VALUES
-(1, 'Kevin', 'Martins', '2003-06-01'),
-(2, 'Pierre', 'Alain', '2022-03-16');
+INSERT INTO `t_user` (`id_user`, `User_firstname`, `User_lastname`, `User_birthdate`, `User_photo`) VALUES
+(28, 'Pierre', 'Poirier', '1989-05-27', 'data:image/png;base64,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'),
+(29, 'Paul', 'Tier', '2022-04-27', 'data:image/png;base64,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'),
+(31, 'Noam', 'Brid', '2022-04-30', 'data:image/jpeg;base64,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'),
+(32, 'Ali', 'Fair', '2004-05-14', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuKoXZ9RUzidNz40ZuSpkjPGmDAywSEW8S-g&usqp=CAU'),
+(33, 'Michel', 'Terrier', '1999-05-28', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVT01Y1xw38z-0eHMN2f5YqwDK4sEYnXq9mw&usqp=CAU');
 
 -- --------------------------------------------------------
 
@@ -1018,10 +1035,11 @@ CREATE TABLE `t_userrole` (
 --
 
 INSERT INTO `t_userrole` (`id_userrole`, `userrole`) VALUES
-(1, 'Admin'),
 (2, 'Helper'),
-(4, 'Test1'),
-(3, 'User');
+(3, 'User'),
+(5, 'Superadmin'),
+(8, 'SuperHelperPythonSQL'),
+(9, 'Admin');
 
 -- --------------------------------------------------------
 
@@ -1041,9 +1059,7 @@ CREATE TABLE `t_user_created_config` (
 --
 
 INSERT INTO `t_user_created_config` (`id_user_created_config`, `fk_user`, `fk_config`, `date_user_created_config`) VALUES
-(1, 1, 1, '2022-03-14 14:18:01'),
-(2, 1, 2, '2022-03-18 07:33:49'),
-(3, 1, 3, '2022-03-18 07:33:56');
+(5, 29, 3, '2022-05-24 19:51:57');
 
 -- --------------------------------------------------------
 
@@ -1071,13 +1087,6 @@ CREATE TABLE `t_user_has_userpseudo` (
   `date_user_has_pseudo` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `t_user_has_userpseudo`
---
-
-INSERT INTO `t_user_has_userpseudo` (`id_user_has_userpseudo`, `fk_user`, `fk_pseudo`, `date_user_has_pseudo`) VALUES
-(1, 1, 1, '2022-03-14 13:56:47');
-
 -- --------------------------------------------------------
 
 --
@@ -1096,9 +1105,14 @@ CREATE TABLE `t_user_has_userrole` (
 --
 
 INSERT INTO `t_user_has_userrole` (`id_user_has_userrole`, `fk_user`, `fk_userrole`, `date_user_has_role`) VALUES
-(2, 1, 1, '2022-03-15 09:44:48');
-INSERT INTO `t_user_has_userrole` (`id_user_has_userrole`, `fk_user`, `fk_userrole`, `date_user_has_role`) VALUES
-(3, 2, 2, '2022-05-15 09:44:48');
+(39, 28, 5, '2022-05-24 17:26:50'),
+(40, 28, 9, '2022-05-24 17:33:02'),
+(41, 32, 3, '2022-05-26 16:48:46'),
+(42, 33, 3, '2022-05-30 12:00:47'),
+(43, 31, 3, '2022-05-30 12:00:58'),
+(44, 28, 3, '2022-05-30 12:01:07'),
+(45, 29, 2, '2022-05-30 12:01:14'),
+(46, 29, 3, '2022-05-30 12:01:14');
 
 -- --------------------------------------------------------
 
@@ -1506,12 +1520,12 @@ ALTER TABLE `t_cpumanufacturer`
 -- AUTO_INCREMENT for table `t_cpumanufacturer_produce_cpu`
 --
 ALTER TABLE `t_cpumanufacturer_produce_cpu`
-  MODIFY `id_cpumanufacturer_produce_cpu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_cpumanufacturer_produce_cpu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `t_cpu_compatible_motherboard`
 --
 ALTER TABLE `t_cpu_compatible_motherboard`
-  MODIFY `id_cpu_compatible_motherboard` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cpu_compatible_motherboard` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `t_cpu_compatible_ramgen`
 --
@@ -1566,7 +1580,7 @@ ALTER TABLE `t_ramgen`
 -- AUTO_INCREMENT for table `t_ram_is_ramgen`
 --
 ALTER TABLE `t_ram_is_ramgen`
-  MODIFY `id_ram_is_ramgen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_ram_is_ramgen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `t_ssd`
 --
@@ -1586,7 +1600,7 @@ ALTER TABLE `t_supply_is_format`
 -- AUTO_INCREMENT for table `t_user`
 --
 ALTER TABLE `t_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT for table `t_usermail`
 --
@@ -1601,12 +1615,12 @@ ALTER TABLE `t_userpseudo`
 -- AUTO_INCREMENT for table `t_userrole`
 --
 ALTER TABLE `t_userrole`
-  MODIFY `id_userrole` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_userrole` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `t_user_created_config`
 --
 ALTER TABLE `t_user_created_config`
-  MODIFY `id_user_created_config` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user_created_config` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `t_user_has_usermail`
 --
@@ -1616,12 +1630,12 @@ ALTER TABLE `t_user_has_usermail`
 -- AUTO_INCREMENT for table `t_user_has_userpseudo`
 --
 ALTER TABLE `t_user_has_userpseudo`
-  MODIFY `id_user_has_userpseudo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user_has_userpseudo` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `t_user_has_userrole`
 --
 ALTER TABLE `t_user_has_userrole`
-  MODIFY `id_user_has_userrole` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user_has_userrole` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 --
 -- AUTO_INCREMENT for table `t_watercooling`
 --
@@ -1712,8 +1726,8 @@ ALTER TABLE `t_config_has_watercooling`
 -- Constraints for table `t_cpumanufacturer_produce_cpu`
 --
 ALTER TABLE `t_cpumanufacturer_produce_cpu`
-  ADD CONSTRAINT `t_cpumanufacturer_produce_cpu_ibfk_1` FOREIGN KEY (`fk_cpumanufacturer`) REFERENCES `t_cpumanufacturer` (`id_cpu_manufacturer`),
-  ADD CONSTRAINT `t_cpumanufacturer_produce_cpu_ibfk_2` FOREIGN KEY (`fk_cpu`) REFERENCES `t_cpu` (`id_cpu`);
+  ADD CONSTRAINT `t_cpumanufacturer_produce_cpu_ibfk_1` FOREIGN KEY (`fk_cpumanufacturer`) REFERENCES `t_cpumanufacturer` (`id_cpu_manufacturer`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `t_cpumanufacturer_produce_cpu_ibfk_2` FOREIGN KEY (`fk_cpu`) REFERENCES `t_cpu` (`id_cpu`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `t_cpu_compatible_motherboard`
@@ -1761,26 +1775,26 @@ ALTER TABLE `t_supply_is_format`
 -- Constraints for table `t_user_created_config`
 --
 ALTER TABLE `t_user_created_config`
-  ADD CONSTRAINT `t_user_created_config_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `t_user` (`id_user`),
-  ADD CONSTRAINT `t_user_created_config_ibfk_2` FOREIGN KEY (`fk_config`) REFERENCES `t_config` (`id_config`);
+  ADD CONSTRAINT `t_user_created_config_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `t_user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `t_user_created_config_ibfk_2` FOREIGN KEY (`fk_config`) REFERENCES `t_config` (`id_config`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `t_user_has_usermail`
 --
 ALTER TABLE `t_user_has_usermail`
-  ADD CONSTRAINT `t_user_has_usermail_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `t_user` (`id_user`),
-  ADD CONSTRAINT `t_user_has_usermail_ibfk_2` FOREIGN KEY (`fk_mail`) REFERENCES `t_usermail` (`id_mail`);
+  ADD CONSTRAINT `t_user_has_usermail_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `t_user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `t_user_has_usermail_ibfk_2` FOREIGN KEY (`fk_mail`) REFERENCES `t_usermail` (`id_mail`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `t_user_has_userpseudo`
 --
 ALTER TABLE `t_user_has_userpseudo`
-  ADD CONSTRAINT `t_user_has_userpseudo_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `t_user` (`id_user`),
-  ADD CONSTRAINT `t_user_has_userpseudo_ibfk_2` FOREIGN KEY (`fk_pseudo`) REFERENCES `t_userpseudo` (`id_pseudo`);
+  ADD CONSTRAINT `t_user_has_userpseudo_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `t_user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `t_user_has_userpseudo_ibfk_2` FOREIGN KEY (`fk_pseudo`) REFERENCES `t_userpseudo` (`id_pseudo`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `t_user_has_userrole`
 --
 ALTER TABLE `t_user_has_userrole`
-  ADD CONSTRAINT `t_user_has_userrole_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `t_user` (`id_user`),
-  ADD CONSTRAINT `t_user_has_userrole_ibfk_2` FOREIGN KEY (`fk_userrole`) REFERENCES `t_userrole` (`id_userrole`);
+  ADD CONSTRAINT `t_user_has_userrole_ibfk_1` FOREIGN KEY (`fk_user`) REFERENCES `t_user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `t_user_has_userrole_ibfk_2` FOREIGN KEY (`fk_userrole`) REFERENCES `t_userrole` (`id_userrole`) ON DELETE CASCADE ON UPDATE CASCADE;
