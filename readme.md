@@ -3,11 +3,14 @@
    * Appuyer sur le bouton vert "Code" sur la page github du projet.
    * Appuyer sur "Download ZIP" ou "Télécharger ZIP".
    * Une fenêtre de l'explorateur de fichier s'ouvre, choisissez ou vous souhaitez télécharger le projet, il est préférable de le mettre à un endroit où vous pouvez le retrouver facilement, par exemple à la racine du disque "C:".
-   * Maintenant il faut faire clique droit sur le dossier que vous venez de télécharger, puis appuyer sur 
+   * Maintenant il faut faire clique droit sur le dossier que vous venez de télécharger, puis appuyer sur extraire ici pour l'unzip.
+   * Vous pouvez changer le nom du dossier par celui qui vous convient, souvenez vous du nom il va être utile pour la suite.
+   * Supprimez le dossier .zip !
    
 3. Il faut installer un serveur MySql :
    * UWAMP : sur le site de "UWAMP", lire "Prerequisites IMPORTANT!!" (vous devez installer une ou plusieurs des distributions Visual C++).
    * UWAMP : installer la version "EXE" (Choisir : Télécharger Exe/Install) est préférable à la version "PORTABLE".
+   * Quand la fenêtre d'installation s'ouvre, choisissez où vous souhaitez installer le serveur MySQL, par exemple à la racine du disque "C:".
    * UWAMP : accepter les 2 alertes de sécurité d'accès aux réseaux (apache et MySql).
    * MAC : MAMP ou https://www.codeur.com/tuto/creation-de-site-internet/version-mysql/
    * Contrôler que tout fonctionne bien. Ouvrir "UWAMP". Cliquer sur le bouton "PhpMyAdmin". Utilisateur : root ; Mot de passe : root
@@ -22,26 +25,23 @@
 5. Il faut installer "PyCharm" (community edition) :
    * Lors de l'installation, il faut cocher toutes les options ASSOCIATIONS, ADD PATH, etc.
    * Ouvrir "PyCharm" pour la première fois pour le configurer. Cliquez sur le bouton "Open".
-   * Sélectionnez le projet gadanha_kevin_info1b_pcparts_164 que vous avez téléchargé au début de la marche à suivre.
+   * Naviguez jusqu'à la racine du disque "C:" avec l'explorateur de fichier qui s'est ouvert, puis sélectionnez le projet que vous avez téléchargé et auquel vous avez changé le nom au début de la marche à suivre.
 
-# Une fois les installations effectuées on peut passer à la mise en service
+# Une fois les installations effectuées on peut passer à la mise en service !
 6. Démarrez le serveur MySql :
-   * Ouvrir UWAMP avec le fichier "UwAmp.exe" qui se trouve dans le dossier UWAMP que vous avez téléchargé plus tôt.
+   * Ouvrir UWAMP avec le fichier "UwAmp.exe" qui se trouve dans le dossier UWAMP que vous avez téléchargé plus tôt, probablement à la racine du disque "C:".
 
-7. Dans "PyCharm", importer la BD à partir du fichier DUMP
-    * Ouvrir le fichier "database/1_ImportationDumpSql.py"
-    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)
-    * En cas d'erreurs : ouvrir le fichier ".env" à la racine du projet, contrôler les indications de connexion pour la
-      bd.
+7. Dans "PyCharm", importer la BD à partir du fichier DUMP :
+    * Ouvrir le fichier "database/1_ImportationDumpSql.py".
+    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10).
+    * En cas d'erreurs : ouvrir le fichier ".env" à la racine du projet, contrôler les indications de connexion pour la bd.
       * Par exemple le compte utilisateur si vous avez modifié son nom ou mot de passe.
+      
+8. Démarrez le microframework FLASK
+    * Dans le répertoire racine du projet, ouvrir le fichier "run_mon_app.py".
+    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10).
 
-8. Test simple de la connexion à la BD
-    * Ouvrir le fichier "database/2_test_connection_bd.py"
-    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)
 
-9. Démarrez le microframework FLASK
-    * Dans le répertoire racine du projet, ouvrir le fichier "run_mon_app.py"
-    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10)
 
 
 
