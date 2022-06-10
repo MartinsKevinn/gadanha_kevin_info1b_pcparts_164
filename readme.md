@@ -38,8 +38,7 @@
       * Par exemple le compte utilisateur si vous avez modifié son nom ou mot de passe.
       
 8. Démarrez le microframework FLASK
-    * Dans le répertoire racine du projet, ouvrir le fichier "run_mon_app.py".
-    * Cliquer avec le bouton droit sur l'onglet de ce fichier et choisir "run" (CTRL-MAJ-F10).
+    * Dans le répertoire racine du projet sur PyCharm, cliquez avec le bouton droit sur le fichier "run_mon_app.py" et choisir "run 'run_mon_app'" avec le petit triangle vert à côté.
 
 
 
