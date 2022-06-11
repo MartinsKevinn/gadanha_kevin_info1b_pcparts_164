@@ -15,13 +15,13 @@
 
 	<!-- Stylesheets en local -->
 	<!-- https://bootswatch.com/solar/-->
-<!--	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootswatch-4/solar/bootstrap.min.css') }}">-->
+	<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootswatch-4/solar/bootstrap.min.css') }}"> -->
 	<!-- https://bootswatch.com/darkly/ -->
-	<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootswatch-4/darkly/bootstrap.min.css') }}">-->
+	 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootswatch-4/darkly/bootstrap.min.css') }}">
 	<!--	https://bootswatch.com/cyborg/-->
-<!--	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootswatch-4/cyborg/bootstrap.min.css') }}">-->
+	<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootswatch-4/cyborg/bootstrap.min.css') }}"> -->
 	<!-- https://bootswatch.com/superhero/ -->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootswatch-4/superhero/bootstrap.min.css') }}">
+	<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootswatch-4/superhero/bootstrap.min.css') }}"> -->
 	<!-- https://flask.palletsprojects.com/en/1.1.x/patterns/favicon/ -->
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
@@ -32,7 +32,7 @@
 
 
 {% block header %} {% endblock %}
-
+ 
 {% include 'flash_messages.html' %}
 <!-- Navigation -->
 <div class="container">
@@ -44,10 +44,6 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
 				<ul class="navbar-nav">
-					<li class="nav-item">
-						<!--		Show la liste des userrole dans l'ordre (ASC) et tous les userrole (0)-->
-						<a class="nav-link" href="/WTFISTHISSHIT">Cékoi</a>
-					</li>
 					<li class="nav-item">
 						<!--		Show la liste des userrole dans l'ordre (ASC) et tous les userrole (0)-->
 						<a class="nav-link" href="{{ url_for('userrole_afficher', order_by='ASC', id_userrole_sel=0) }}">Roles</a>
