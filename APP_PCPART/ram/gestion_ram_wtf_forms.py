@@ -18,6 +18,7 @@ class FormWTFAjouterRam(FlaskForm):
     name_ram_wtf = StringField("Ram name", widget=TextArea())
     capacity_ram_wtf = StringField("Ram capacity", widget=TextArea())
     timings_ram_wtf = StringField("Ram timings", widget=TextArea())
+    data_rate_ram_wtf = StringField("Ram data rate", widget=TextArea())
     submit = SubmitField("Save ram")
 
 
@@ -30,6 +31,7 @@ class FormWTFUpdateRam(FlaskForm):
     name_ram_update_wtf = StringField("Ram name", widget=TextArea())
     capacity_ram_update_wtf = StringField("Ram capacity", widget=TextArea())
     timings_ram_update_wtf = StringField("Ram timings", widget=TextArea())
+    data_rate_ram_update_wtf = StringField("Ram data rate", widget=TextArea())
     submit = SubmitField("Update ram")
 
 

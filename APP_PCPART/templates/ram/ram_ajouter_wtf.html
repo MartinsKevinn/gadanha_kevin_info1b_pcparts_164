@@ -39,6 +39,13 @@
 							<span style="color: red;">[{{ error }}]</span>
 						{% endfor %}
 					</p>
+					<p>
+						{{ form.data_rate_ram_wtf.label }}<br>
+						{{ form.data_rate_ram_wtf(size=32) }}<br>
+						{% for error in form.data_rate_ram_wtf.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+						{% endfor %}
+					</p>
 				</div>
 				{{ form.submit(class="btn btn-primary") }}
 			</form>

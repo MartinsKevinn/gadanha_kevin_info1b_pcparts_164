@@ -31,7 +31,7 @@ def ram_afficher(order_by, id_ram_sel):
         try:
             with DBconnection() as mc_afficher:
                 if order_by == "ASC" and id_ram_sel == 0:
-                    strsql_ram_afficher = """SELECT id_ram, ram_brand, ram_name, ram_capacity, ram_timings FROM t_ram ORDER BY id_ram ASC"""
+                    strsql_ram_afficher = """SELECT id_ram, ram_brand, ram_name, ram_capacity, ram_timings, ram_data_rate FROM t_ram ORDER BY id_ram ASC"""
                     mc_afficher.execute(strsql_ram_afficher)
                 elif order_by == "ASC":
                     # C'EST LA QUE VOUS ALLEZ DEVOIR PLACER VOTRE PROPRE LOGIQUE MySql
@@ -40,11 +40,11 @@ def ram_afficher(order_by, id_ram_sel):
                     # donc, je précise les champs à afficher
                     # Constitution d'un dictionnaire pour associer l'id de la ram sélectionné avec un nom de variable
                     valeur_id_ram_selected_dictionnaire = {"value_id_ram_selected": id_ram_sel}
-                    strsql_ram_afficher = """SELECT id_ram, ram_brand, ram_name, ram_capacity, ram_timings FROM t_ram WHERE id_ram = %(value_id_ram_selected)s"""
+                    strsql_ram_afficher = """SELECT id_ram, ram_brand, ram_name, ram_capacity, ram_timings, ram_data_rate FROM t_ram WHERE id_ram = %(value_id_ram_selected)s"""
 
                     mc_afficher.execute(strsql_ram_afficher, valeur_id_ram_selected_dictionnaire)
                 else:
-                    strsql_ram_afficher = """SELECT id_ram, ram_brand, ram_name, ram_capacity, ram_timings FROM t_ram ORDER BY id_ram DESC"""
+                    strsql_ram_afficher = """SELECT id_ram, ram_brand, ram_name, ram_capacity, ram_timings, ram_data_rate FROM t_ram ORDER BY id_ram DESC"""
 
                     mc_afficher.execute(strsql_ram_afficher)
 
@@ -102,14 +102,16 @@ def ram_ajouter_wtf():
                 name_ram = form.name_ram_wtf.data
                 capacity_ram = form.capacity_ram_wtf.data
                 timings_ram = form.timings_ram_wtf.data
+                data_rate_ram = form.data_rate_ram_wtf.data
                 valeurs_insertion_dictionnaire = {"value_ram_brand": brand_ram,
                                                   "value_ram_name": name_ram,
                                                   "value_ram_capacity": capacity_ram,
-                                                  "value_ram_timings": timings_ram
+                                                  "value_ram_timings": timings_ram,
+                                                  "value_ram_data_rate": data_rate_ram
                                                   }
                 print("valeurs_insertion_dictionnaire ", valeurs_insertion_dictionnaire)
 
-                strsql_insert_ram = """INSERT INTO t_ram (id_ram,ram_brand,ram_name,ram_capacity,ram_timings) VALUES (NULL,%(value_ram_brand)s,%(value_ram_name)s,%(value_ram_capacity)s,%(value_ram_timings)s) """
+                strsql_insert_ram = """INSERT INTO t_ram (id_ram,ram_brand,ram_name,ram_capacity,ram_timings,ram_data_rate) VALUES (NULL,%(value_ram_brand)s,%(value_ram_name)s,%(value_ram_capacity)s,%(value_ram_timings)s,%(value_ram_data_rate)s) """
                 with DBconnection() as mconn_bd:
                     mconn_bd.execute(strsql_insert_ram, valeurs_insertion_dictionnaire)
 
@@ -163,17 +165,19 @@ def ram_update_wtf():
             name_ram_update = form_update.name_ram_update_wtf.data
             capacity_ram_update = form_update.capacity_ram_update_wtf.data
             timings_ram_update = form_update.timings_ram_update_wtf.data
+            data_rate_ram_update = form_update.data_rate_ram_update_wtf.data
 
             valeur_update_dictionnaire = {"value_id_ram": id_ram_update,
                                           "value_ram_brand": ram_brand_update,
                                           "value_ram_name": name_ram_update,
                                           "value_ram_capacity": capacity_ram_update,
-                                          "value_ram_timings": timings_ram_update
+                                          "value_ram_timings": timings_ram_update,
+                                          "value_ram_data_rate": data_rate_ram_update
                                           }
             print("valeur_update_dictionnaire ", valeur_update_dictionnaire)
 
             str_sql_update_ram_brand = """UPDATE t_ram SET ram_brand = %(value_ram_brand)s, 
-            ram_name = %(value_ram_name)s, ram_capacity = %(value_ram_capacity)s, ram_timings = %(value_ram_timings)s WHERE id_ram = %(value_id_ram)s """
+            ram_name = %(value_ram_name)s, ram_capacity = %(value_ram_capacity)s, ram_timings = %(value_ram_timings)s, ram_data_rate = %(value_ram_data_rate)s WHERE id_ram = %(value_id_ram)s """
             with DBconnection() as mconn_bd:
                 mconn_bd.execute(str_sql_update_ram_brand, valeur_update_dictionnaire)
 
@@ -185,7 +189,7 @@ def ram_update_wtf():
             return redirect(url_for('ram_afficher', order_by="ASC", id_ram_sel=id_ram_update))
         elif request.method == "GET":
             # Opération sur la BD pour récupérer "id_ram" et "ram_brand" de la "t_ram"
-            str_sql_id_ram = "SELECT id_ram, ram_brand, ram_name, ram_capacity, ram_timings FROM t_ram " \
+            str_sql_id_ram = "SELECT id_ram, ram_brand, ram_name, ram_capacity, ram_timings, ram_data_rate FROM t_ram " \
                                "WHERE id_ram = %(value_id_ram)s"
 
             valeur_select_dictionnaire = {"value_id_ram": id_ram_update}
@@ -201,6 +205,7 @@ def ram_update_wtf():
             form_update.name_ram_update_wtf.data = data_nom_ram["ram_name"]
             form_update.capacity_ram_update_wtf.data = data_nom_ram["ram_capacity"]
             form_update.timings_ram_update_wtf.data = data_nom_ram["ram_timings"]
+            form_update.data_rate_ram_update_wtf.data = data_nom_ram["ram_data_rate"]
 
     except Exception as Exception_ram_update_wtf:
         raise ExceptionRamUpdateWtf(f"fichier : {Path(__file__).name}  ;  "
@@ -275,7 +280,7 @@ def ram_delete_wtf():
             print(id_ram_delete, type(id_ram_delete))
 
             # Requête qui affiche tous les ram_is_ramgen qui ont la ram que l'utilisateur veut effacer
-            str_sql_ram_ramgen_delete = """SELECT id_ramgen, ram_generation, id_ram, ram_brand, ram_name, ram_capacity, ram_timings FROM t_ram_is_ramgen 
+            str_sql_ram_ramgen_delete = """SELECT id_ramgen, ram_generation, id_ram, ram_brand, ram_name, ram_capacity, ram_timings, ram_data_rate FROM t_ram_is_ramgen 
                                             INNER JOIN t_ramgen ON t_ram_is_ramgen.fk_ramgen = t_ramgen.id_ramgen
                                             INNER JOIN t_ram ON t_ram_is_ramgen.fk_ram = t_ram.id_ram
                                             WHERE fk_ram = %(value_id_ram)s"""
@@ -290,7 +295,7 @@ def ram_delete_wtf():
                 session['data_ramgen_attribue_ram_delete'] = data_ramgen_attribue_ram_delete
 
                 # Opération sur la BD pour récupérer "id_ram" et "ram_brand" de la "t_ram"
-                str_sql_id_ram = "SELECT id_ram, ram_brand, ram_name, ram_capacity, ram_timings FROM t_ram WHERE id_ram = %(value_id_ram)s"
+                str_sql_id_ram = "SELECT id_ram, ram_brand, ram_name, ram_capacity, ram_timings, ram_data_rate FROM t_ram WHERE id_ram = %(value_id_ram)s"
 
                 mydb_conn.execute(str_sql_id_ram, valeur_select_dictionnaire)
                 data_nom_ram = mydb_conn.fetchone()
